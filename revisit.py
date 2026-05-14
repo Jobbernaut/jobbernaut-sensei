@@ -5,10 +5,13 @@ Usage:
     python revisit.py                   # overdue + due today + upcoming 7 days
     python revisit.py --all             # show every tracked problem
     python revisit.py --topic arrays    # filter by topic tag (partial match)
+    python revisit.py --export          # export all problems to export.csv
 '''
 
 import os
 import ast
+import csv
+import re
 import sys
 from datetime import date, timedelta
 
@@ -76,7 +79,7 @@ def collect_problems(root):
         for filename in filenames:
             if not filename.endswith(".py"):
                 continue
-            if filename == "revisit.py":
+            if filename in ("revisit.py", "mark.py"):
                 continue
 
             filepath = os.path.join(dirpath, filename)
@@ -105,10 +108,69 @@ def collect_problems(root):
                 "difficulty":   meta["difficulty"],
                 "last_solved":  meta["last_solved"],
                 "due_date":     due_date,
+                "filepath":     filepath,
             })
 
     problems.sort(key=lambda p: p["due_date"])
     return problems
+
+
+def extract_solution(filepath):
+    """
+    Read the .py file and return everything after the metadata block
+    (after the last of the 4 required metadata lines).
+    """
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except OSError:
+        return ""
+
+    # Find the last line that is a metadata assignment
+    meta_keys = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
+    last_meta_idx = -1
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        for key in meta_keys:
+            if stripped.startswith(key) and "=" in stripped:
+                last_meta_idx = i
+                break
+
+    if last_meta_idx == -1:
+        return ""
+
+    # Return everything after the metadata block, stripped of blank leading lines
+    solution_lines = lines[last_meta_idx + 1:]
+    # Drop leading blank lines
+    while solution_lines and solution_lines[0].strip() == "":
+        solution_lines.pop(0)
+
+    return "".join(solution_lines).rstrip()
+
+
+def export_csv(problems, root, today):
+    """Write all problems to export.csv in the repo root."""
+    out_path = os.path.join(root, "export.csv")
+    fields   = ["Problem Name", "Difficulty", "Last Solved", "Next Review Date",
+                "Days Until Due", "Topics", "Solution"]
+
+    with open(out_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for p in problems:
+            delta    = (p["due_date"] - today).days
+            solution = extract_solution(p["filepath"])
+            writer.writerow({
+                "Problem Name":    p["label"].strip(),
+                "Difficulty":      p["difficulty"],
+                "Last Solved":     p["last_solved"].isoformat(),
+                "Next Review Date": p["due_date"].isoformat(),
+                "Days Until Due":  delta,
+                "Topics":          ", ".join(p["topic_tags"]),
+                "Solution":        solution,
+            })
+
+    return out_path
 
 
 def days_label(delta):
@@ -136,6 +198,7 @@ def print_section(title, colour, problems, today):
 def main():
     args         = sys.argv[1:]
     show_all     = "--all" in args
+    do_export    = "--export" in args
     topic_filter = None
 
     if "--topic" in args:
@@ -146,6 +209,15 @@ def main():
     root     = os.path.dirname(os.path.abspath(__file__))
     today    = date.today()
     problems = collect_problems(root)
+
+    # ── Export mode ───────────────────────────────────────────────────────────
+    if do_export:
+        if not problems:
+            print(f"\n{GREY}  No problems to export.{RESET}\n")
+            return
+        out = export_csv(problems, root, today)
+        print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, root)}{RESET}\n")
+        return
 
     if topic_filter:
         problems = [
