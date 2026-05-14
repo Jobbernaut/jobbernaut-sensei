@@ -3,7 +3,7 @@ https://leetcode.com/problems/longest-consecutive-sequence/description/
 '''
 
 last_solved     = "2026-05-04"
-revisit_in_days = 30
+revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

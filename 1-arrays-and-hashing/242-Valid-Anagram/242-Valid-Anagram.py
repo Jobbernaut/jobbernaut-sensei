@@ -3,7 +3,7 @@ https://leetcode.com/problems/valid-anagram/description/
 '''
 
 last_solved     = "2026-05-04"
-revisit_in_days = 30
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
 
