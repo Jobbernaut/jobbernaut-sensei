@@ -23,7 +23,36 @@ neetcode-150/
 
 ---
 
-## Daily Review
+## Daily Loop
+
+### 1. Morning — see what's due
+```bash
+python revisit.py
+```
+
+### 2. After solving — mark it
+```bash
+python mark.py 217
+python mark.py "valid anagram"
+python mark.py contains-duplicate
+```
+
+You'll be prompted with one question:
+
+```
+  How did it go?
+
+    [e]  easy      → 90 days
+    [g]  good      → 30 days
+    [h]  hard      → 7 days
+    [s]  struggled → 3 days
+```
+
+Press one key. `last_solved` and `revisit_in_days` are updated automatically.
+
+---
+
+## Daily Review (detail)
 
 Run this every day to see what needs your attention:
 
