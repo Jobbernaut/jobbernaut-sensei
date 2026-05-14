@@ -1,9 +1,9 @@
 '''
-https://leetcode.com/problems/contains-duplicate/
+https://leetcode.com/problems/contains-duplicate/description/
 '''
 
 last_solved     = "2026-05-04"
-revisit_in_days = 3
+revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
 
