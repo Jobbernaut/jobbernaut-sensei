@@ -2,8 +2,8 @@
 https://leetcode.com/problems/daily-temperatures/description/
 '''
 
-last_solved     = "2026-05-05"
-revisit_in_days = 3
+last_solved     = "2026-05-21"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["stack", "monotonic-stack"]
 

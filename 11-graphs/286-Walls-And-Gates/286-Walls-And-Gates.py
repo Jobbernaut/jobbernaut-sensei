@@ -2,8 +2,8 @@
 https://leetcode.com/problems/walls-and-gates/description/
 '''
 
-last_solved     = "2026-05-18"
-revisit_in_days = 3
+last_solved     = "2026-05-21"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["graphs"]
 
@@ -12,16 +12,16 @@ class Solution:
         """
         Do not return anything, modify rooms in-place instead.
         """
-        m = len(rooms)
-        n = len(rooms[0])
         INF = 2147483647
+        M = len(rooms)
+        N = len(rooms[0])
 
         queue = deque()
-        
-        for x in range(m):
-            for y in range(n):
-                if rooms[x][y] == 0:
-                    queue.append([x,y])
+
+        for row in range(M):
+            for col in range(N):
+                if not rooms[row][col]:
+                    queue.append([row,col])
         
         distance = 0
         while queue:
@@ -30,18 +30,18 @@ class Solution:
                 curr_x, curr_y = queue.popleft()
 
                 directions = [
+                    (1, 0),
+                    (-1, 0),
                     (0, 1),
                     (0, -1),
-                    (1, 0),
-                    (-1, 0)
                 ]
 
                 for x_adj, y_adj in directions:
                     new_x, new_y = curr_x + x_adj, curr_y + y_adj
 
                     if (
-                        0 <= new_x < m
-                        and 0 <= new_y < n
+                        0 <= new_x < M
+                        and 0 <= new_y < N
                         and rooms[new_x][new_y] == INF
                     ):
                         rooms[new_x][new_y] = distance
