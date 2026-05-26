@@ -1,0 +1,6 @@
+include src/completions/_jobbernaut
+include LICENSE
+include README.md
+include logo.jpeg
+exclude problems/
+recursive-exclude problems *

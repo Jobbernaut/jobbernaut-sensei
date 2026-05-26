@@ -1,75 +1,78 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/jobbernaut/jobbernaut-sensei/main/logo.jpeg" alt="Jobbernaut Sensei Logo" width="180"/>
+</div>
+
 # Jobbernaut Sensei
 
-My Python solutions for LeetCode problems, with a built-in spaced-repetition review system.
+> Navigate the vast space of the job market.
+
+**Jobbernaut** is a cloud-native, event-driven open core intelligence platform designed to automate the most tedious parts of the job search: data extraction, resume tailoring, and document management. It transforms a scattered manual process into a streamlined, intelligent pipeline.
+
+**Jobbernaut Sensei** is the LeetCode practice & spaced-repetition CLI tool within the ecosystem — helping you sharpen your algorithmic skills with a structured review system.
 
 ---
 
-## Repository Structure
+## 🚀 The Ecosystem at a Glance
 
-```
-jobbernaut-sensei/
-├── src/
-│   ├── mark.py                         # mark a problem as reviewed
-│   ├── new.py                          # scaffold a new problem file
-│   ├── lopen.py                        # open a problem in editor + browser
-│   ├── revisit.py                      # daily review runner
-│   ├── hooks/
-│   │   └── pre-commit                  # git hook: validate problem metadata
-│   ├── completions/
-│   │   └── _jobbernaut                 # zsh tab-completion for all commands
-│   └── copy_templates/
-│       ├── problem.py                  # copy this when starting a new problem
-│       └── problem.md                  # copy this for your notes (optional)
-├── problems/
-│   ├── 1-arrays-and-hashing/
-│   │   └── 217-Contains-Duplicate/
-│   │       ├── 217-Contains-Duplicate.py
-│   │       └── 217-Contains-Duplicate.md
-│   ├── 2-two-pointers/
-│   │   └── ...
-│   └── ...
-├── pyproject.toml
-└── README.md
-```
+The ecosystem is composed of 5 decoupled micro-repositories working in harmony, plus this CLI tool.
+
+| Repository | Role | Technology Stack |
+|---|---|---|
+| `jobbernaut-infra` | Foundation | Terraform (HCL), AWS IAM, S3, DynamoDB |
+| `jobbernaut-tabs` | Frontend | Next.js, React, Tailwind CSS |
+| `jobbernaut-backend` | Control | Python (AWS Lambda), Boto3, Pydantic |
+| `jobbernaut-tailor` | Intelligence | Docker, Python, LangChain (AI), TeXLive (LaTeX) |
+| `jobbernaut-extract` | Collection | Chrome Extension (Manifest V3), JavaScript |
+| **`jobbernaut-sensei`** | **CLI Practice** | **Python (setuptools)** |
+
+📘 **Documentation:** For deep dives into the architecture, data flows, and setup guides, visit [jobbernaut-docs](https://github.com/jobbernaut/jobbernaut-docs).
 
 ---
 
-## Setup
+## ⚡️ Key Features
+
+- **Spaced Repetition:** Never forget a solution — the CLI schedules reviews based on your difficulty rating.
+- **One-Command Scaffolding:** Create new problem files with pre-filled metadata in seconds.
+- **ATS-Ready Tracking:** Export your progress to CSV or Markdown.
+- **Context-Aware Fuzzy Matching:** Open or mark problems by number, slug, or title words.
+- **Zsh Completions:** Tab-complete problem names and categories.
+
+---
+
+## 📦 Setup
 
 ```bash
-pip install -e .
+pip install jobbernaut-sensei
 ```
 
-This installs the `sensei` command globally so you can run it without `python src/`.
+Initialize a `problems/` directory:
+
+```bash
+sensei init
+```
 
 ---
 
-## Daily Loop
+## 🔁 Daily Loop
 
 ### 1. Morning — see what's due
 ```bash
 sensei revisit
-# or: python src/revisit.py
 ```
 
 ### 2. Start a problem — scaffold it
 ```bash
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
-# or: python src/new.py ...
 ```
 
 ### 3. Open a problem — jump back in
 ```bash
 sensei open 217
-# or: python src/lopen.py 217
 ```
 
 ### 4. After solving — mark it
 ```bash
 sensei mark 217
-sensei mark "valid anagram"
-sensei mark contains-duplicate
-# or: python src/mark.py ...
 ```
 
 You'll be prompted with one question:
@@ -87,7 +90,7 @@ Press one key. `last_solved` and `revisit_in_days` are updated automatically.
 
 ---
 
-## Commands
+## 📖 Commands
 
 ### `sensei revisit` — daily review runner
 
@@ -97,22 +100,15 @@ sensei revisit
 
 **Example output:**
 ```
-📅  LeetCode Revisit — Thursday, May 14 2026
-
-🔴  OVERDUE
-──────────────────────────────────────────────────────────────────────────
-  7d ago       [easy  ]    217. Contains Duplicate          (arrays, hash-set)
-
-🟡  DUE TODAY
-──────────────────────────────────────────────────────────────────────────
-  today        [medium ]    1. Two Sum                       (arrays, hash-map)
+📅  Jobbernaut Sensei Revisit — Tuesday, May 26 2026
 
 🟢  UPCOMING (7 days)
 ──────────────────────────────────────────────────────────────────────────
-  in 2d        [medium ]   49. Group Anagrams                (arrays, hash-map)
+  in 3d          [hard  ]   124. Binary Tree Maximum Path Sum      (trees)
+  in 4d          [medium]   853. Car Fleet                         (stack, monotonic-stack)
 
 ──────────────────────────────────────────────────────────────────────────
-  2 problem(s) need attention today.  Total tracked: 3
+  0 problem(s) need attention today.  Total tracked: 22
 ```
 
 | Flag | What it does |
@@ -123,15 +119,10 @@ sensei revisit
 | `--export` | Export all problems to `export.csv` |
 | `--export-md` | Export all problems to `export.md` |
 
----
-
 ### `sensei new` — scaffold a new problem
-
-Creates the folder and pre-fills all metadata:
 
 ```bash
 sensei new 217 contains-duplicate 1-arrays-and-hashing
-sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
 ```
 
@@ -144,33 +135,20 @@ sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-se
 | `-t / --tags` | One or more topic tags |
 | `--open` | Open the file in `$EDITOR` / `code` immediately |
 
-The URL is derived automatically from the slug:
-```
-contains-duplicate  →  https://leetcode.com/problems/contains-duplicate/
-```
-
----
-
 ### `sensei open` — open a problem
-
-Opens the solution file in your editor and the LeetCode page in your browser:
 
 ```bash
 sensei open 217
 sensei open contains-duplicate
-sensei open "valid anagram"
 sensei open 217 --no-browser   # editor only
 ```
 
 Accepts problem number, slug, or title words — same fuzzy matching as `mark`.
 
----
-
 ### `sensei mark` — mark a problem as reviewed
 
 ```bash
 sensei mark 217
-sensei mark "valid anagram"
 sensei mark contains-duplicate
 ```
 
@@ -178,66 +156,9 @@ Updates `last_solved` to today and sets `revisit_in_days` based on your rating.
 
 ---
 
-## Adding a New Problem
+## 🔧 Zsh Shell Completions
 
-The `new` command handles everything in one step:
-
-```bash
-sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
-```
-
-### Manual alternative
-
-1. **Create the folder** following the naming convention:
-   ```
-   problems/{category}/{number}-{Title-In-Kebab-Case}/
-   ```
-
-2. **Copy the Python template:**
-   ```bash
-   cp src/copy_templates/problem.py problems/1-arrays-and-hashing/217-Contains-Duplicate/217-Contains-Duplicate.py
-   ```
-
-3. **Optionally copy the Markdown template for notes:**
-   ```bash
-   cp src/copy_templates/problem.md problems/1-arrays-and-hashing/217-Contains-Duplicate/217-Contains-Duplicate.md
-   ```
-
----
-
-## The 4 Metadata Fields
-
-Every `.py` solution file must have these 4 lines for `revisit` to track it:
-
-| Field | Type | Example | Notes |
-|-------|------|---------|-------|
-| `last_solved` | `str` | `"2026-05-14"` | ISO 8601 date — update every time you re-solve |
-| `revisit_in_days` | `int` | `3` | How many days until next review |
-| `difficulty` | `str` | `"medium"` | `easy` / `medium` / `hard` |
-| `topic_tags` | `list` | `["arrays", "hash-map"]` | Used for `--topic` filtering |
-
-**Suggested `revisit_in_days` schedule (spaced repetition):**
-- First time solving: `3`
-- Solved it clean on review: double it → `7`, then `14`, then `30`
-- Struggled on review: reset to `1` or `3`
-
----
-
-## Pre-commit Hook
-
-Validates that every staged `.py` file under `problems/` has all 4 metadata fields filled in with non-placeholder values before allowing a commit.
-
-**Install once:**
-```bash
-cp src/hooks/pre-commit .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
-
----
-
-## Zsh Shell Completions
-
-Tab-complete `sensei` subcommands, problem numbers/names for `mark` and `open`, and category names for `new`.
+Tab-complete `sensei` subcommands, problem numbers/names, and category names.
 
 **Add to `~/.zshrc`:**
 ```zsh
@@ -249,27 +170,10 @@ Then reload: `source ~/.zshrc`
 
 ---
 
-## Topic Folder Names
+## ⚖️ License
 
-All topic folders live under `problems/`. Full paths look like `problems/1-arrays-and-hashing/`.
+Unless otherwise noted, all repositories within the Jobbernaut organization are licensed under the **PolyForm Noncommercial License 1.0.0**.
 
-| # | Folder |
-|---|--------|
-| 1 | `1-arrays-and-hashing` |
-| 2 | `2-two-pointers` |
-| 3 | `3-sliding-window` |
-| 4 | `4-stack` |
-| 5 | `5-binary-search` |
-| 6 | `6-linked-list` |
-| 7 | `7-trees` |
-| 8 | `8-tries` |
-| 9 | `9-heap-priority-queue` |
-| 10 | `10-backtracking` |
-| 11 | `11-graphs` |
-| 12 | `12-advanced-graphs` |
-| 13 | `13-1d-dynamic-programming` |
-| 14 | `14-2d-dynamic-programming` |
-| 15 | `15-greedy` |
-| 16 | `16-intervals` |
-| 17 | `17-math-and-geometry` |
-| 18 | `18-bit-manipulation` |
+If a repository lacks a specific LICENSE file, the license located at [Jobbernaut/LICENSE.md](https://github.com/jobbernaut/jobbernaut-sensei/blob/main/LICENSE) applies by default.
+
+You are free to use, modify, and learn from this code for **personal or non-commercial** purposes.
