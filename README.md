@@ -1,13 +1,13 @@
-# neetcode-150
+# Jobbernaut Sensei
 
-My Python solutions for the NeetCode 150 problems, with a built-in spaced-repetition review system.
+My Python solutions for LeetCode problems, with a built-in spaced-repetition review system.
 
 ---
 
 ## Repository Structure
 
 ```
-neetcode-150/
+jobbernaut-sensei/
 ├── src/
 │   ├── mark.py                         # mark a problem as reviewed
 │   ├── new.py                          # scaffold a new problem file
@@ -16,7 +16,7 @@ neetcode-150/
 │   ├── hooks/
 │   │   └── pre-commit                  # git hook: validate problem metadata
 │   ├── completions/
-│   │   └── _neetcode                   # zsh tab-completion for all commands
+│   │   └── _jobbernaut                 # zsh tab-completion for all commands
 │   └── copy_templates/
 │       ├── problem.py                  # copy this when starting a new problem
 │       └── problem.md                  # copy this for your notes (optional)
@@ -241,7 +241,7 @@ Tab-complete problem numbers/names for `mark`, `open`, and category names for `n
 
 **Add to `~/.zshrc`:**
 ```zsh
-fpath=(/path/to/neetcode-150/src/completions $fpath)
+fpath=(/path/to/jobbernaut-sensei/src/completions $fpath)
 autoload -Uz compinit && compinit
 ```
 

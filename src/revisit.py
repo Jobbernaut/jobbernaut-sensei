@@ -179,7 +179,7 @@ def export_md(problems, root, today):
     out_path = os.path.join(root, "export.md")
 
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write("# NeetCode 150 — Progress\n\n")
+        f.write("# Jobbernaut Sensei — Progress\n\n")
         f.write(f"_Generated: {today.isoformat()}_\n\n")
         f.write("| # | Problem | Difficulty | Last Solved | Next Review | Days Until Due | Topics |\n")
         f.write("|---|---------|------------|-------------|-------------|----------------|--------|\n")
@@ -258,7 +258,7 @@ def main():
     upcoming  = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
     future    = [p for p in problems if p["due_date"] > today + timedelta(days=7)]
 
-    print(f"\n{BOLD}{CYAN}📅  LeetCode Revisit — {today.strftime('%A, %B %-d %Y')}{RESET}")
+    print(f"\n{BOLD}{CYAN}📅  Jobbernaut Sensei Revisit — {today.strftime('%A, %B %-d %Y')}{RESET}")
     if topic_filter:
         print(f"{GREY}    Filtered by topic: {topic_filter}{RESET}")
 
