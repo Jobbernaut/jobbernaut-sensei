@@ -131,15 +131,24 @@ def prompt_rating() -> tuple:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
+    args = sys.argv[1:]
+    if len(args) < 1:
         print(f"\n  {YELLOW}Usage: sensei mark <problem number or name>{RESET}")
         print(f"  {GREY}Examples:{RESET}")
         print(f"    sensei mark 217")
         print(f"    sensei mark contains-duplicate")
-        print(f"    sensei mark \"valid anagram\"\n")
+        print(f"    sensei mark \"valid anagram\"")
+        print(f"    sensei mark 217 --rating e    (non-interactive)\n")
         sys.exit(1)
 
-    query = " ".join(sys.argv[1:])
+    rating_override = None
+    if "--rating" in args:
+        idx = args.index("--rating")
+        if idx + 1 < len(args):
+            rating_override = args[idx + 1].lower()
+        args = [a for a in args if a != "--rating" and a not in (rating_override or [])]
+
+    query = " ".join(args)
     root  = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "problems"))
     files = find_solution_files(root)
     match = find_match(query, files)
@@ -159,7 +168,15 @@ def main() -> None:
     print(f"\n  {BOLD}{CYAN}{label}{RESET}")
     print(f"  {GREY}{rel}{RESET}")
 
-    days, rating_label = prompt_rating()
+    if rating_override:
+        if rating_override not in RATING_MAP:
+            print(f"\n  {YELLOW}Invalid rating: {rating_override}. Use e, g, h, or s.{RESET}\n")
+            sys.exit(1)
+        days, rating_label = RATING_MAP[rating_override]
+        print(f"\n  {BOLD}{CYAN}{label}{RESET}")
+        print(f"  {GREY}{rel}{RESET}")
+    else:
+        days, rating_label = prompt_rating()
 
     today_str = date.today().isoformat()
     source    = read_file(match)

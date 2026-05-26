@@ -9,6 +9,7 @@ Usage:
     sensei revisit --export-md       # export all problems to export.md
 '''
 
+import json
 import os
 import ast
 import csv
@@ -220,7 +221,8 @@ def print_section(title, colour, problems, today):
 def main():
     args         = sys.argv[1:]
     show_all     = "--all" in args
-    do_export    = "--export"    in args
+    do_json      = "--json"     in args
+    do_export    = "--export"   in args
     do_export_md = "--export-md" in args
     topic_filter = None
 
@@ -252,6 +254,29 @@ def main():
             p for p in problems
             if any(topic_filter in t.lower() for t in p["topic_tags"])
         ]
+
+    # ── JSON mode (AI-agent friendly) ───────────────────────────────────────
+    if do_json:
+        today_str = today.isoformat()
+        output = {
+            "generated": today_str,
+            "total_tracked": len(problems),
+            "problems": [
+                {
+                    "label": p["label"].strip(),
+                    "difficulty": p["difficulty"],
+                    "last_solved": p["last_solved"].isoformat(),
+                    "due_date": p["due_date"].isoformat(),
+                    "days_until_due": (p["due_date"] - today).days,
+                    "topics": p["topic_tags"],
+                    "topic_folder": p["topic_folder"],
+                    "filepath": os.path.relpath(p["filepath"], repo_root),
+                }
+                for p in problems
+            ],
+        }
+        print(json.dumps(output, indent=2))
+        return
 
     overdue   = [p for p in problems if p["due_date"] <  today]
     due_today = [p for p in problems if p["due_date"] == today]

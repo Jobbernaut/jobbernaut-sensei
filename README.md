@@ -6,15 +6,13 @@
 
 > Navigate the vast space of the job market.
 
-**Jobbernaut** is a cloud-native, event-driven open core intelligence platform designed to automate the most tedious parts of the job search: data extraction, resume tailoring, and document management. It transforms a scattered manual process into a streamlined, intelligent pipeline.
+**Jobbernaut** is a cloud-native, event-driven open core intelligence platform designed to automate the most tedious parts of the job search: data extraction, resume tailoring, and document management.
 
-**Jobbernaut Sensei** is the LeetCode practice & spaced-repetition CLI tool within the ecosystem — helping you sharpen your algorithmic skills with a structured review system.
+**Jobbernaut Sensei** is the LeetCode practice & spaced-repetition CLI tool within the ecosystem — helping you sharpen your algorithmic skills with a structured review system. It's also an **AI-agent-friendly API**: every command outputs clean JSON, ready for agents like Cline, Claude Code, or ChatGPT to consume.
 
 ---
 
 ## 🚀 The Ecosystem at a Glance
-
-The ecosystem is composed of 5 decoupled micro-repositories working in harmony, plus this CLI tool.
 
 | Repository | Role | Technology Stack |
 |---|---|---|
@@ -31,11 +29,13 @@ The ecosystem is composed of 5 decoupled micro-repositories working in harmony, 
 
 ## ⚡️ Key Features
 
-- **Spaced Repetition:** Never forget a solution — the CLI schedules reviews based on your difficulty rating.
+- **Spaced Repetition:** Never forget a solution — schedules reviews based on your difficulty rating.
 - **One-Command Scaffolding:** Create new problem files with pre-filled metadata in seconds.
 - **ATS-Ready Tracking:** Export your progress to CSV or Markdown.
 - **Context-Aware Fuzzy Matching:** Open or mark problems by number, slug, or title words.
 - **Zsh Completions:** Tab-complete problem names and categories.
+- **🤖 AI-Agent Friendly:** Every command outputs clean JSON — `sensei revisit --json`, `sensei status`, `sensei show <problem>`.
+- **Non-Interactive Marking:** `sensei mark 217 --rating e` — perfect for agent-driven tutoring sessions.
 
 ---
 
@@ -90,15 +90,20 @@ Press one key. `last_solved` and `revisit_in_days` are updated automatically.
 
 ---
 
-## 📖 Commands
+## 📖 Command Reference
 
 ### `sensei revisit` — daily review runner
 
 ```bash
 sensei revisit
+sensei revisit --all
+sensei revisit --topic arrays
+sensei revisit --json            # AI-agent friendly JSON output
+sensei revisit --export
+sensei revisit --export-md
 ```
 
-**Example output:**
+**Colored terminal output:**
 ```
 📅  Jobbernaut Sensei Revisit — Tuesday, May 26 2026
 
@@ -111,13 +116,90 @@ sensei revisit
   0 problem(s) need attention today.  Total tracked: 22
 ```
 
+**JSON output** (`--json`):
+```json
+{
+  "generated": "2026-05-26",
+  "total_tracked": 22,
+  "problems": [
+    {
+      "label": "124. Binary Tree Maximum Path Sum",
+      "difficulty": "hard",
+      "last_solved": "2026-05-26",
+      "due_date": "2026-05-29",
+      "days_until_due": 3,
+      "topics": ["trees"],
+      "topic_folder": "7-trees",
+      "filepath": "problems/7-trees/..."
+    }
+  ]
+}
+```
+
 | Flag | What it does |
 |------|-------------|
 | _(none)_ | Overdue + due today + upcoming 7 days |
 | `--all` | Everything, including far-future problems |
 | `--topic arrays` | Filter by topic tag (partial match) |
+| `--json` | Structured JSON output for AI agents |
 | `--export` | Export all problems to `export.csv` |
 | `--export-md` | Export all problems to `export.md` |
+
+---
+
+### `sensei status` — quick summary
+
+```bash
+sensei status
+```
+
+Returns a lightweight JSON snapshot of your tracker state:
+
+```json
+{
+  "total": 22,
+  "overdue": 0,
+  "due_today": 0,
+  "upcoming": 4,
+  "problems": [
+    { "label": "124. Binary Tree Maximum Path Sum", "difficulty": "hard", ... }
+  ]
+}
+```
+
+Ideal for AI agents to quickly assess a user's practice state before a tutoring session.
+
+---
+
+### `sensei show <problem>` — inspect a problem
+
+```bash
+sensei show 217
+sensei show contains-duplicate
+```
+
+Returns **metadata + your saved solution code** as JSON:
+
+```json
+{
+  "label": "217. Contains Duplicate",
+  "number": "217",
+  "title": "Contains Duplicate",
+  "filepath": "problems/1-arrays-and-hashing/...",
+  "metadata": {
+    "last_solved": "2026-05-14",
+    "revisit_in_days": 90,
+    "difficulty": "easy",
+    "topic_tags": ["arrays", "hashing"],
+    "due_date": "2026-08-12"
+  },
+  "solution": "class Solution:\n    def containsDuplicate(..."
+}
+```
+
+Use this to fetch a problem for analysis, code review, or tutoring.
+
+---
 
 ### `sensei new` — scaffold a new problem
 
@@ -135,6 +217,8 @@ sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-se
 | `-t / --tags` | One or more topic tags |
 | `--open` | Open the file in `$EDITOR` / `code` immediately |
 
+---
+
 ### `sensei open` — open a problem
 
 ```bash
@@ -145,14 +229,40 @@ sensei open 217 --no-browser   # editor only
 
 Accepts problem number, slug, or title words — same fuzzy matching as `mark`.
 
+---
+
 ### `sensei mark` — mark a problem as reviewed
 
 ```bash
 sensei mark 217
 sensei mark contains-duplicate
+sensei mark 217 --rating e     # non-interactive (AI-agent friendly)
 ```
 
-Updates `last_solved` to today and sets `revisit_in_days` based on your rating.
+| Flag | What it does |
+|------|-------------|
+| _(none)_ | Interactive prompt for difficulty rating |
+| `--rating e` | Mark as easy (90 days until next review) |
+| `--rating g` | Mark as good (30 days) |
+| `--rating h` | Mark as hard (7 days) |
+| `--rating s` | Mark as struggled (3 days) |
+
+The `--rating` flag skips the interactive prompt — perfect for AI agents tutoring a user and updating the schedule automatically.
+
+---
+
+## 🤖 AI-Agent Integration
+
+See **[`AGENTS.md`](AGENTS.md)** — a complete tool-calling guide for integrating `sensei` into any AI coding agent's toolset.
+
+Quick reference:
+
+```bash
+sensei status                     # Assess user's practice state
+sensei revisit --json             # Get full review data
+sensei show <problem>             # Inspect problem + solution
+sensei mark <problem> --rating g  # Update schedule after tutoring
+```
 
 ---
 
