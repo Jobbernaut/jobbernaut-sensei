@@ -20,7 +20,7 @@ GREY   = "\033[90m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-SKIP_DIRS = {"copy_templates", ".git", "__pycache__", "venv", ".venv", "docs"}
+SKIP_DIRS = {".git", "__pycache__", "venv", ".venv", "docs"}
 
 RATING_MAP = {
     "e": (90,  "easy    → 90 days"),
@@ -140,7 +140,7 @@ def main() -> None:
         sys.exit(1)
 
     query = " ".join(sys.argv[1:])
-    root  = os.path.dirname(os.path.abspath(__file__))
+    root  = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "problems"))
     files = find_solution_files(root)
     match = find_match(query, files)
 

@@ -71,7 +71,7 @@ def parse_metadata(filepath):
 def collect_problems(root):
     """Walk the repo and collect every solution file that has valid metadata."""
     problems = []
-    skip_dirs = {"copy_templates", ".git", "__pycache__", "venv", ".venv", "docs"}
+    skip_dirs = {".git", "__pycache__", "venv", ".venv", "docs"}
 
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in skip_dirs]
@@ -206,17 +206,18 @@ def main():
         if idx + 1 < len(args):
             topic_filter = args[idx + 1].lower()
 
-    root     = os.path.dirname(os.path.abspath(__file__))
-    today    = date.today()
-    problems = collect_problems(root)
+    repo_root     = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+    problems_root = os.path.join(repo_root, "problems")
+    today         = date.today()
+    problems      = collect_problems(problems_root)
 
     # ── Export mode ───────────────────────────────────────────────────────────
     if do_export:
         if not problems:
             print(f"\n{GREY}  No problems to export.{RESET}\n")
             return
-        out = export_csv(problems, root, today)
-        print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, root)}{RESET}\n")
+        out = export_csv(problems, repo_root, today)
+        print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
         return
 
     if topic_filter:
