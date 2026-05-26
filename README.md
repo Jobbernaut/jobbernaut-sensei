@@ -8,17 +8,22 @@ My Python solutions for the NeetCode 150 problems, with a built-in spaced-repeti
 
 ```
 neetcode-150/
-├── revisit.py                          # daily review runner
-├── copy_templates/
-│   ├── problem.py                      # copy this when starting a new problem
-│   └── problem.md                      # copy this for your notes (optional)
-├── 1-arrays-and-hashing/
-│   └── 217-Contains-Duplicate/
-│       ├── 217-Contains-Duplicate.py
-│       └── 217-Contains-Duplicate.md
-├── 2-two-pointers/
+├── src/
+│   ├── mark.py                         # mark a problem as reviewed
+│   ├── revisit.py                      # daily review runner
+│   └── copy_templates/
+│       ├── problem.py                  # copy this when starting a new problem
+│       └── problem.md                  # copy this for your notes (optional)
+├── problems/
+│   ├── 1-arrays-and-hashing/
+│   │   └── 217-Contains-Duplicate/
+│   │       ├── 217-Contains-Duplicate.py
+│   │       └── 217-Contains-Duplicate.md
+│   ├── 2-two-pointers/
+│   │   └── ...
 │   └── ...
-└── ...
+├── pyproject.toml
+└── README.md
 ```
 
 ---
@@ -27,15 +32,19 @@ neetcode-150/
 
 ### 1. Morning — see what's due
 ```bash
-python revisit.py
+python src/revisit.py
 ```
+
+> If the package is installed (`pip install -e .`), you can also just run `revisit`.
 
 ### 2. After solving — mark it
 ```bash
-python mark.py 217
-python mark.py "valid anagram"
-python mark.py contains-duplicate
+python src/mark.py 217
+python src/mark.py "valid anagram"
+python src/mark.py contains-duplicate
 ```
+
+> If the package is installed, you can also just run `mark 217`, etc.
 
 You'll be prompted with one question:
 
@@ -57,7 +66,7 @@ Press one key. `last_solved` and `revisit_in_days` are updated automatically.
 Run this every day to see what needs your attention:
 
 ```bash
-python revisit.py
+python src/revisit.py
 ```
 
 **Example output:**
@@ -84,9 +93,9 @@ python revisit.py
 
 | Command | What it does |
 |---------|-------------|
-| `python revisit.py` | Overdue + due today + upcoming 7 days |
-| `python revisit.py --all` | Everything, including far-future problems |
-| `python revisit.py --topic arrays` | Filter by topic tag (partial match) |
+| `python src/revisit.py` | Overdue + due today + upcoming 7 days |
+| `python src/revisit.py --all` | Everything, including far-future problems |
+| `python src/revisit.py --topic arrays` | Filter by topic tag (partial match) |
 
 ---
 
@@ -102,15 +111,15 @@ Follow the naming convention exactly:
 
 Examples:
 ```
-1-arrays-and-hashing/1-Two-Sum/
-2-two-pointers/167-Two-Sum-II/
-5-sliding-window/3-Longest-Substring-Without-Repeating-Characters/
+problems/1-arrays-and-hashing/1-Two-Sum/
+problems/2-two-pointers/167-Two-Sum-II/
+problems/5-sliding-window/3-Longest-Substring-Without-Repeating-Characters/
 ```
 
 ### 2. Copy the Python template
 
 ```bash
-cp copy_templates/problem.py 1-arrays-and-hashing/1-Two-Sum/1-Two-Sum.py
+cp src/copy_templates/problem.py problems/1-arrays-and-hashing/1-Two-Sum/1-Two-Sum.py
 ```
 
 Then open the file and fill in:
@@ -140,7 +149,7 @@ class Solution:
 ### 3. Optionally copy the Markdown template for notes
 
 ```bash
-cp copy_templates/problem.md 1-arrays-and-hashing/1-Two-Sum/1-Two-Sum.md
+cp src/copy_templates/problem.md problems/1-arrays-and-hashing/1-Two-Sum/1-Two-Sum.md
 ```
 
 ---
@@ -164,6 +173,8 @@ Every `.py` solution file must have these 4 lines for `revisit.py` to track it:
 ---
 
 ## Topic Folder Names
+
+All topic folders live under `problems/`. Full paths look like `problems/1-arrays-and-hashing/`.
 
 | # | Folder |
 |---|--------|
