@@ -6,6 +6,7 @@ Usage:
     python revisit.py --all             # show every tracked problem
     python revisit.py --topic arrays    # filter by topic tag (partial match)
     python revisit.py --export          # export all problems to export.csv
+    python revisit.py --export-md       # export all problems to export.md
 '''
 
 import os
@@ -173,6 +174,27 @@ def export_csv(problems, root, today):
     return out_path
 
 
+def export_md(problems, root, today):
+    """Write all problems to export.md in the repo root."""
+    out_path = os.path.join(root, "export.md")
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("# NeetCode 150 — Progress\n\n")
+        f.write(f"_Generated: {today.isoformat()}_\n\n")
+        f.write("| # | Problem | Difficulty | Last Solved | Next Review | Days Until Due | Topics |\n")
+        f.write("|---|---------|------------|-------------|-------------|----------------|--------|\n")
+        for p in problems:
+            delta     = (p["due_date"] - today).days
+            num_title = p["label"].strip()
+            diff      = p["difficulty"]
+            last      = p["last_solved"].isoformat()
+            nxt       = p["due_date"].isoformat()
+            topics    = ", ".join(p["topic_tags"])
+            f.write(f"| {num_title} | {diff} | {last} | {nxt} | {delta} | {topics} |\n")
+
+    return out_path
+
+
 def days_label(delta):
     if delta == 0:
         return f"{YELLOW}today       {RESET}"
@@ -198,7 +220,8 @@ def print_section(title, colour, problems, today):
 def main():
     args         = sys.argv[1:]
     show_all     = "--all" in args
-    do_export    = "--export" in args
+    do_export    = "--export"    in args
+    do_export_md = "--export-md" in args
     topic_filter = None
 
     if "--topic" in args:
@@ -212,12 +235,16 @@ def main():
     problems      = collect_problems(problems_root)
 
     # ── Export mode ───────────────────────────────────────────────────────────
-    if do_export:
+    if do_export or do_export_md:
         if not problems:
             print(f"\n{GREY}  No problems to export.{RESET}\n")
             return
-        out = export_csv(problems, repo_root, today)
-        print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
+        if do_export:
+            out = export_csv(problems, repo_root, today)
+            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
+        if do_export_md:
+            out = export_md(problems, repo_root, today)
+            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
         return
 
     if topic_filter:
