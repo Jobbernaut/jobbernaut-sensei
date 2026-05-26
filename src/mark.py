@@ -2,9 +2,9 @@
 Mark a problem as reviewed. Updates last_solved to today and sets revisit_in_days.
 
 Usage:
-    python mark.py 217
-    python mark.py contains-duplicate
-    python mark.py "valid anagram"
+    sensei mark 217
+    sensei mark contains-duplicate
+    sensei mark "valid anagram"
 '''
 
 import os
@@ -132,11 +132,11 @@ def prompt_rating() -> tuple:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print(f"\n  {YELLOW}Usage: python mark.py <problem number or name>{RESET}")
+        print(f"\n  {YELLOW}Usage: sensei mark <problem number or name>{RESET}")
         print(f"  {GREY}Examples:{RESET}")
-        print(f"    python mark.py 217")
-        print(f"    python mark.py contains-duplicate")
-        print(f"    python mark.py \"valid anagram\"\n")
+        print(f"    sensei mark 217")
+        print(f"    sensei mark contains-duplicate")
+        print(f"    sensei mark \"valid anagram\"\n")
         sys.exit(1)
 
     query = " ".join(sys.argv[1:])

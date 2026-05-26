@@ -2,10 +2,10 @@
 Open a problem file in your editor and its LeetCode URL in the browser.
 
 Usage:
-    python lopen.py 217
-    python lopen.py contains-duplicate
-    python lopen.py "valid anagram"
-    python lopen.py 217 --no-browser
+    sensei open 217
+    sensei open contains-duplicate
+    sensei open "valid anagram"
+    sensei open 217 --no-browser
 '''
 
 import os
@@ -96,8 +96,8 @@ def main() -> None:
     argv       = [a for a in argv if a != "--no-browser"]
 
     if not argv:
-        print(f"\n  {YELLOW}Usage: python lopen.py <number | slug | title words>{RESET}")
-        print(f"  {YELLOW}       python lopen.py 217 --no-browser{RESET}\n")
+        print(f"\n  {YELLOW}Usage: sensei open <number | slug | title words>{RESET}")
+        print(f"  {YELLOW}       sensei open 217 --no-browser{RESET}\n")
         sys.exit(1)
 
     query     = " ".join(argv)

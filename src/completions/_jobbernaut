@@ -1,6 +1,6 @@
-#compdef mark open new revisit
+#compdef sensei
 
-# Zsh completion for Jobbernaut Sensei tooling: mark, open, new, revisit
+# Zsh completion for Jobbernaut Sensei CLI
 #
 # Install (add to ~/.zshrc):
 #   fpath=(/path/to/jobbernaut-sensei/src/completions $fpath)
@@ -49,42 +49,58 @@ _jobbernaut_difficulties() {
   compadd easy medium hard
 }
 
-# ── per-command completions ───────────────────────────────────────────────────
+# ── sensei subcommands ────────────────────────────────────────────────────────
 
-_mark() {
-  _arguments \
-    '1:problem:_jobbernaut_problems'
+_sensei_commands() {
+  _values "command" \
+    "revisit[Run daily review]" \
+    "new[Scaffold a new problem]" \
+    "open[Open a problem in editor/browser]" \
+    "mark[Mark a problem as solved]"
 }
 
-_lopen() {
-  _arguments \
-    '--no-browser[skip opening the browser]' \
-    '*:problem:_jobbernaut_problems'
+_sensei() {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  # Top-level: offer subcommands
+  if (( CURRENT == 2 )); then
+    _sensei_commands
+    return
+  fi
+
+  # Delegate to subcommand-specific completions
+  local cmd="${words[2]}"
+  shift 2 words
+  CURRENT=$(( CURRENT - 2 ))
+
+  case "$cmd" in
+    mark)
+      _arguments \
+        '1:problem:_jobbernaut_problems'
+      ;;
+    open)
+      _arguments \
+        '--no-browser[skip opening the browser]' \
+        '*:problem:_jobbernaut_problems'
+      ;;
+    new)
+      _arguments \
+        '1:number:(1 2 3)' \
+        '2:slug:' \
+        '3:category:_jobbernaut_categories' \
+        '(-d --difficulty)'{-d,--difficulty}'[difficulty]:difficulty:_jobbernaut_difficulties' \
+        '(-t --tags)'{-t,--tags}'[topic tags]:tag:' \
+        '--open[open file in editor after creation]'
+      ;;
+    revisit)
+      _arguments \
+        '--all[show all problems including far future]' \
+        '--export[export to CSV]' \
+        '--export-md[export to Markdown]' \
+        '--topic[filter by topic tag]:topic:'
+      ;;
+  esac
 }
 
-_new() {
-  _arguments \
-    '1:number:(1 2 3)' \
-    '2:slug:' \
-    '3:category:_jobbernaut_categories' \
-    '(-d --difficulty)'{-d,--difficulty}'[difficulty]:difficulty:_jobbernaut_difficulties' \
-    '(-t --tags)'{-t,--tags}'[topic tags]:tag:' \
-    '--open[open file in editor after creation]'
-}
-
-_revisit() {
-  _arguments \
-    '--all[show all problems including far future]' \
-    '--export[export to CSV]' \
-    '--export-md[export to Markdown]' \
-    '--topic[filter by topic tag]:topic:' \
-}
-
-# ── dispatcher ────────────────────────────────────────────────────────────────
-
-case "$service" in
-  mark)    _mark    ;;
-  open)    _lopen   ;;
-  new)     _new     ;;
-  revisit) _revisit ;;
-esac
+_sensei "$@"

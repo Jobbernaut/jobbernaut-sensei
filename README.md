@@ -40,7 +40,7 @@ jobbernaut-sensei/
 pip install -e .
 ```
 
-This installs the `mark`, `new`, `open`, and `revisit` commands globally so you can run them without `python src/`.
+This installs the `sensei` command globally so you can run it without `python src/`.
 
 ---
 
@@ -48,27 +48,27 @@ This installs the `mark`, `new`, `open`, and `revisit` commands globally so you 
 
 ### 1. Morning — see what's due
 ```bash
-revisit
+sensei revisit
 # or: python src/revisit.py
 ```
 
 ### 2. Start a problem — scaffold it
 ```bash
-new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 # or: python src/new.py ...
 ```
 
 ### 3. Open a problem — jump back in
 ```bash
-open 217
+sensei open 217
 # or: python src/lopen.py 217
 ```
 
 ### 4. After solving — mark it
 ```bash
-mark 217
-mark "valid anagram"
-mark contains-duplicate
+sensei mark 217
+sensei mark "valid anagram"
+sensei mark contains-duplicate
 # or: python src/mark.py ...
 ```
 
@@ -89,10 +89,10 @@ Press one key. `last_solved` and `revisit_in_days` are updated automatically.
 
 ## Commands
 
-### `revisit` — daily review runner
+### `sensei revisit` — daily review runner
 
 ```bash
-revisit
+sensei revisit
 ```
 
 **Example output:**
@@ -125,14 +125,14 @@ revisit
 
 ---
 
-### `new` — scaffold a new problem
+### `sensei new` — scaffold a new problem
 
 Creates the folder and pre-fills all metadata:
 
 ```bash
-new 217 contains-duplicate 1-arrays-and-hashing
-new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
-new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
+sensei new 217 contains-duplicate 1-arrays-and-hashing
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
 ```
 
 | Argument | Description |
@@ -151,27 +151,27 @@ contains-duplicate  →  https://leetcode.com/problems/contains-duplicate/
 
 ---
 
-### `open` — open a problem
+### `sensei open` — open a problem
 
 Opens the solution file in your editor and the LeetCode page in your browser:
 
 ```bash
-open 217
-open contains-duplicate
-open "valid anagram"
-open 217 --no-browser   # editor only
+sensei open 217
+sensei open contains-duplicate
+sensei open "valid anagram"
+sensei open 217 --no-browser   # editor only
 ```
 
 Accepts problem number, slug, or title words — same fuzzy matching as `mark`.
 
 ---
 
-### `mark` — mark a problem as reviewed
+### `sensei mark` — mark a problem as reviewed
 
 ```bash
-mark 217
-mark "valid anagram"
-mark contains-duplicate
+sensei mark 217
+sensei mark "valid anagram"
+sensei mark contains-duplicate
 ```
 
 Updates `last_solved` to today and sets `revisit_in_days` based on your rating.
@@ -183,7 +183,7 @@ Updates `last_solved` to today and sets `revisit_in_days` based on your rating.
 The `new` command handles everything in one step:
 
 ```bash
-new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
 ```
 
 ### Manual alternative
@@ -237,7 +237,7 @@ chmod +x .git/hooks/pre-commit
 
 ## Zsh Shell Completions
 
-Tab-complete problem numbers/names for `mark`, `open`, and category names for `new`.
+Tab-complete `sensei` subcommands, problem numbers/names for `mark` and `open`, and category names for `new`.
 
 **Add to `~/.zshrc`:**
 ```zsh

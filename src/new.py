@@ -2,9 +2,9 @@
 Scaffold a new problem file from the template.
 
 Usage:
-    python new.py 217 contains-duplicate 1-arrays-and-hashing
-    python new.py 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
-    python new.py 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
+    sensei new 217 contains-duplicate 1-arrays-and-hashing
+    sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
+    sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
 '''
 
 import argparse

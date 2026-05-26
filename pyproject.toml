@@ -7,11 +7,8 @@ name = "jobbernaut-sensei"
 version = "0.1.0"
 
 [project.scripts]
-mark    = "mark:main"
-new     = "new:main"
-open    = "lopen:main"
-revisit = "revisit:main"
+sensei = "sensei:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["mark", "new", "lopen", "revisit"]
+py-modules = ["sensei", "mark", "new", "lopen", "revisit"]

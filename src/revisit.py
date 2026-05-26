@@ -2,11 +2,11 @@
 Daily review runner.
 
 Usage:
-    python revisit.py                   # overdue + due today + upcoming 7 days
-    python revisit.py --all             # show every tracked problem
-    python revisit.py --topic arrays    # filter by topic tag (partial match)
-    python revisit.py --export          # export all problems to export.csv
-    python revisit.py --export-md       # export all problems to export.md
+    sensei revisit                   # overdue + due today + upcoming 7 days
+    sensei revisit --all             # show every tracked problem
+    sensei revisit --topic arrays    # filter by topic tag (partial match)
+    sensei revisit --export          # export all problems to export.csv
+    sensei revisit --export-md       # export all problems to export.md
 '''
 
 import os
