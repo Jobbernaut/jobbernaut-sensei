@@ -8,8 +8,10 @@ version = "0.1.0"
 
 [project.scripts]
 mark    = "mark:main"
+new     = "new:main"
+open    = "lopen:main"
 revisit = "revisit:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["mark", "revisit"]
+py-modules = ["mark", "new", "lopen", "revisit"]
