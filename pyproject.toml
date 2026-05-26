@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neetcode-tools"
+version = "0.1.0"
+
+[project.scripts]
+mark    = "mark:main"
+revisit = "revisit:main"
+
+[tool.setuptools]
+py-modules = ["mark", "revisit"]
