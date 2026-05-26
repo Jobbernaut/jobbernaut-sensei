@@ -1,0 +1,90 @@
+#compdef mark open new revisit
+
+# Zsh completion for neetcode-150 tooling: mark, open, new, revisit
+#
+# Install (add to ~/.zshrc):
+#   fpath=(/path/to/neetcode-150/src/completions $fpath)
+#   autoload -Uz compinit && compinit
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+_neetcode_repo_root() {
+  # Walk up from the completion script's real location to the repo root
+  echo "${${(%):-%x}:A:h:h:h}"
+}
+
+_neetcode_problems() {
+  local root
+  root="$(_neetcode_repo_root)/problems"
+  [[ -d "$root" ]] || return
+
+  local -a names numbers
+  while IFS= read -r -d '' file; do
+    local base stem
+    base="${file:t}"          # filename with ext
+    stem="${base:r}"          # strip .py
+    local parts=("${(@s/-/)stem}")
+    if [[ "${parts[1]}" =~ ^[0-9]+$ ]]; then
+      numbers+=("${parts[1]}")
+      local title="${(j: :)parts[2,-1]:l}"
+      names+=("${stem}")
+    fi
+  done < <(find "$root" -name '*.py' -print0 2>/dev/null)
+
+  # Deduplicate and expose as completions
+  compadd -a numbers
+  compadd -a names
+}
+
+_neetcode_categories() {
+  local root
+  root="$(_neetcode_repo_root)/problems"
+  [[ -d "$root" ]] || return
+  local -a cats
+  cats=("${root}"/*(/:t))
+  compadd -a cats
+}
+
+_neetcode_difficulties() {
+  compadd easy medium hard
+}
+
+# ── per-command completions ───────────────────────────────────────────────────
+
+_mark() {
+  _arguments \
+    '1:problem:_neetcode_problems'
+}
+
+_lopen() {
+  _arguments \
+    '--no-browser[skip opening the browser]' \
+    '*:problem:_neetcode_problems'
+}
+
+_new() {
+  _arguments \
+    '1:number:(1 2 3)' \
+    '2:slug:' \
+    '3:category:_neetcode_categories' \
+    '(-d --difficulty)'{-d,--difficulty}'[difficulty]:difficulty:_neetcode_difficulties' \
+    '(-t --tags)'{-t,--tags}'[topic tags]:tag:' \
+    '--open[open file in editor after creation]'
+}
+
+_revisit() {
+  _arguments \
+    '--all[show all problems including far future]' \
+    '--export[export to CSV]' \
+    '--export-md[export to Markdown]' \
+    '--topic[filter by topic tag]:topic:' \
+}
+
+# ── dispatcher ────────────────────────────────────────────────────────────────
+
+case "$service" in
+  mark)    _mark    ;;
+  open)    _lopen   ;;
+  new)     _new     ;;
+  revisit) _revisit ;;
+esac
