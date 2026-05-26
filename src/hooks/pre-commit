@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""
+Pre-commit hook: validate metadata in staged .py files under problems/.
+
+Ensures every staged solution file has all 4 required metadata fields
+with non-placeholder values before allowing the commit.
+
+Install:
+    cp src/hooks/pre-commit .git/hooks/pre-commit
+    chmod +x .git/hooks/pre-commit
+"""
+
+import ast
+import os
+import subprocess
+import sys
+
+REQUIRED = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
+PLACEHOLDERS = {"YYYY-MM-DD", "topic", "topic1", "topic2"}
+
+# ── ANSI colours ──────────────────────────────────────────────────────────────
+RED   = "\033[91m"
+YELLOW = "\033[93m"
+GREY  = "\033[90m"
+BOLD  = "\033[1m"
+RESET = "\033[0m"
+
+
+def get_staged_files() -> list:
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=ACM"],
+        capture_output=True, text=True,
+    )
+    return [f for f in result.stdout.splitlines() if f.startswith("problems/") and f.endswith(".py")]
+
+
+def extract_metadata(path: str) -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            source = f.read()
+    except OSError:
+        return {}
+
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return {}
+
+    meta = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id in REQUIRED:
+                    try:
+                        meta[target.id] = ast.literal_eval(node.value)
+                    except (ValueError, TypeError):
+                        pass
+    return meta
+
+
+def validate(path: str) -> list:
+    """Return list of error strings, empty if valid."""
+    errors = []
+    meta   = extract_metadata(path)
+
+    missing = REQUIRED - meta.keys()
+    if missing:
+        errors.append(f"    missing fields: {', '.join(sorted(missing))}")
+        return errors
+
+    # Check for placeholder values
+    last_solved = meta.get("last_solved", "")
+    if last_solved in PLACEHOLDERS or not last_solved:
+        errors.append(f"    last_solved is a placeholder: \"{last_solved}\"")
+
+    difficulty = meta.get("difficulty", "")
+    if difficulty not in ("easy", "medium", "hard"):
+        errors.append(f"    difficulty must be easy/medium/hard, got: \"{difficulty}\"")
+
+    tags = meta.get("topic_tags", [])
+    if isinstance(tags, list):
+        if not tags or all(t in PLACEHOLDERS for t in tags):
+            errors.append(f"    topic_tags contains only placeholders: {tags}")
+    else:
+        errors.append(f"    topic_tags must be a list")
+
+    return errors
+
+
+def main() -> None:
+    staged = get_staged_files()
+    if not staged:
+        sys.exit(0)
+
+    all_errors = {}
+    for path in staged:
+        errs = validate(path)
+        if errs:
+            all_errors[path] = errs
+
+    if not all_errors:
+        sys.exit(0)
+
+    print(f"\n  {RED}{BOLD}pre-commit: metadata validation failed{RESET}\n")
+    for path, errs in all_errors.items():
+        print(f"  {YELLOW}{path}{RESET}")
+        for e in errs:
+            print(f"  {e}")
+        print()
+    print(f"  {GREY}Fix the issues above, then re-commit.{RESET}\n")
+    sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
