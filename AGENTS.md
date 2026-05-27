@@ -177,6 +177,9 @@ Opens the problem's LeetCode URL in the browser. Nothing else — no file editin
    → "You have 22 problems tracked. 0 overdue. 4 coming up this week."
 
 2. PLAN
+   sensei status
+   → If problems are due today/overdue: Prioritize them.
+   → If nothing is due: Suggest new problems.
    sensei revisit --json
    → "Binary Tree Max Path Sum is due in 3 days. Let's start there."
 
