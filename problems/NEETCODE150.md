@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **28 / 150** (18.7%)
+Total Completed: **30 / 150** (20.0%)
 
 ## 1. Arrays & Hashing (9 / 9 Completed)
 - [x] 217. Contains Duplicate (Easy)
@@ -46,8 +46,8 @@ Total Completed: **28 / 150** (18.7%)
 - [ ] 981. Time Based Key-Value Store (Medium)
 - [ ] 4. Median of Two Sorted Arrays (Hard)
 
-## 6. Linked List (0 / 11 Completed)
-- [ ] 206. Reverse Linked List (Easy)
+## 6. Linked List (1 / 11 Completed)
+- [x] 206. Reverse Linked List (Easy)
 - [ ] 21. Merge Two Sorted Lists (Easy)
 - [ ] 143. Reorder List (Medium)
 - [ ] 19. Remove Nth Node From End of List (Medium)
@@ -123,8 +123,8 @@ Total Completed: **28 / 150** (18.7%)
 - [ ] 269. Alien Dictionary (Hard)
 - [ ] 778. Swim in Rising Water (Hard)
 
-## 13. 1-D Dynamic Programming (0 / 12 Completed)
-- [ ] 70. Climbing Stairs (Easy)
+## 13. 1-D Dynamic Programming (1 / 12 Completed)
+- [x] 70. Climbing Stairs (Easy)
 - [ ] 746. Min Cost Climbing Stairs (Easy)
 - [ ] 198. House Robber (Medium)
 - [ ] 213. House Robber II (Medium)
