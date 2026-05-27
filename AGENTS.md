@@ -646,7 +646,7 @@ Sensei handles interval scheduling.
 ## Scaffold New Problem
 
 ```bash
-sensei new 217 contains-duplicate 1-arrays-and-hashing
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 ```
 
 Use when introducing new material.
