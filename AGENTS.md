@@ -1,31 +1,19 @@
 # Jobbernaut Sensei — AI Agent Integration Guide
 
-This document describes how to use the `sensei` CLI as a tool for AI coding agents (Cline, Claude Code, GitHub Copilot, ChatGPT, etc.). It is designed to be included in an agent's system prompt or tool configuration.
+So you're an AI agent and you want to coach a human through LeetCode practice. Good. Sensei was built for this.
+
+Every command outputs **clean JSON**. No parsing nightmares. No interactive prompts you can't handle. Just structured data you can act on.
 
 ---
 
-## Overview
+## 🧰 The Tools
 
-`sensei` is a spaced-repetition CLI for LeetCode practice. Every command outputs **clean JSON**, making it a natural fit for agent-driven tutoring workflows. An AI agent can:
-
-1. Check what problems are due
-2. Fetch a specific problem + the user's saved solution
-3. Provide tutoring feedback
-4. Update the review schedule — all through the same CLI
-
----
-
-## Available Tools
-
-### `sensei status`
-
-**Purpose:** Quick assessment of the user's practice state.
+### `sensei status` — quick pulse
 
 ```bash
 sensei status
 ```
 
-**Output:**
 ```json
 {
   "total": 22,
@@ -46,20 +34,17 @@ sensei status
 }
 ```
 
-**Agent usage:** Use this first to understand how many problems the user has, how many are overdue, and get a quick overview.
+**Agent use:** Open with this. Now you know their state — total problems, how many are rotting, what's coming up.
 
 ---
 
-### `sensei revisit --json`
-
-**Purpose:** Get the full review data for all tracked problems.
+### `sensei revisit --json` — full review data
 
 ```bash
 sensei revisit --json
 sensei revisit --json --topic arrays
 ```
 
-**Output:**
 ```json
 {
   "generated": "2026-05-26",
@@ -79,13 +64,39 @@ sensei revisit --json --topic arrays
 }
 ```
 
-**Agent usage:** Use this to identify which specific problems are overdue or due today, then tutor the user on each one. Supports `--topic` filtering for targeted sessions.
+**Agent use:** Identify exactly what's overdue or due today. Use `--topic` to drill into weak areas — "you've done 10 arrays problems but only 2 graphs. Let's fix that."
 
 ---
 
-### `sensei show <problem>`
+### `sensei hint <problem>` — quiz mode 🔑
 
-**Purpose:** Inspect a single problem — metadata + the user's saved solution code.
+```bash
+sensei hint 217
+sensei hint contains-duplicate
+sensei hint "valid anagram"
+```
+
+```json
+{
+  "label": "217. Contains Duplicate",
+  "number": "217",
+  "title": "Contains Duplicate",
+  "difficulty": "easy",
+  "topics": ["arrays", "hashing"],
+  "url": "https://leetcode.com/problems/contains-duplicate/description/",
+  "status": {
+    "last_solved": "2026-05-14",
+    "due_date": "2026-08-12",
+    "days_until_due": 78
+  }
+}
+```
+
+**Agent use:** This is your quizzing command. It gives you everything you need to describe the problem (difficulty, topics, LeetCode URL) but **no solution code**. Ask the user to code it. When they're done, hit `sensei show` to compare.
+
+---
+
+### `sensei show <problem>` — full reveal
 
 ```bash
 sensei show 217
@@ -93,7 +104,6 @@ sensei show contains-duplicate
 sensei show "valid anagram"
 ```
 
-**Output:**
 ```json
 {
   "label": "217. Contains Duplicate",
@@ -111,100 +121,43 @@ sensei show "valid anagram"
 }
 ```
 
-**Agent usage:** Use this to fetch the exact problem the user needs to review. Analyze their solution, provide hints, suggest optimizations, or ask them to explain their approach. The `solution` field contains their actual saved code.
+**Agent use:** Use this to see their *actual saved code*. Analyze it. Suggest optimizations. Point out the O(n²) loop they should have caught. The `solution` field is their code — treat it as their answer key.
 
 ---
 
-### `sensei hint <problem>`
-
-**Purpose:** Inspect a problem's metadata and LeetCode URL **without the solution code**. Ideal for quizzing/coaching — you get the problem context but the user has to code their own solution first.
+### `sensei mark <problem> --rating <e|g|h|s>` — update progress
 
 ```bash
-sensei hint 217
-sensei hint contains-duplicate
-sensei hint "valid anagram"
-```
-
-**Output:**
-```json
-{
-  "label": "217. Contains Duplicate",
-  "number": "217",
-  "title": "Contains Duplicate",
-  "difficulty": "easy",
-  "topics": ["arrays", "hashing"],
-  "url": "https://leetcode.com/problems/contains-duplicate/description/",
-  "status": {
-    "last_solved": "2026-05-14",
-    "due_date": "2026-08-12",
-    "days_until_due": 78
-  }
-}
-```
-
-**Agent usage:** Use `sensei hint` when you want to quiz the user. It gives you everything you need to describe the problem (difficulty, topics, LeetCode URL) without revealing the saved solution. Once the user has coded their attempt, you can then use `sensei show` to compare it against their saved solution and provide feedback.
-
----
-
-### `sensei mark <problem>`
-
-**Purpose:** Mark a problem as solved and update the spaced-repetition schedule.
-
-**Interactive mode** (agent should NOT use this):
-```bash
-sensei mark 217
-```
-Prompts the user for a difficulty rating.
-
-**Non-interactive mode** (agent-friendly):
-```bash
-sensei mark 217 --rating e    # 90 days
+sensei mark 217 --rating e    # 90 days (or 135 if they've aced it 3+ times)
 sensei mark 217 --rating g    # 30 days
-sensei mark 217 --rating h    # 7 days
-sensei mark 217 --rating s    # 3 days
+sensei mark 217 --rating h    # 7 days (or 14 if seen before)
+sensei mark 217 --rating s    # 3 days (leech detection: 3+ struggles = flag)
 ```
 
-**Output:**
-```
-  217. Contains Duplicate
-  problems/.../217-Contains-Duplicate.py
+**Rating schedule (graduated):**
 
-  ✓  Marked as solved today (2026-05-26)  ·  next review in 90 days
-```
+| Rating | Flag | First time | After 3+ aces | Why |
+|--------|------|-----------|----------------|-----|
+| Easy 🟢 | `--rating e` | 90 days | 135 → 180 max | You clearly know this. See you in 3 months. |
+| Good 🔵 | `--rating g` | 30 days | 30 days | Solid but not burned in. Month is fine. |
+| Hard 🟡 | `--rating h` | 7 days | 14 days | Needed help. Come back sooner. |
+| Struggled 🔴 | `--rating s` | 3 days | 3 days | You're stuck. Study the pattern, not just this problem. |
 
-**Rating schedule:**
-
-| Rating | Flag | Next Review | When to use |
-|--------|------|-------------|-------------|
-| Easy | `--rating e` | 90 days | User solved it immediately without help |
-| Good | `--rating g` | 30 days | User solved it with minor hints |
-| Hard | `--rating h` | 7 days | User needed significant guidance |
-| Struggled | `--rating s` | 3 days | User couldn't solve it; needs intensive review |
-
-**Agent usage:** After tutoring a user on a problem, use this to update their progress. Choose the rating based on how well they performed during the session.
+**Agent use:** After the session, pick the rating that matches their performance. The SRS algorithm handles the math — it grows intervals for problems they've mastered and keeps shrinking for ones they haven't. You just pick the rating.
 
 ---
 
-### `sensei new`
+### `sensei new <number> <slug> <category>` — scaffold
 
-**Purpose:** Scaffold a new problem file.
-
-```bash
-sensei new NUMBER SLUG CATEGORY [-d DIFFICULTY] [-t TAGS] [--open]
-```
-
-**Example:**
 ```bash
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 ```
 
-**Agent usage:** Use this when the user wants to start practicing a new LeetCode problem. Creates the folder, Python file, and pre-fills metadata.
+Creates the folder, Python file, and pre-fills metadata (including `times_reviewed = 0` for the graduated SRS). Use this when they want to start a new problem.
 
 ---
 
-### `sensei open`
-
-**Purpose:** Open a problem in the user's editor and browser.
+### `sensei open <problem>` — jump in
 
 ```bash
 sensei open 217
@@ -212,62 +165,72 @@ sensei open contains-duplicate
 sensei open 217 --no-browser
 ```
 
-**Agent usage:** Use this when the user wants to jump directly into coding a specific problem.
+Opens the file in their editor and the LeetCode page in their browser. Use when they want to start coding immediately.
 
 ---
 
-## Recommended Agent Workflow
+## 🎯 The Full Coaching Loop
 
 ```
-1. START → sensei status
-   │  Assess the user's current state
-   │
-2. PLAN → sensei revisit --json
-   │  Identify which problems are due
-   │
-3. HINT → sensei hint 217
-   │  Fetch problem metadata + URL (no solution)
-   │  Quiz the user — ask them to code it
-   │
-4. REVIEW → sensei show 217
-   │  Compare their attempt against the saved solution
-   │  Provide hints, code review, optimizations
-   │
-5. MARK → sensei mark 217 --rating g
-   │  Update the schedule based on performance
-   │
-6. REPEAT → back to step 2
+1. START
+   sensei status
+   → "You have 22 problems tracked. 0 overdue. 4 coming up this week."
+
+2. PLAN
+   sensei revisit --json
+   → "Binary Tree Max Path Sum is due in 3 days. Let's start there."
+
+3. QUIZ (no spoilers)
+   sensei hint 124
+   → You get the problem URL. Ask them to code it blind.
+
+4. THEY CODE
+   → Wait for their solution.
+
+5. REVIEW
+   sensei show 124
+   → Compare their attempt against their saved solution.
+   → "You used recursion with global max. Good. But you could also use tuple returns."
+
+6. MARK
+   sensei mark 124 --rating g
+   → "You got it with a few hints. Marked as 'good' → 30 days."
+
+7. REPEAT
+   → Back to step 2 for the next problem.
 ```
 
-## Example Agent Prompt Snippet
+---
+
+## 🤖 Example Agent Prompt Snippet
 
 ```markdown
-You have access to the `sensei` CLI tool for LeetCode practice.
+You have access to the `sensei` CLI. All commands return JSON.
 
-Available commands:
+Commands:
 - `sensei status` — Quick summary of all problems
-- `sensei revisit --json` — Full review data
-- `sensei hint <problem>` — Problem metadata + URL only (no solution, for quizzing)
+- `sensei revisit --json` — Full review data (supports --topic)
+- `sensei hint <problem>` — Problem metadata + URL only (for quizzing)
 - `sensei show <problem>` — Problem details + solution code
-- `sensei mark <problem> --rating e|g|h|s` — Mark as solved
+- `sensei mark <problem> --rating e|g|h|s` — Update schedule
 - `sensei new NUMBER SLUG CATEGORY` — Scaffold a new problem
-- `sensei open <problem>` — Open in editor
+- `sensei open <problem>` — Open in editor/browser
 
 Workflow:
-1. Run sensei status to check the user's practice state
-2. Run sensei revisit --json to find due problems
-3. Run sensei hint <problem> to fetch problem (no solution)
-4. Ask user to write their solution
-5. Run sensei show <problem> to compare
-6. Tutor accordingly
-7. Run sensei mark <problem> --rating <rating> to update
+1. Run `sensei status` to check the user's state
+2. Run `sensei revisit --json` to find due problems
+3. Run `sensei hint <problem>` to fetch problem (no solution)
+4. Ask the user to write their solution
+5. Run `sensei show <problem>` to compare
+6. Tutor — analyze their code, suggest optimizations
+7. Run `sensei mark <problem> --rating <rating>` to update
 ```
 
 ---
 
-## Output Schema Reference
+## 📐 Output Schema Reference
 
-All problem objects in JSON output follow this schema:
+All problem objects follow this schema:
 
 | Field | Type | Example |
 |-------|------|---------|
@@ -288,3 +251,7 @@ Additional fields in `sensei show`:
 | `title` | `string` | `"Contains Duplicate"` |
 | `metadata` | `object` | Full metadata object |
 | `solution` | `string` | User's saved Python solution |
+
+---
+
+Go forth and coach. Use `sensei hint` to quiz, `sensei show` to review, and `sensei mark` to close the loop.

@@ -2,40 +2,100 @@
   <img src="https://raw.githubusercontent.com/jobbernaut/jobbernaut-sensei/main/logo.jpeg" alt="Jobbernaut Sensei Logo" width="180"/>
 </div>
 
-# Jobbernaut Sensei
+# Jobbernaut Sensei 🥋
 
-> Navigate the vast space of the job market.
+> Your LeetCode practice, but you actually remember what you solved.
 
-**Jobbernaut** is a cloud-native, event-driven open core intelligence platform designed to automate the most tedious parts of the job search: data extraction, resume tailoring, and document management.
+**Sensei** is a spaced-repetition CLI that stops you from grinding LeetCode into the void. Every command outputs clean JSON — it's built for humans but **designed for AI agents**.
 
-**Jobbernaut Sensei** is the LeetCode practice & spaced-repetition CLI tool within the ecosystem — helping you sharpen your algorithmic skills with a structured review system. It's also an **AI-agent-friendly API**: every command outputs clean JSON, ready for agents like Cline, Claude Code, or ChatGPT to consume.
-
----
-
-## 🚀 The Ecosystem at a Glance
-
-| Repository | Role | Technology Stack |
-|---|---|---|
-| `jobbernaut-infra` | Foundation | Terraform (HCL), AWS IAM, S3, DynamoDB |
-| `jobbernaut-tabs` | Frontend | Next.js, React, Tailwind CSS |
-| `jobbernaut-backend` | Control | Python (AWS Lambda), Boto3, Pydantic |
-| `jobbernaut-tailor` | Intelligence | Docker, Python, LangChain (AI), TeXLive (LaTeX) |
-| `jobbernaut-extract` | Collection | Chrome Extension (Manifest V3), JavaScript |
-| **`jobbernaut-sensei`** | **CLI Practice** | **Python (setuptools)** |
-
-📘 **Documentation:** For deep dives into the architecture, data flows, and setup guides, visit [jobbernaut-docs](https://github.com/jobbernaut/jobbernaut-docs).
+```bash
+pip install jobbernaut-sensei
+sensei init
+```
 
 ---
 
-## ⚡️ Key Features
+## 🔥 Why This Exists
 
-- **Spaced Repetition:** Never forget a solution — schedules reviews based on your difficulty rating.
-- **One-Command Scaffolding:** Create new problem files with pre-filled metadata in seconds.
-- **ATS-Ready Tracking:** Export your progress to CSV or Markdown.
-- **Context-Aware Fuzzy Matching:** Open or mark problems by number, slug, or title words.
-- **Zsh Completions:** Tab-complete problem names and categories.
-- **🤖 AI-Agent Friendly:** Every command outputs clean JSON — `sensei revisit --json`, `sensei status`, `sensei show <problem>`.
-- **Non-Interactive Marking:** `sensei mark 217 --rating e` — perfect for agent-driven tutoring sessions.
+You solve 200 LeetCode problems. Three months later you can't solve FizzBuzz.
+
+Sensei tracks **when** you solved a problem and **how well** you understood it. Then it tells you exactly what to review — before your brain evicts it from cache.
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Your brain has a cache. This is the invalidation policy.   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Zero config. Zero cloud. Zero bullshit.** Your solutions are just `.py` files in a folder — git-friendly, portable, no lock-in.
+
+---
+
+## ⚡ What It Does
+
+| Command | Vibe |
+|---------|------|
+| `sensei revisit` | "Here's what you're forgetting" — color-coded review queue |
+| `sensei status` | JSON snapshot for you or your AI agent |
+| `sensei hint <problem>` | Get the problem URL + deets **without the answer** (for quizzing) |
+| `sensei show <problem>` | Full problem + your saved solution (for review) |
+| `sensei mark <problem> --rating e` | "Easy" → next review in 90 days (or 135, if you've aced it before) |
+| `sensei new <num> <slug> <cat>` | Scaffold a fresh problem in 0.3 seconds |
+| `sensei open <problem>` | Jump into the code + LeetCode page |
+| `sensei revisit --export` | Dump everything to CSV or Markdown |
+
+---
+
+## 📅 Daily Loop
+
+```bash
+# 1. What's rotting in my brain today?
+sensei revisit
+
+# 2. Quiz me on this one (agent, don't spoil it)
+sensei hint 217
+
+# 3. Let me code, then compare
+sensei show 217
+
+# 4. How'd I do?
+sensei mark 217 --rating g    # good → 30 days
+```
+
+That's it. Four commands. Whole loop takes 2 seconds of typing.
+
+---
+
+## 🧠 Spaced Repetition — The Smart Part
+
+Rate yourself after each solve. Sensei learns from your history:
+
+| Rating | Flag | Next Review | If you keep acing it |
+|--------|------|-------------|----------------------|
+| Easy 🟢 | `--rating e` | 90 days | Grows 1.5× per session (90 → 135 → 180 max) |
+| Good 🔵 | `--rating g` | 30 days | Stays 30 days |
+| Hard 🟡 | `--rating h` | 7 days | 14 days if you've seen it before |
+| Struggled 🔴 | `--rating s` | 3 days | Stays 3 days (agent: flag as leech) |
+
+**First time rating "easy"?** → 90 days.  
+**Fourth time rating "easy"?** → 135 days (you clearly know this).  
+**Keep struggling?** → 3 days forever (time to study the pattern, not the problem).
+
+---
+
+## 🤖 AI-Agent Native
+
+Every command returns clean JSON. Plug it into Cline, Claude Code, ChatGPT, or your own agent:
+
+```bash
+sensei status                     # → {"total":22,"overdue":0,...}
+sensei revisit --json             # → Full review data with dates
+sensei hint 217                   # → Problem URL + status, no solution
+sensei show 217                   # → Metadata + saved solution
+sensei mark 217 --rating e        # → Update schedule, no prompts
+```
+
+See **[`AGENTS.md`](AGENTS.md)** for the complete agent integration guide.
 
 ---
 
@@ -43,67 +103,33 @@
 
 ```bash
 pip install jobbernaut-sensei
-```
-
-Initialize a `problems/` directory:
-
-```bash
-sensei init
-```
-
----
-
-## 🔁 Daily Loop
-
-### 1. Morning — see what's due
-```bash
-sensei revisit
-```
-
-### 2. Start a problem — scaffold it
-```bash
+sensei init                      # Creates problems/ directory
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
+code problems/                   # Start solving
 ```
 
-### 3. Open a problem — jump back in
-```bash
-sensei open 217
-```
+### Dependencies
 
-### 4. After solving — mark it
-```bash
-sensei mark 217
-```
-
-You'll be prompted with one question:
-
-```
-  How did it go?
-
-    [e]  easy      → 90 days
-    [g]  good      → 30 days
-    [h]  hard      → 7 days
-    [s]  struggled → 3 days
-```
-
-Press one key. `last_solved` and `revisit_in_days` are updated automatically.
+- Python ≥ 3.10
+- That's it. No npm. No Docker. No cloud.
 
 ---
 
-## 📖 Command Reference
+## 📖 Commands
 
-### `sensei revisit` — daily review runner
+### `sensei revisit` — what to review
 
 ```bash
-sensei revisit
-sensei revisit --all
-sensei revisit --topic arrays
-sensei revisit --json            # AI-agent friendly JSON output
-sensei revisit --export
-sensei revisit --export-md
+sensei revisit                    # Overdue + due today + upcoming 7 days
+sensei revisit --all              # Everything
+sensei revisit --topic trees      # Filter by topic
+sensei revisit --json             # Agent-friendly JSON
+sensei revisit --export           # → export.csv
+sensei revisit --export-md        # → export.md
 ```
 
-**Colored terminal output:**
+Colored terminal output:
+
 ```
 📅  Jobbernaut Sensei Revisit — Tuesday, May 26 2026
 
@@ -111,179 +137,81 @@ sensei revisit --export-md
 ──────────────────────────────────────────────────────────────────────────
   in 3d          [hard  ]   124. Binary Tree Maximum Path Sum      (trees)
   in 4d          [medium]   853. Car Fleet                         (stack, monotonic-stack)
-
-──────────────────────────────────────────────────────────────────────────
-  0 problem(s) need attention today.  Total tracked: 22
 ```
 
-**JSON output** (`--json`):
-```json
-{
-  "generated": "2026-05-26",
-  "total_tracked": 22,
-  "problems": [
-    {
-      "label": "124. Binary Tree Maximum Path Sum",
-      "difficulty": "hard",
-      "last_solved": "2026-05-26",
-      "due_date": "2026-05-29",
-      "days_until_due": 3,
-      "topics": ["trees"],
-      "topic_folder": "7-trees",
-      "filepath": "problems/7-trees/..."
-    }
-  ]
-}
-```
-
-| Flag | What it does |
-|------|-------------|
-| _(none)_ | Overdue + due today + upcoming 7 days |
-| `--all` | Everything, including far-future problems |
-| `--topic arrays` | Filter by topic tag (partial match) |
-| `--json` | Structured JSON output for AI agents |
-| `--export` | Export all problems to `export.csv` |
-| `--export-md` | Export all problems to `export.md` |
-
----
-
-### `sensei status` — quick summary
-
-```bash
-sensei status
-```
-
-Returns a lightweight JSON snapshot of your tracker state:
-
-```json
-{
-  "total": 22,
-  "overdue": 0,
-  "due_today": 0,
-  "upcoming": 4,
-  "problems": [
-    { "label": "124. Binary Tree Maximum Path Sum", "difficulty": "hard", ... }
-  ]
-}
-```
-
-Ideal for AI agents to quickly assess a user's practice state before a tutoring session.
-
----
-
-### `sensei show <problem>` — inspect a problem
+### `sensei show <problem>` — inspect + solution
 
 ```bash
 sensei show 217
 sensei show contains-duplicate
 ```
 
-Returns **metadata + your saved solution code** as JSON:
+Returns JSON: label, number, title, filepath, metadata (last_solved, revisit_in_days, difficulty, topic_tags, due_date), and **your saved solution code**.
 
-```json
-{
-  "label": "217. Contains Duplicate",
-  "number": "217",
-  "title": "Contains Duplicate",
-  "filepath": "problems/1-arrays-and-hashing/...",
-  "metadata": {
-    "last_solved": "2026-05-14",
-    "revisit_in_days": 90,
-    "difficulty": "easy",
-    "topic_tags": ["arrays", "hashing"],
-    "due_date": "2026-08-12"
-  },
-  "solution": "class Solution:\n    def containsDuplicate(..."
-}
-```
-
-Use this to fetch a problem for analysis, code review, or tutoring.
-
----
-
-### `sensei new` — scaffold a new problem
+### `sensei hint <problem>` — inspect, NO solution
 
 ```bash
-sensei new 217 contains-duplicate 1-arrays-and-hashing
-sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set --open
+sensei hint 217
+sensei hint contains-duplicate
 ```
 
-| Argument | Description |
-|----------|-------------|
-| `number` | LeetCode problem number |
-| `slug` | LeetCode URL slug, e.g. `contains-duplicate` |
-| `category` | Topic folder, e.g. `1-arrays-and-hashing` |
-| `-d / --difficulty` | `easy` / `medium` / `hard` (default: `medium`) |
-| `-t / --tags` | One or more topic tags |
-| `--open` | Open the file in `$EDITOR` / `code` immediately |
+Same as `show` but **no `solution` field**. Perfect for agents that want to quiz without spoiling.
 
----
-
-### `sensei open` — open a problem
+### `sensei mark <problem>` — rate your session
 
 ```bash
-sensei open 217
-sensei open contains-duplicate
-sensei open 217 --no-browser   # editor only
+sensei mark 217                    # Interactive prompt
+sensei mark 217 --rating e         # Non-interactive (agent-friendly)
 ```
 
-Accepts problem number, slug, or title words — same fuzzy matching as `mark`.
-
----
-
-### `sensei mark` — mark a problem as reviewed
+### `sensei new <num> <slug> <cat>` — scaffold
 
 ```bash
-sensei mark 217
-sensei mark contains-duplicate
-sensei mark 217 --rating e     # non-interactive (AI-agent friendly)
+sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 ```
 
-| Flag | What it does |
-|------|-------------|
-| _(none)_ | Interactive prompt for difficulty rating |
-| `--rating e` | Mark as easy (90 days until next review) |
-| `--rating g` | Mark as good (30 days) |
-| `--rating h` | Mark as hard (7 days) |
-| `--rating s` | Mark as struggled (3 days) |
-
-The `--rating` flag skips the interactive prompt — perfect for AI agents tutoring a user and updating the schedule automatically.
-
----
-
-## 🤖 AI-Agent Integration
-
-See **[`AGENTS.md`](AGENTS.md)** — a complete tool-calling guide for integrating `sensei` into any AI coding agent's toolset.
-
-Quick reference:
+### `sensei open <problem>` — jump in
 
 ```bash
-sensei status                     # Assess user's practice state
-sensei revisit --json             # Get full review data
-sensei show <problem>             # Inspect problem + solution
-sensei mark <problem> --rating g  # Update schedule after tutoring
+sensei open 217                    # Editor + browser
+sensei open 217 --no-browser       # Editor only
 ```
+
+### `sensei status` — quick pulse
+
+```bash
+sensei status
+```
+
+Returns `{total, overdue, due_today, upcoming, problems[]}` — one-liner for agents.
 
 ---
 
-## 🔧 Zsh Shell Completions
+## 🔧 Fuzzy Matching
 
-Tab-complete `sensei` subcommands, problem numbers/names, and category names.
+Every command that takes a problem accepts:
 
-**Add to `~/.zshrc`:**
+```bash
+sensei show 217                    # Problem number
+sensei show contains-duplicate     # URL slug
+sensei show "valid anagram"        # Title words
+```
+
+It matches the first unique result. No tab-complete needed (but we have it anyway — see [completions](src/completions)).
+
+---
+
+## 🐚 Zsh Completions
+
 ```zsh
 fpath=(/path/to/jobbernaut-sensei/src/completions $fpath)
 autoload -Uz compinit && compinit
 ```
 
-Then reload: `source ~/.zshrc`
-
 ---
 
-## ⚖️ License
+## 📄 License
 
-Unless otherwise noted, all repositories within the Jobbernaut organization are licensed under the **PolyForm Noncommercial License 1.0.0**.
+PolyForm Noncommercial License 1.0.0 — free for personal and non-commercial use.
 
-If a repository lacks a specific LICENSE file, the license located at [Jobbernaut/LICENSE.md](https://github.com/jobbernaut/jobbernaut-sensei/blob/main/LICENSE) applies by default.
-
-You are free to use, modify, and learn from this code for **personal or non-commercial** purposes.
+Full license in [`LICENSE`](LICENSE).

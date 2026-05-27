@@ -88,8 +88,53 @@ def write_file(path: str, content: str) -> None:
         f.write(content)
 
 
-def update_metadata(source: str, today_str: str, new_days: int) -> str:
-    """Replace last_solved and revisit_in_days in the source, increment times_reviewed."""
+def read_times_reviewed(source: str) -> int:
+    """Extract the current times_reviewed value from source, default 0."""
+    m = re.search(r"times_reviewed\s*=\s*(\d+)", source)
+    return int(m.group(1)) if m else 0
+
+
+def read_prev_interval(source: str) -> int:
+    """Extract the current revisit_in_days value from source, default 0."""
+    m = re.search(r"revisit_in_days\s*=\s*(\d+)", source)
+    return int(m.group(1)) if m else 0
+
+
+def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> int:
+    """
+    Graduated SRS interval based on rating and history.
+    
+    - Easy + reviewed 3+ times: previous × 1.5 (cap 180d)
+    - Easy: 90 days
+    - Good: 30 days
+    - Hard + reviewed 2+ times: 14 days
+    - Hard: 7 days
+    - Struggled + leech (3+): 3 days (agent should flag)
+    - Struggled: 3 days
+    """
+    if rating == "e":
+        if times_reviewed >= 3 and prev_interval > 0:
+            return min(int(prev_interval * 1.5), 180)
+        return 90
+    elif rating == "g":
+        return 30
+    elif rating == "h":
+        if times_reviewed >= 2:
+            return 14
+        return 7
+    else:  # rating == "s" (struggled)
+        return 3
+
+
+def update_metadata(source: str, today_str: str, rating: str) -> str:
+    """
+    Replace last_solved and recompute revisit_in_days using graduated intervals.
+    Increment times_reviewed.
+    """
+    times_reviewed = read_times_reviewed(source)
+    prev_interval  = read_prev_interval(source)
+    new_days       = compute_interval(rating, times_reviewed, prev_interval)
+
     # last_solved
     source = re.sub(
         r'(last_solved\s*=\s*)["\'][\d\-A-Za-z/]+["\']',
@@ -102,13 +147,21 @@ def update_metadata(source: str, today_str: str, new_days: int) -> str:
         f"revisit_in_days = {new_days}",
         source,
     )
-    # times_reviewed — increment if present, else leave alone
-    def increment(m):
-        n = int(m.group(1)) + 1
-        return f"times_reviewed  = {n}"
-    source = re.sub(r"times_reviewed\s*=\s*(\d+)", increment, source)
+    # times_reviewed — increment if present, add if not
+    if re.search(r"times_reviewed\s*=\s*\d+", source):
+        def increment(m):
+            n = int(m.group(1)) + 1
+            return f"times_reviewed  = {n}"
+        source = re.sub(r"times_reviewed\s*=\s*(\d+)", increment, source)
+    else:
+        # Add times_reviewed = 1 after the last metadata line
+        source = re.sub(
+            r"(topic_tags\s*=.*?\n)",
+            rf"\1times_reviewed  = 1\n",
+            source,
+        )
 
-    return source
+    return source, new_days
 
 
 def prompt_rating() -> tuple:
@@ -172,15 +225,14 @@ def main() -> None:
         if rating_override not in RATING_MAP:
             print(f"\n  {YELLOW}Invalid rating: {rating_override}. Use e, g, h, or s.{RESET}\n")
             sys.exit(1)
-        days, rating_label = RATING_MAP[rating_override]
-        print(f"\n  {BOLD}{CYAN}{label}{RESET}")
-        print(f"  {GREY}{rel}{RESET}")
+        rating_key = rating_override
+        _, rating_label = RATING_MAP[rating_override]
     else:
-        days, rating_label = prompt_rating()
+        rating_key, rating_label = prompt_rating()
 
     today_str = date.today().isoformat()
     source    = read_file(match)
-    updated   = update_metadata(source, today_str, days)
+    updated, days = update_metadata(source, today_str, rating_key)
     write_file(match, updated)
 
     print(f"\n  {GREEN}✓{RESET}  Marked as solved today ({today_str})  ·  next review in {BOLD}{days} days{RESET}\n")

@@ -43,6 +43,7 @@ last_solved     = "{today}"
 revisit_in_days = 3
 difficulty      = "{difficulty}"
 topic_tags      = {tags_repr}
+times_reviewed  = 0
 
 from typing import List, Optional
 
