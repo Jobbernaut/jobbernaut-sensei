@@ -3,10 +3,10 @@ https://leetcode.com/problems/valid-palindrome/
 '''
 
 last_solved     = "2026-05-27"
-revisit_in_days = 3
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["two-pointers", "string"]
-times_reviewed  = 0
+times_reviewed  = 1
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:
