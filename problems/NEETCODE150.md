@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **26 / 150** (17.3%)
+Total Completed: **28 / 150** (18.7%)
 
 ## 1. Arrays & Hashing (9 / 9 Completed)
 - [x] 217. Contains Duplicate (Easy)
@@ -20,9 +20,9 @@ Total Completed: **26 / 150** (17.3%)
 - [ ] 11. Container With Most Water (Medium)
 - [ ] 42. Trapping Rain Water (Hard)
 
-## 3. Sliding Window (0 / 6 Completed)
+## 3. Sliding Window (1 / 6 Completed)
 - [ ] 121. Best Time to Buy and Sell Stock (Easy)
-- [ ] 3. Longest Substring Without Repeating Characters (Medium)
+- [x] 3. Longest Substring Without Repeating Characters (Medium)
 - [ ] 424. Longest Repeating Character Replacement (Medium)
 - [ ] 567. Permutation in String (Medium)
 - [ ] 76. Minimum Window Substring (Hard)
@@ -37,11 +37,11 @@ Total Completed: **26 / 150** (17.3%)
 - [x] 853. Car Fleet (Medium)
 - [x] 84. Largest Rectangle in Histogram (Hard)
 
-## 5. Binary Search (0 / 7 Completed)
+## 5. Binary Search (1 / 7 Completed)
 - [ ] 704. Binary Search (Easy)
 - [ ] 74. Search a 2D Matrix (Medium)
 - [ ] 875. Koko Eating Bananas (Medium)
-- [ ] 153. Find Minimum in Rotated Sorted Array (Medium)
+- [x] 153. Find Minimum in Rotated Sorted Array (Medium)
 - [ ] 33. Search in Rotated Sorted Array (Medium)
 - [ ] 981. Time Based Key-Value Store (Medium)
 - [ ] 4. Median of Two Sorted Arrays (Hard)
