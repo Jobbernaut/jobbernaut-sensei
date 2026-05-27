@@ -178,10 +178,11 @@ Opens the problem's LeetCode URL in the browser. Nothing else — no file editin
 
 2. PLAN
    sensei status
-   → If problems are due today/overdue: Prioritize them.
-   → If nothing is due: Suggest brand new problems that the user needs to solve.
+   → Check if any problems are past due or due today.
+   → If YES: Prioritize coaching those problems immediately.
+   → If NO: Move on to new problems that consolidate existing patterns or introduce new ones.
    sensei revisit --json
-   → "Binary Tree Max Path Sum is due in 3 days. We should take a look at it in 3 days. Let's start with a new problem that addresses gaps."
+   → "No problems are due today. Let's start with a new problem to consolidate your knowledge."
 
 3. QUIZ (no spoilers)
    sensei hint 124
