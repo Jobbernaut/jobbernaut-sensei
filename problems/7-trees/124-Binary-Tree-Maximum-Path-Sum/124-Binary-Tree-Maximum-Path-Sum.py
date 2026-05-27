@@ -3,9 +3,10 @@ https://leetcode.com/problems/binary-tree-maximum-path-sum/
 '''
 
 last_solved     = "2026-05-26"
-revisit_in_days = 3
+revisit_in_days = 30
 difficulty      = "hard"
 topic_tags      = ["trees"]
+times_reviewed  = 1
 
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
