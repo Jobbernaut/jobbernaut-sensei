@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jobbernaut-sensei"
-version = "0.3.1"
+version = "0.3.2"
 description = "A spaced-repetition CLI for LeetCode practice problems"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,6 +31,7 @@ classifiers = [
 Homepage = "https://github.com/jobbernaut/jobbernaut-sensei"
 Repository = "https://github.com/jobbernaut/jobbernaut-sensei"
 BugTracker = "https://github.com/jobbernaut/jobbernaut-sensei/issues"
+Documentation = "https://github.com/jobbernaut/jobbernaut-sensei/blob/main/README.md"
 
 [project.scripts]
 sensei = "sensei:main"
