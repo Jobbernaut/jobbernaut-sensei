@@ -7,9 +7,6 @@ revisit_in_days = 3                      # int — days until next review (try: 
 difficulty      = "medium"               # easy / medium / hard
 topic_tags      = ["topic1", "topic2"]   # e.g. ["arrays", "hash-map"]
 
-from typing import List, Optional
-
-
 class Solution:
     def methodName(self) -> None:
         # TODO: implement
