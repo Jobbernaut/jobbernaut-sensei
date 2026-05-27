@@ -675,8 +675,8 @@ Instead, use this deterministic rule:
 New problems need *rapid iteration* before entering standard spaced repetition. A user may solve a new problem correctly on first attempt, but the memory is fragile. Marking it as `e` (easy) would schedule it 30+ days out — catastrophic for retention.
 
 Instead:
-- First attempt → 3 days (test memory)
-- First review → 1 week (strengthen memory)
+- First attempt or new problem → 3 days (test memory)
+- Then, second attempt of that problem is their first review → 1 week (strengthen memory)
 - After that → SRS intervals based on demonstrated recall quality
 
 This "bootstrap phase" ensures new knowledge crystallizes before being pushed to long intervals.
