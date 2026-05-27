@@ -2,10 +2,11 @@
 https://leetcode.com/problems/set-matrix-zeroes/description/
 '''
 
-last_solved     = "2026-05-26"
-revisit_in_days = 7
+last_solved     = "2026-05-27"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["math","geometry"]
+times_reviewed  = 1
 
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
