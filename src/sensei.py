@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import hint
 import mark
 import new
 import lopen
@@ -173,6 +174,7 @@ def main():
         print("    revisit  - Run daily review (--json for agent-friendly output)")
         print("    new      - Scaffold a new problem")
         print("    open     - Open a problem in editor/browser")
+        print("    hint     - Show problem metadata + URL only (no solution, for coaching)")
         print("    mark     - Mark a problem as solved (--rating e|g|h|s for non-interactive)")
         print("    show     - Show problem metadata + solution (JSON output)")
         print("    status   - Quick summary statistics (JSON output)")
@@ -197,6 +199,8 @@ def main():
         mark.main()
     elif cmd == "new":
         new.main()
+    elif cmd == "hint":
+        hint.main()
     elif cmd == "open":
         lopen.main()
     elif cmd == "revisit":

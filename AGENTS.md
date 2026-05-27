@@ -115,6 +115,37 @@ sensei show "valid anagram"
 
 ---
 
+### `sensei hint <problem>`
+
+**Purpose:** Inspect a problem's metadata and LeetCode URL **without the solution code**. Ideal for quizzing/coaching — you get the problem context but the user has to code their own solution first.
+
+```bash
+sensei hint 217
+sensei hint contains-duplicate
+sensei hint "valid anagram"
+```
+
+**Output:**
+```json
+{
+  "label": "217. Contains Duplicate",
+  "number": "217",
+  "title": "Contains Duplicate",
+  "difficulty": "easy",
+  "topics": ["arrays", "hashing"],
+  "url": "https://leetcode.com/problems/contains-duplicate/description/",
+  "status": {
+    "last_solved": "2026-05-14",
+    "due_date": "2026-08-12",
+    "days_until_due": 78
+  }
+}
+```
+
+**Agent usage:** Use `sensei hint` when you want to quiz the user. It gives you everything you need to describe the problem (difficulty, topics, LeetCode URL) without revealing the saved solution. Once the user has coded their attempt, you can then use `sensei show` to compare it against their saved solution and provide feedback.
+
+---
+
 ### `sensei mark <problem>`
 
 **Purpose:** Mark a problem as solved and update the spaced-repetition schedule.
@@ -194,14 +225,18 @@ sensei open 217 --no-browser
 2. PLAN → sensei revisit --json
    │  Identify which problems are due
    │
-3. TUTOR → sensei show 217
-   │  Fetch problem + user's solution
-   │  Analyze, provide hints/code review
+3. HINT → sensei hint 217
+   │  Fetch problem metadata + URL (no solution)
+   │  Quiz the user — ask them to code it
    │
-4. MARK → sensei mark 217 --rating g
+4. REVIEW → sensei show 217
+   │  Compare their attempt against the saved solution
+   │  Provide hints, code review, optimizations
+   │
+5. MARK → sensei mark 217 --rating g
    │  Update the schedule based on performance
    │
-5. REPEAT → back to step 2
+6. REPEAT → back to step 2
 ```
 
 ## Example Agent Prompt Snippet
@@ -212,6 +247,7 @@ You have access to the `sensei` CLI tool for LeetCode practice.
 Available commands:
 - `sensei status` — Quick summary of all problems
 - `sensei revisit --json` — Full review data
+- `sensei hint <problem>` — Problem metadata + URL only (no solution, for quizzing)
 - `sensei show <problem>` — Problem details + solution code
 - `sensei mark <problem> --rating e|g|h|s` — Mark as solved
 - `sensei new NUMBER SLUG CATEGORY` — Scaffold a new problem
@@ -220,9 +256,11 @@ Available commands:
 Workflow:
 1. Run sensei status to check the user's practice state
 2. Run sensei revisit --json to find due problems
-3. Run sensei show <problem> to see their solution
-4. Tutor accordingly
-5. Run sensei mark <problem> --rating <rating> to update
+3. Run sensei hint <problem> to fetch problem (no solution)
+4. Ask user to write their solution
+5. Run sensei show <problem> to compare
+6. Tutor accordingly
+7. Run sensei mark <problem> --rating <rating> to update
 ```
 
 ---
