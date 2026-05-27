@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "problems/**"
   workflow_dispatch:
 
 jobs:
@@ -26,7 +28,7 @@ jobs:
     - name: Get project version
       id: get_version
       run: |
-        VERSION=$(python -c "import toml; print(toml.load(""pyproject.toml"")[""project""][""version""])")
+        VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
         echo "project_version=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Build distribution packages
