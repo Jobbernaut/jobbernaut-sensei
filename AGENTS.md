@@ -658,6 +658,31 @@ This is diagnostic information.
 
 ---
 
+# New Problem Bootstrap Rule — Critical SRS Exception
+
+**When a new problem is solved, NEVER use the rating to determine review interval.**
+
+Instead, use this deterministic rule:
+
+| `times_reviewed` | Next Review | Rationale |
+|---|---|---|
+| `0` (first attempt) | **3 days** | Rapid bootstrapping — build fresh memory |
+| `1` (first review) | **1 week** | Consolidate after retrieval |
+| `2+` | **SRS proper** | Rating now determines interval (e, g, h, s) |
+
+**Why this matters:**
+
+New problems need *rapid iteration* before entering standard spaced repetition. A user may solve a new problem correctly on first attempt, but the memory is fragile. Marking it as `e` (easy) would schedule it 30+ days out — catastrophic for retention.
+
+Instead:
+- First attempt → 3 days (test memory)
+- First review → 1 week (strengthen memory)
+- After that → SRS intervals based on demonstrated recall quality
+
+This "bootstrap phase" ensures new knowledge crystallizes before being pushed to long intervals.
+
+---
+
 # New Problem Introduction Rules
 
 Only introduce new problems when:
