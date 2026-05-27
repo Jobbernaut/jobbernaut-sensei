@@ -39,5 +39,3 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
-        # If your username is not '__token__', you can specify it like this:
-        # username: __token__
