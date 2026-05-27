@@ -1,20 +1,19 @@
 '''
-Open a problem file in your editor and its LeetCode URL in the browser.
+Open a problem's LeetCode URL in the browser.
 
 Usage:
     sensei open 217
     sensei open contains-duplicate
     sensei open "valid anagram"
-    sensei open 217 --no-browser
 '''
 
 import os
 import re
+import subprocess
 import sys
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 CYAN   = "\033[96m"
-YELLOW = "\033[93m"
 GREY   = "\033[90m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
@@ -78,26 +77,18 @@ def extract_url(path: str):
     return None
 
 
-def open_in_editor(path: str) -> None:
-    editor = os.environ.get("EDITOR", "")
-    if editor:
-        os.system(f'{editor} "{path}"')
-    else:
-        os.system(f'code "{path}"')
-
-
 def open_in_browser(url: str) -> None:
-    os.system(f'open "{url}"')
+    if sys.platform == "darwin":
+        subprocess.Popen(["open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        subprocess.Popen(["xdg-open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def main() -> None:
-    argv       = sys.argv[1:]
-    no_browser = "--no-browser" in argv
-    argv       = [a for a in argv if a != "--no-browser"]
+    argv = sys.argv[1:]
 
     if not argv:
-        print(f"\n  {YELLOW}Usage: sensei open <number | slug | title words>{RESET}")
-        print(f"  {YELLOW}       sensei open 217 --no-browser{RESET}\n")
+        print(f"\n  {CYAN}Usage: sensei open <number | slug | title words>{RESET}\n")
         sys.exit(1)
 
     query     = " ".join(argv)
@@ -107,29 +98,16 @@ def main() -> None:
     match     = find_match(query, files)
 
     if match is None:
-        print(f"\n  {YELLOW}No match found for: \"{query}\"{RESET}\n")
+        print(f"\n  {GREY}No match found for: \"{query}\"{RESET}\n")
         sys.exit(1)
 
-    stem  = os.path.splitext(os.path.basename(match))[0]
-    parts = stem.split("-")
-    if parts[0].isdigit():
-        label = f"{int(parts[0])}. {' '.join(parts[1:]).title()}"
-    else:
-        label = stem.replace("-", " ").title()
+    url = extract_url(match)
+    if url is None:
+        print(f"\n  {GREY}No LeetCode URL found for: \"{query}\"{RESET}\n")
+        sys.exit(1)
 
-    rel = os.path.relpath(match, repo_root)
-    print(f"\n  {BOLD}{CYAN}{label}{RESET}")
-    print(f"  {GREY}{rel}{RESET}")
-
-    open_in_editor(match)
-
-    if not no_browser:
-        url = extract_url(match)
-        if url:
-            print(f"  {GREY}→ {url}{RESET}")
-            open_in_browser(url)
-
-    print()
+    print(f"\n  {CYAN}Opening {url}{RESET}\n")
+    open_in_browser(url)
 
 
 if __name__ == "__main__":

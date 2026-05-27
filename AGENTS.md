@@ -157,15 +157,15 @@ Creates the folder, Python file, and pre-fills metadata (including `times_review
 
 ---
 
-### `sensei open <problem>` — jump in
+### `sensei open <problem>` — open LeetCode in browser
 
 ```bash
 sensei open 217
 sensei open contains-duplicate
-sensei open 217 --no-browser
+sensei open "valid anagram"
 ```
 
-Opens the file in their editor and the LeetCode page in their browser. Use when they want to start coding immediately.
+Opens the problem's LeetCode URL in the browser. Nothing else — no file editing, no solution peeking.
 
 ---
 
@@ -214,7 +214,7 @@ Commands:
 - `sensei show <problem>` — Problem details + solution code
 - `sensei mark <problem> --rating e|g|h|s` — Update schedule
 - `sensei new NUMBER SLUG CATEGORY` — Scaffold a new problem
-- `sensei open <problem>` — Open in editor/browser
+- `sensei open <problem>` — Open LeetCode URL in browser
 
 Workflow:
 1. Run `sensei status` to check the user's state
