@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: release
     permissions:
       contents: write
     steps:
@@ -33,7 +32,7 @@ jobs:
       run: python -m build
 
     - name: Publish package to PyPI
-      if: success() && github.event_name == "release" && github.event.action == "published"
+      if: success()
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
