@@ -404,6 +404,8 @@ Use ONLY if:
 * clean implementation
 * understood deeply
 * minimal prompting needed
+* *Boundary Conditions & Edge Cases:* Handled flawlessly on the first try without any bugs (e.g., empty inputs, single-element inputs, signs, index bounds).
+* *Optimization:* The user immediately identifies and implements the optimal time and space complexity.
 
 This means:
 the memory is stable.
@@ -418,6 +420,8 @@ Use when:
 * some hesitation
 * minor hints needed
 * implementation corrections required
+* *Boundary Conditions & Edge Cases:* The user understands the core algorithm but needs a minor correction on an off-by-one or boundary condition (e.g., `<` vs `<=`, `+ 1` vs `- 1`) that they successfully resolve with a quick nudge.
+* *Optimization:* The user implements a working solution but needs a small prompt to optimize space or time complexity to the absolute limit.
 
 Most successful sessions should end here.
 
@@ -432,6 +436,8 @@ Use when:
 * struggled with approach
 * bugs everywhere
 * complexity confusion
+* *Boundary Conditions & Edge Cases:* Multiple edge cases or boundary conditions were missed, resulting in multiple bugs or runtime errors (e.g., index out of bounds, infinite loops) that required significant guidance to resolve.
+* *Optimization:* The user struggled to find the optimal complexity and needed the coach to explain or reveal the optimal strategy.
 
 The user remembered fragments but not fluently.
 
@@ -447,6 +453,8 @@ Use when:
 * severe confusion
 * brute force dependence
 * unable to finish
+* *Boundary Conditions & Edge Cases:* The user has the right high-level intuition but gets stuck on a critical boundary condition (e.g., `right = mid` vs `right = mid - 1` in binary search) that alters the correctness of the search space, requiring a detailed walkthrough or trace to debug.
+* *Optimization:* The user is unable to implement even a brute-force solution without copying or seeing the solution walkthrough.
 
 This is not failure.
 This is diagnostic information.
