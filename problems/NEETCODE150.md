@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **31 / 150**
+Total Completed: **33 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -15,8 +15,8 @@ Total Completed: **31 / 150**
 
 ## 2. Two Pointers
 - [x] 125. Valid Palindrome (Easy)
-- [ ] 167. Two Sum II - Input Array Is Sorted (Medium)
-- [ ] 15. 3Sum (Medium)
+- [x] 167. Two Sum II - Input Array Is Sorted (Medium)
+- [x] 15. 3Sum (Medium)
 - [ ] 11. Container With Most Water (Medium)
 - [ ] 42. Trapping Rain Water (Hard)
 
