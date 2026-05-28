@@ -45,9 +45,6 @@ difficulty      = "{difficulty}"
 topic_tags      = {tags_repr}
 times_reviewed  = 0
 
-from typing import List, Optional
-
-
 class Solution:
     def solve(self) -> None:
         # TODO: implement
