@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **33 / 150**
+Total Completed: **46 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -21,7 +21,7 @@ Total Completed: **33 / 150**
 - [ ] 42. Trapping Rain Water (Hard)
 
 ## 3. Sliding Window
-- [ ] 121. Best Time to Buy and Sell Stock (Easy)
+- [x] 121. Best Time to Buy and Sell Stock (Easy)
 - [x] 3. Longest Substring Without Repeating Characters (Medium)
 - [ ] 424. Longest Repeating Character Replacement (Medium)
 - [ ] 567. Permutation in String (Medium)
@@ -38,7 +38,7 @@ Total Completed: **33 / 150**
 - [ ] 84. Largest Rectangle in Histogram (Hard)
 
 ## 5. Binary Search
-- [ ] 704. Binary Search (Easy)
+- [x] 704. Binary Search (Easy)
 - [ ] 74. Search a 2D Matrix (Medium)
 - [ ] 875. Koko Eating Bananas (Medium)
 - [x] 153. Find Minimum in Rotated Sorted Array (Medium)
@@ -48,12 +48,12 @@ Total Completed: **33 / 150**
 
 ## 6. Linked List
 - [x] 206. Reverse Linked List (Easy)
-- [ ] 21. Merge Two Sorted Lists (Easy)
+- [x] 21. Merge Two Sorted Lists (Easy)
 - [ ] 143. Reorder List (Medium)
 - [ ] 19. Remove Nth Node From End of List (Medium)
 - [ ] 138. Copy List with Random Pointer (Medium)
 - [ ] 2. Add Two Numbers (Medium)
-- [ ] 141. Linked List Cycle (Easy)
+- [x] 141. Linked List Cycle (Easy)
 - [ ] 287. Find the Duplicate Number (Medium)
 - [ ] 146. LRU Cache (Medium)
 - [ ] 23. Merge k Sorted Lists (Hard)
@@ -61,11 +61,11 @@ Total Completed: **33 / 150**
 
 ## 7. Trees
 - [x] 226. Invert Binary Tree (Easy)
-- [ ] 104. Maximum Depth of Binary Tree (Easy)
-- [ ] 543. Diameter of Binary Tree (Easy)
-- [ ] 110. Balanced Binary Tree (Easy)
-- [ ] 100. Same Tree (Easy)
-- [ ] 572. Subtree of Another Tree (Easy)
+- [x] 104. Maximum Depth of Binary Tree (Easy)
+- [x] 543. Diameter of Binary Tree (Easy)
+- [x] 110. Balanced Binary Tree (Easy)
+- [x] 100. Same Tree (Easy)
+- [x] 572. Subtree of Another Tree (Easy)
 - [ ] 235. Lowest Common Ancestor of a Binary Search Tree (Medium)
 - [ ] 102. Binary Tree Level Order Traversal (Medium)
 - [ ] 199. Binary Tree Right Side View (Medium)
@@ -164,7 +164,7 @@ Total Completed: **33 / 150**
 - [ ] 57. Insert Interval (Medium)
 - [ ] 56. Merge Intervals (Medium)
 - [ ] 435. Non-overlapping Intervals (Medium)
-- [ ] 252. Meeting Rooms (Easy)
+- [x] 252. Meeting Rooms (Easy)
 - [ ] 253. Meeting Rooms II (Medium)
 - [ ] 1851. Minimum Interval to Include Each Query (Hard)
 
@@ -172,8 +172,8 @@ Total Completed: **33 / 150**
 - [x] 73. Set Matrix Zeroes (Medium)
 - [ ] 54. Spiral Matrix (Medium)
 - [ ] 48. Rotate Image (Medium)
-- [ ] 202. Happy Number (Easy)
-- [ ] 66. Plus One (Easy)
+- [x] 202. Happy Number (Easy)
+- [x] 66. Plus One (Easy)
 - [ ] 172. Factorial Trailing Zeroes (Medium)
 - [ ] 343. Integer Break (Medium)
 - [ ] 50. Pow(x, n) (Medium)
