@@ -8,73 +8,16 @@ Usage:
 '''
 
 import os
-import re
 import subprocess
 import sys
+
+from utils import find_solution_files, find_match, extract_url
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 CYAN   = "\033[96m"
 GREY   = "\033[90m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
-
-SKIP_DIRS = {".git", "__pycache__", "venv", ".venv", "docs"}
-
-
-def find_solution_files(root: str) -> list:
-    files = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        for filename in filenames:
-            if filename.endswith(".py"):
-                files.append(os.path.join(dirpath, filename))
-    return files
-
-
-def normalise(s: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", s.lower())
-
-
-def find_match(query: str, files: list):
-    q = normalise(query)
-
-    if q.isdigit():
-        for f in files:
-            stem  = os.path.splitext(os.path.basename(f))[0]
-            parts = stem.split("-")
-            if parts[0] == q:
-                return f
-        return None
-
-    candidates = []
-    for f in files:
-        stem = normalise(os.path.splitext(os.path.basename(f))[0])
-        if q in stem:
-            candidates.append(f)
-
-    if len(candidates) == 1:
-        return candidates[0]
-    if len(candidates) > 1:
-        candidates.sort(
-            key=lambda f: normalise(os.path.splitext(os.path.basename(f))[0]).index(q)
-        )
-        return candidates[0]
-    return None
-
-
-def extract_url(path: str):
-    """Return the first leetcode.com/problems URL found in the file, or None."""
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            for line in f:
-                m = re.search(r"https://leetcode\.com/problems/[^\s'\"]+", line)
-                if m:
-                    url = m.group(0).rstrip("/") + "/"
-                    if "PROBLEM-SLUG" not in url:
-                        return url
-    except OSError:
-        pass
-    return None
 
 
 def open_in_browser(url: str) -> None:

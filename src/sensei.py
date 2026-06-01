@@ -6,6 +6,7 @@ import mark
 import new
 import lopen
 import revisit
+from utils import find_solution_files, find_match, parse_metadata
 
 
 def cmd_init():
@@ -38,15 +39,15 @@ def cmd_show():
     prob_root = os.path.join(repo_root, "problems")
 
     # Use same matching logic from mark/lopen
-    files = _find_solution_files(prob_root)
-    match = _find_match(query, files)
+    files = find_solution_files(prob_root)
+    match = find_match(query, files)
 
     if match is None:
         print(json.dumps({"error": f"No match found for: {query}"}))
         sys.exit(1)
 
     # Read metadata
-    meta = revisit.parse_metadata(match)
+    meta = parse_metadata(match)
     if meta is None:
         print(json.dumps({"error": f"Could not parse metadata from {match}"}))
         sys.exit(1)
@@ -120,49 +121,6 @@ def cmd_status():
         ],
     }
     print(json.dumps(result, indent=2))
-
-
-def _find_solution_files(root: str) -> list:
-    """Walk the repo and return all .py solution files."""
-    skip_dirs = {".git", "__pycache__", "venv", ".venv", "docs"}
-    files = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in skip_dirs]
-        for filename in filenames:
-            if filename.endswith(".py"):
-                files.append(os.path.join(dirpath, filename))
-    return files
-
-
-def _normalise(s: str) -> str:
-    """Lowercase, strip punctuation, collapse spaces."""
-    return __import__("re").sub(r"[^a-z0-9]", "", s.lower())
-
-
-def _find_match(query, files):
-    """Fuzzy match query against file paths. Same logic as mark/lopen."""
-    q = _normalise(query)
-
-    if q.isdigit():
-        for f in files:
-            stem = os.path.splitext(os.path.basename(f))[0]
-            parts = stem.split("-")
-            if parts[0] == q:
-                return f
-        return None
-
-    candidates = []
-    for f in files:
-        stem = _normalise(os.path.splitext(os.path.basename(f))[0])
-        if q in stem:
-            candidates.append(f)
-
-    if len(candidates) == 1:
-        return candidates[0]
-    if len(candidates) > 1:
-        candidates.sort(key=lambda f: _normalise(os.path.splitext(os.path.basename(f))[0]).index(q))
-        return candidates[0]
-    return None
 
 
 def main():

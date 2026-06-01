@@ -12,6 +12,8 @@ import re
 import sys
 from datetime import date
 
+from utils import find_solution_files, find_match
+
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 GREEN  = "\033[92m"
 CYAN   = "\033[96m"
@@ -20,62 +22,12 @@ GREY   = "\033[90m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-SKIP_DIRS = {".git", "__pycache__", "venv", ".venv", "docs"}
-
 RATING_MAP = {
     "e": (90,  "easy      → 90 days  (or prev×1.5 after 3+ reviews)"),
     "g": (30,  "good      → 30 days"),
     "h": (7,   "hard      → 7 days   (14 days after 2+ reviews)"),
     "s": (3,   "struggled → 3 days"),
 }
-
-
-def find_solution_files(root: str) -> list:
-    """Walk the repo and return all .py solution files."""
-    files = []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        for filename in filenames:
-            if filename.endswith(".py") and filename not in ("revisit.py", "mark.py"):
-                files.append(os.path.join(dirpath, filename))
-    return files
-
-
-def normalise(s: str) -> str:
-    """Lowercase, strip punctuation, collapse spaces — for fuzzy matching."""
-    return re.sub(r"[^a-z0-9]", "", s.lower())
-
-
-def find_match(query, files):
-    """
-    Match query against file paths.
-    Accepts: problem number ("217"), slug ("contains-duplicate"), or title words ("valid anagram").
-    """
-    q = normalise(query)
-
-    # Exact number match first
-    if q.isdigit():
-        for f in files:
-            stem = os.path.splitext(os.path.basename(f))[0]
-            parts = stem.split("-")
-            if parts[0] == q:
-                return f
-        return None
-
-    # Fuzzy match against normalised filename
-    candidates = []
-    for f in files:
-        stem = normalise(os.path.splitext(os.path.basename(f))[0])
-        if q in stem:
-            candidates.append(f)
-
-    if len(candidates) == 1:
-        return candidates[0]
-    if len(candidates) > 1:
-        # Prefer the one whose stem starts closest to the query
-        candidates.sort(key=lambda f: normalise(os.path.splitext(os.path.basename(f))[0]).index(q))
-        return candidates[0]
-    return None
 
 
 def read_file(path: str) -> str:
@@ -215,7 +167,7 @@ def main() -> None:
 
     query = " ".join(args)
     root  = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "problems"))
-    files = find_solution_files(root)
+    files = find_solution_files(root, exclude_files={"revisit.py", "mark.py"})
     match = find_match(query, files)
 
     if match is None:

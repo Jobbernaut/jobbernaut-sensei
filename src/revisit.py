@@ -11,11 +11,11 @@ Usage:
 
 import json
 import os
-import ast
 import csv
-import re
 import sys
 from datetime import date, timedelta
+
+from utils import parse_metadata, find_solution_files, SKIP_DIRS
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 RED    = "\033[91m"
@@ -27,56 +27,12 @@ BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
 
-def parse_metadata(filepath):
-    """
-    Reads a .py solution file and extracts the 4 metadata variables.
-    Returns None if any required field is missing or malformed.
-    """
-    required = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
-    meta = {}
-
-    try:
-        with open(filepath, "r") as f:
-            source = f.read()
-    except OSError:
-        return None
-
-    try:
-        tree = ast.parse(source)
-    except SyntaxError:
-        return None
-
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Assign):
-            for target in node.targets:
-                if isinstance(target, ast.Name) and target.id in required:
-                    try:
-                        meta[target.id] = ast.literal_eval(node.value)
-                    except (ValueError, TypeError):
-                        pass
-
-    if not required.issubset(meta.keys()):
-        return None
-
-    try:
-        meta["last_solved"]     = date.fromisoformat(meta["last_solved"])
-        meta["revisit_in_days"] = int(meta["revisit_in_days"])
-    except (ValueError, TypeError):
-        return None
-
-    if not isinstance(meta["topic_tags"], list):
-        meta["topic_tags"] = [meta["topic_tags"]]
-
-    return meta
-
-
 def collect_problems(root):
     """Walk the repo and collect every solution file that has valid metadata."""
     problems = []
-    skip_dirs = {".git", "__pycache__", "venv", ".venv", "docs"}
 
     for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in skip_dirs]
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
 
         for filename in filenames:
             if not filename.endswith(".py"):
