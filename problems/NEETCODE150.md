@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **46 / 150**
+Total Completed: **45 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -32,7 +32,7 @@ Total Completed: **46 / 150**
 - [x] 20. Valid Parentheses (Easy)
 - [x] 155. Min Stack (Medium)
 - [x] 150. Evaluate Reverse Polish Notation (Medium)
-- [x] 22. Generate Parentheses (Medium)
+- [ ] 22. Generate Parentheses (Medium)
 - [x] 739. Daily Temperatures (Medium)
 - [x] 853. Car Fleet (Medium)
 - [ ] 84. Largest Rectangle in Histogram (Hard)

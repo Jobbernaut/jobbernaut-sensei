@@ -23,9 +23,9 @@ RESET  = "\033[0m"
 SKIP_DIRS = {".git", "__pycache__", "venv", ".venv", "docs"}
 
 RATING_MAP = {
-    "e": (90,  "easy    → 90 days"),
-    "g": (30,  "good    → 30 days"),
-    "h": (7,   "hard    → 7 days"),
+    "e": (90,  "easy      → 90 days  (or prev×1.5 after 3+ reviews)"),
+    "g": (30,  "good      → 30 days"),
+    "h": (7,   "hard      → 7 days   (14 days after 2+ reviews)"),
     "s": (3,   "struggled → 3 days"),
 }
 
