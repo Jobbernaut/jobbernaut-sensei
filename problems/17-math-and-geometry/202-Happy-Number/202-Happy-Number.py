@@ -2,29 +2,29 @@
 https://leetcode.com/problems/happy-number/
 '''
 
-last_solved     = "2026-05-29"
-revisit_in_days = 3
+last_solved     = "2026-06-01"
+revisit_in_days = 7
 difficulty      = "easy"
 topic_tags      = ["math"]
-times_reviewed  = 0
+times_reviewed  = 1
 
 class Solution:
     def isHappy(self, n: int) -> bool:
-        def sum_of_squares(n):
-            sumi = 0
+        def make_happy(n):
+            happy = 0
             while n:
-                sumi += (n % 10) ** 2
-                n = n // 10
-            return sumi
+                happy += (n % 10)**2
+                n //= 10
+            return happy
         
-        lookup_set = set()
+        slow = fast = n
 
-        while n not in lookup_set:
-            lookup_set.add(n)
+        while True:
+            slow = make_happy(slow)
+            fast = make_happy(make_happy(fast))
 
-            if n == 1:
+            if slow == 1 or fast == 1:
                 return True
-            
-            n = sum_of_squares(n)
-        
-        return False
+
+            if slow == fast:
+                return False
