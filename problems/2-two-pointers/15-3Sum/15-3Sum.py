@@ -2,11 +2,11 @@
 https://leetcode.com/problems/3sum/
 '''
 
-last_solved     = "2026-05-28"
-revisit_in_days = 3
+last_solved     = "2026-06-01"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["two-pointers", "array"]
-times_reviewed  = 0
+times_reviewed  = 1
 
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
