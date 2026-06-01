@@ -101,6 +101,8 @@ def cmd_status():
     overdue = [p for p in problems if p["due_date"] < today]
     due_today = [p for p in problems if p["due_date"] == today]
     upcoming = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
+    
+    active_queue = overdue + due_today + upcoming
 
     result = {
         "total": len(problems),
@@ -117,7 +119,7 @@ def cmd_status():
                 "topics": p["topic_tags"],
                 "topic_folder": p["topic_folder"],
             }
-            for p in problems
+            for p in active_queue
         ],
     }
     print(json.dumps(result, indent=2))
