@@ -2,11 +2,11 @@
 https://leetcode.com/problems/subsets/
 '''
 
-last_solved     = "2026-05-27"
-revisit_in_days = 3
+last_solved     = "2026-06-01"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["backtracking"]
-times_reviewed  = 0
+times_reviewed  = 1
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
