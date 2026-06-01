@@ -2,11 +2,11 @@
 https://leetcode.com/problems/diameter-of-binary-tree/
 '''
 
-last_solved     = "2026-05-29"
-revisit_in_days = 3
+last_solved     = "2026-06-01"
+revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 0
+times_reviewed  = 1
 
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
