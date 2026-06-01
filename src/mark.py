@@ -103,15 +103,27 @@ def read_prev_interval(source: str) -> int:
 def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> int:
     """
     Graduated SRS interval based on rating and history.
-    
+
+    Bootstrap phase (new problems need rapid iteration before entering full SRS):
+    - times_reviewed == 0 (first attempt / new problem): 3 days
+    - times_reviewed == 1 (first review): 7 days
+    - times_reviewed >= 2: full SRS based on rating
+
+    Full SRS intervals:
     - Easy + reviewed 3+ times: previous × 1.5 (cap 180d)
     - Easy: 90 days
     - Good: 30 days
     - Hard + reviewed 2+ times: 14 days
     - Hard: 7 days
-    - Struggled + leech (3+): 3 days (agent should flag)
     - Struggled: 3 days
     """
+    # Bootstrap phase — rating is ignored, memory needs rapid reinforcement
+    if times_reviewed == 0:
+        return 3
+    if times_reviewed == 1:
+        return 7
+
+    # Full SRS — times_reviewed >= 2
     if rating == "e":
         if times_reviewed >= 3 and prev_interval > 0:
             return min(int(prev_interval * 1.5), 180)

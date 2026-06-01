@@ -129,7 +129,7 @@ def extract_solution(filepath):
         return ""
 
     # Find the last line that is a metadata assignment
-    meta_keys = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
+    meta_keys = {"last_solved", "revisit_in_days", "difficulty", "topic_tags", "times_reviewed"}
     last_meta_idx = -1
     for i, line in enumerate(lines):
         stripped = line.strip()
