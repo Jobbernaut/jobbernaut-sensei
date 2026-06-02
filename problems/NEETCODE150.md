@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **48 / 150**
+Total Completed: **50 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -23,8 +23,8 @@ Total Completed: **48 / 150**
 ## 3. Sliding Window
 - [x] 121. Best Time to Buy and Sell Stock (Easy)
 - [x] 3. Longest Substring Without Repeating Characters (Medium)
-- [ ] 424. Longest Repeating Character Replacement (Medium)
-- [ ] 567. Permutation in String (Medium)
+- [x] 424. Longest Repeating Character Replacement (Medium)
+- [x] 567. Permutation in String (Medium)
 - [ ] 76. Minimum Window Substring (Hard)
 - [ ] 239. Sliding Window Maximum (Hard)
 
