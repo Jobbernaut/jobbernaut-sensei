@@ -2,10 +2,11 @@
 https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 '''
 
-last_solved     = "2026-05-26"
-revisit_in_days = 7
+last_solved     = "2026-06-02"
+revisit_in_days = 3
 difficulty      = "medium"
 topic_tags      = ["trees"]
+times_reviewed  = 1
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
