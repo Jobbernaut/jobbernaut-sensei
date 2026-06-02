@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **45 / 150**
+Total Completed: **48 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -66,9 +66,9 @@ Total Completed: **45 / 150**
 - [x] 110. Balanced Binary Tree (Easy)
 - [x] 100. Same Tree (Easy)
 - [x] 572. Subtree of Another Tree (Easy)
-- [ ] 235. Lowest Common Ancestor of a Binary Search Tree (Medium)
-- [ ] 102. Binary Tree Level Order Traversal (Medium)
-- [ ] 199. Binary Tree Right Side View (Medium)
+- [x] 235. Lowest Common Ancestor of a Binary Search Tree (Medium)
+- [x] 102. Binary Tree Level Order Traversal (Medium)
+- [x] 199. Binary Tree Right Side View (Medium)
 - [ ] 1448. Count Good Nodes in Binary Tree (Medium)
 - [ ] 98. Validate Binary Search Tree (Medium)
 - [x] 230. Kth Smallest Element in a BST (Medium)
