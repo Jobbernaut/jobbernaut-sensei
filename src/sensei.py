@@ -11,7 +11,7 @@ from utils import find_solution_files, find_match, parse_metadata
 
 def cmd_init():
     """Scaffold an empty problems/ directory."""
-    repo_root = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+    repo_root = os.getcwd()
     problems_dir = os.path.join(repo_root, "problems")
 
     if os.path.isdir(problems_dir):
