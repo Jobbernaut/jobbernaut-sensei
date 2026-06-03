@@ -14,7 +14,7 @@ def cmd_init():
     problems_dir = os.path.join(os.getcwd(), "problems")
 
     if os.path.isdir(problems_dir):
-        print(f"\n  ✓  Problems directory already exists: {problems_dir}\n")
+        print(f"\n  [OK]  Problems directory already exists: {problems_dir}\n")
         return
 
     os.makedirs(problems_dir)
@@ -22,9 +22,9 @@ def cmd_init():
     with open(placeholder, "w") as f:
         f.write("")
 
-    print(f"\n  ✓  Initialized empty problems/ directory at:")
-    print(f"     {problems_dir}\n")
-    print(f"     Run 'sensei new' to scaffold your first problem!\n")
+    print(f"\n  [OK]  Initialized empty problems/ directory at:")
+    print(f"        {problems_dir}\n")
+    print(f"        Run 'sensei new' to scaffold your first problem!\n")
 
 
 def cmd_show():

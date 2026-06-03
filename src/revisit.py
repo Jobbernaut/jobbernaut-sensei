@@ -206,10 +206,10 @@ def main():
             return
         if do_export:
             out = export_csv(problems, os.getcwd(), today)
-            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
+            print(f"\n{GREEN}[OK]{RESET}  Exported {BOLD}{len(problems)} problems{RESET} -> {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
         if do_export_md:
             out = export_md(problems, os.getcwd(), today)
-            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
+            print(f"\n{GREEN}[OK]{RESET}  Exported {BOLD}{len(problems)} problems{RESET} -> {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
         return
 
     if topic_filter:
@@ -246,7 +246,14 @@ def main():
     upcoming  = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
     future    = [p for p in problems if p["due_date"] > today + timedelta(days=7)]
 
-    print(f"\n{BOLD}{CYAN}📅  Jobbernaut Sensei Revisit — {today.strftime('%A, %B %-d %Y')}{RESET}")
+    # Cross-platform date formatting (Windows doesn't support %-d)
+    import platform
+    if platform.system() == 'Windows':
+        date_str = today.strftime('%A, %B %#d %Y')
+    else:
+        date_str = today.strftime('%A, %B %-d %Y')
+    
+    print(f"\n{BOLD}{CYAN}Jobbernaut Sensei Revisit - {date_str}{RESET}")
     if topic_filter:
         print(f"{GREY}    Filtered by topic: {topic_filter}{RESET}")
 

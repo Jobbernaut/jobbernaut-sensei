@@ -109,8 +109,8 @@ def main() -> None:
 
     title = slug_to_title(args.slug)
     rel   = os.path.relpath(file_path, os.getcwd())
-    print(f"\n  {GREEN}✓{RESET}  Created  {BOLD}{CYAN}{args.number}. {title}{RESET}")
-    print(f"  {GREY}{rel}{RESET}\n")
+    print(f"\n  {GREEN}[OK]{RESET}  Created  {BOLD}{CYAN}{args.number}. {title}{RESET}")
+    print(f"       {GREY}{rel}{RESET}\n")
 
     if args.open:
         open_in_editor(file_path)

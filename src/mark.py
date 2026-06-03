@@ -204,7 +204,7 @@ def main() -> None:
     updated, days = update_metadata(source, today_str, rating_key)
     write_file(match, updated)
 
-    print(f"\n  {GREEN}✓{RESET}  Marked as solved today ({today_str})  ·  next review in {BOLD}{days} days{RESET}\n")
+    print(f"\n  {GREEN}[OK]{RESET}  Marked as solved today ({today_str}) - next review in {BOLD}{days} days{RESET}\n")
 
 
 if __name__ == "__main__":
