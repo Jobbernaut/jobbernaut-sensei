@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **52 / 150**
+Total Completed: **53 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -127,7 +127,7 @@ Total Completed: **52 / 150**
 - [x] 70. Climbing Stairs (Easy)
 - [x] 746. Min Cost Climbing Stairs (Easy)
 - [x] 198. House Robber (Medium)
-- [ ] 213. House Robber II (Medium)
+- [x] 213. House Robber II (Medium)
 - [ ] 5. Longest Palindromic Substring (Medium)
 - [ ] 647. Palindromic Substrings (Medium)
 - [ ] 91. Decode Ways (Medium)
