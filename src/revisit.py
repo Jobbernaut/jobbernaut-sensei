@@ -188,6 +188,14 @@ def main():
             topic_filter = args[idx + 1].lower()
 
     problems_root = os.path.join(os.getcwd(), "problems")
+    
+    if not os.path.isdir(problems_root):
+        if do_json:
+            print(json.dumps({"error": "problems/ directory not found. Run 'sensei init' first."}))
+        else:
+            print(f"\n{GREY}  problems/ directory not found. Run 'sensei init' first.{RESET}\n")
+        sys.exit(1)
+    
     today         = date.today()
     problems      = collect_problems(problems_root)
 

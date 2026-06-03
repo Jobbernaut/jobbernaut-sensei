@@ -36,6 +36,10 @@ def cmd_show():
     query = " ".join(sys.argv[2:])
     prob_root = os.path.join(os.getcwd(), "problems")
 
+    if not os.path.isdir(prob_root):
+        print(json.dumps({"error": "problems/ directory not found. Run 'sensei init' first."}))
+        sys.exit(1)
+
     # Use same matching logic from mark/lopen
     files = find_solution_files(prob_root)
     match = find_match(query, files)
@@ -61,15 +65,17 @@ def cmd_show():
         title = " ".join(parts[1:]).title()
         label = f"{int(number)}. {title}"
     else:
-        label = stem.replace("-", " ").title()
+        number = None
+        title = stem.replace("-", " ").title()
+        label = title
 
     # Relative path for context
     rel_path = os.path.relpath(match, os.getcwd())
 
     result = {
         "label": label,
-        "number": parts[0] if parts[0].isdigit() else None,
-        "title": title if parts[0].isdigit() else label,
+        "number": number,
+        "title": title,
         "filepath": rel_path,
         "metadata": {
             "last_solved": meta["last_solved"].isoformat(),
@@ -87,6 +93,10 @@ def cmd_status():
     """Quick summary as JSON for AI agents."""
     problems_root = os.path.join(os.getcwd(), "problems")
     from datetime import date, timedelta
+
+    if not os.path.isdir(problems_root):
+        print(json.dumps({"error": "problems/ directory not found. Run 'sensei init' first."}))
+        sys.exit(1)
 
     today = date.today()
     problems = revisit.collect_problems(problems_root)

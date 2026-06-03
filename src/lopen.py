@@ -23,6 +23,8 @@ RESET  = "\033[0m"
 def open_in_browser(url: str) -> None:
     if sys.platform == "darwin":
         subprocess.Popen(["open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    elif sys.platform == "win32":
+        subprocess.Popen(["cmd", "/c", "start", "", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
     else:
         subprocess.Popen(["xdg-open", url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -36,6 +38,11 @@ def main() -> None:
 
     query     = " ".join(argv)
     prob_root = os.path.join(os.getcwd(), "problems")
+    
+    if not os.path.isdir(prob_root):
+        print(f"\n  {GREY}problems/ directory not found. Run 'sensei init' first.{RESET}\n")
+        sys.exit(1)
+    
     files     = find_solution_files(prob_root)
     match     = find_match(query, files)
 

@@ -72,6 +72,9 @@ def find_solution_files(root: str, exclude_files: set | None = None) -> list:
     if exclude_files is None:
         exclude_files = set()
 
+    if not os.path.isdir(root):
+        return []
+
     files = []
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]

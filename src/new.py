@@ -53,11 +53,12 @@ class Solution:
 
 
 def open_in_editor(path: str) -> None:
+    import subprocess
     editor = os.environ.get("EDITOR", "")
     if editor:
-        os.system(f'{editor} "{path}"')
+        subprocess.run([editor, path])
     else:
-        os.system(f'code "{path}"')
+        subprocess.run(["code", path])
 
 
 def main() -> None:

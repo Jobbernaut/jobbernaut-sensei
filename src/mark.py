@@ -167,6 +167,11 @@ def main() -> None:
 
     query = " ".join(args)
     root  = os.path.join(os.getcwd(), "problems")
+    
+    if not os.path.isdir(root):
+        print(f"\n  {YELLOW}problems/ directory not found. Run 'sensei init' first.{RESET}\n")
+        sys.exit(1)
+    
     files = find_solution_files(root, exclude_files={"revisit.py", "mark.py"})
     match = find_match(query, files)
 
