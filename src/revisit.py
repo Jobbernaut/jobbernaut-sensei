@@ -187,8 +187,7 @@ def main():
         if idx + 1 < len(args):
             topic_filter = args[idx + 1].lower()
 
-    repo_root     = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    problems_root = os.path.join(repo_root, "problems")
+    problems_root = os.path.join(os.getcwd(), "problems")
     today         = date.today()
     problems      = collect_problems(problems_root)
 
@@ -198,11 +197,11 @@ def main():
             print(f"\n{GREY}  No problems to export.{RESET}\n")
             return
         if do_export:
-            out = export_csv(problems, repo_root, today)
-            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
+            out = export_csv(problems, os.getcwd(), today)
+            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
         if do_export_md:
-            out = export_md(problems, repo_root, today)
-            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, repo_root)}{RESET}\n")
+            out = export_md(problems, os.getcwd(), today)
+            print(f"\n{GREEN}✓{RESET}  Exported {BOLD}{len(problems)} problems{RESET} → {CYAN}{os.path.relpath(out, os.getcwd())}{RESET}\n")
         return
 
     if topic_filter:
@@ -226,7 +225,7 @@ def main():
                     "days_until_due": (p["due_date"] - today).days,
                     "topics": p["topic_tags"],
                     "topic_folder": p["topic_folder"],
-                    "filepath": os.path.relpath(p["filepath"], repo_root),
+                    "filepath": os.path.relpath(p["filepath"], os.getcwd()),
                 }
                 for p in problems
             ],

@@ -11,8 +11,7 @@ from utils import find_solution_files, find_match, parse_metadata
 
 def cmd_init():
     """Scaffold an empty problems/ directory."""
-    repo_root = os.getcwd()
-    problems_dir = os.path.join(repo_root, "problems")
+    problems_dir = os.path.join(os.getcwd(), "problems")
 
     if os.path.isdir(problems_dir):
         print(f"\n  ✓  Problems directory already exists: {problems_dir}\n")
@@ -35,8 +34,7 @@ def cmd_show():
         sys.exit(1)
 
     query = " ".join(sys.argv[2:])
-    repo_root = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    prob_root = os.path.join(repo_root, "problems")
+    prob_root = os.path.join(os.getcwd(), "problems")
 
     # Use same matching logic from mark/lopen
     files = find_solution_files(prob_root)
@@ -66,7 +64,7 @@ def cmd_show():
         label = stem.replace("-", " ").title()
 
     # Relative path for context
-    rel_path = os.path.relpath(match, repo_root)
+    rel_path = os.path.relpath(match, os.getcwd())
 
     result = {
         "label": label,
@@ -87,8 +85,7 @@ def cmd_show():
 
 def cmd_status():
     """Quick summary as JSON for AI agents."""
-    repo_root = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    problems_root = os.path.join(repo_root, "problems")
+    problems_root = os.path.join(os.getcwd(), "problems")
     from datetime import date, timedelta
 
     today = date.today()

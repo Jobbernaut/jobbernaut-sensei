@@ -35,8 +35,7 @@ def main() -> None:
         sys.exit(1)
 
     query     = " ".join(argv)
-    repo_root = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    prob_root = os.path.join(repo_root, "problems")
+    prob_root = os.path.join(os.getcwd(), "problems")
     files     = find_solution_files(prob_root)
     match     = find_match(query, files)
 

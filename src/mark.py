@@ -166,7 +166,7 @@ def main() -> None:
         args = [a for a in args if a != "--rating" and a not in (rating_override or [])]
 
     query = " ".join(args)
-    root  = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "problems"))
+    root  = os.path.join(os.getcwd(), "problems")
     files = find_solution_files(root, exclude_files={"revisit.py", "mark.py"})
     match = find_match(query, files)
 

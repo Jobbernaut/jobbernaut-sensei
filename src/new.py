@@ -89,14 +89,13 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    repo_root   = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
     folder_name = slug_to_folder(args.number, args.slug)
-    problem_dir = os.path.join(repo_root, "problems", args.category, folder_name)
+    problem_dir = os.path.join(os.getcwd(), "problems", args.category, folder_name)
     file_name   = f"{folder_name}.py"
     file_path   = os.path.join(problem_dir, file_name)
 
     if os.path.exists(file_path):
-        print(f"\n  {YELLOW}Already exists:{RESET} {os.path.relpath(file_path, repo_root)}\n")
+        print(f"\n  {YELLOW}Already exists:{RESET} {os.path.relpath(file_path, os.getcwd())}\n")
         sys.exit(1)
 
     os.makedirs(problem_dir, exist_ok=True)
@@ -108,7 +107,7 @@ def main() -> None:
         f.write(content)
 
     title = slug_to_title(args.slug)
-    rel   = os.path.relpath(file_path, repo_root)
+    rel   = os.path.relpath(file_path, os.getcwd())
     print(f"\n  {GREEN}✓{RESET}  Created  {BOLD}{CYAN}{args.number}. {title}{RESET}")
     print(f"  {GREY}{rel}{RESET}\n")
 
