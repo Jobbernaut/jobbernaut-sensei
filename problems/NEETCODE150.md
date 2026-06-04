@@ -128,7 +128,7 @@ Total Completed: **53 / 150**
 - [x] 746. Min Cost Climbing Stairs (Easy)
 - [x] 198. House Robber (Medium)
 - [x] 213. House Robber II (Medium)
-- [ ] 5. Longest Palindromic Substring (Medium)
+- [x] 5. Longest Palindromic Substring (Medium)
 - [ ] 647. Palindromic Substrings (Medium)
 - [ ] 91. Decode Ways (Medium)
 - [ ] 322. Coin Change (Medium)
