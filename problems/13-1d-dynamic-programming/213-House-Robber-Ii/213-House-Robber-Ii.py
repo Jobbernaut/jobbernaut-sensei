@@ -25,4 +25,3 @@ class Solution:
             return max(prev1, prev2)
 
         return max(house_robber(nums[0:len(nums) - 1]), house_robber(nums[1:len(nums)]))
-
