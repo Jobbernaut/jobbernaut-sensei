@@ -23,9 +23,9 @@ BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
 RATING_MAP = {
-    "e": (90,  "easy      → 90 days  (or prev×1.5 after 3+ reviews)"),
+    "e": (90,  "easy      → 90 days"),
     "g": (30,  "good      → 30 days"),
-    "h": (7,   "hard      → 7 days   (14 days after 2+ reviews)"),
+    "h": (7,   "hard      → 7 days"),
     "s": (3,   "struggled → 3 days"),
 }
 
@@ -54,7 +54,9 @@ def read_prev_interval(source: str) -> int:
 
 def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> int:
     """
-    Graduated SRS interval based on rating and history.
+    SRS interval based on rating and history.
+
+    Valid intervals are strictly: {1, 3, 7, 30, 90} — Ebbinghaus forgetting curve.
 
     Bootstrap phase (new problems need rapid iteration before entering full SRS):
     - times_reviewed == 0 (first attempt / new problem): 3 days
@@ -62,12 +64,10 @@ def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> in
     - times_reviewed >= 2: full SRS based on rating
 
     Full SRS intervals:
-    - Easy + reviewed 3+ times: previous × 1.5 (cap 180d)
-    - Easy: 90 days
-    - Good: 30 days
-    - Hard + reviewed 2+ times: 14 days
-    - Hard: 7 days
-    - Struggled: 3 days
+    - Easy:      90 days
+    - Good:      30 days
+    - Hard:       7 days
+    - Struggled:  3 days
     """
     # Bootstrap phase — rating is ignored, memory needs rapid reinforcement
     if times_reviewed == 0:
@@ -76,15 +76,12 @@ def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> in
         return 7
 
     # Full SRS — times_reviewed >= 2
+    # Only valid schedule points: 1, 3, 7, 30, 90
     if rating == "e":
-        if times_reviewed >= 3 and prev_interval > 0:
-            return min(int(prev_interval * 1.5), 180)
         return 90
     elif rating == "g":
         return 30
     elif rating == "h":
-        if times_reviewed >= 2:
-            return 14
         return 7
     else:  # rating == "s" (struggled)
         return 3

@@ -236,11 +236,10 @@ class TestComputeInterval:
         """Test full SRS: easy rating."""
         assert compute_interval("e", times_reviewed=2, prev_interval=7) == 90
     
-    def test_full_srs_easy_exponential(self):
-        """Test full SRS: easy with exponential growth."""
-        assert compute_interval("e", times_reviewed=3, prev_interval=90) == 135
-        assert compute_interval("e", times_reviewed=4, prev_interval=135) == 180  # capped
-        assert compute_interval("e", times_reviewed=5, prev_interval=180) == 180  # capped
+    def test_full_srs_easy_repeated(self):
+        """Test full SRS: easy always returns 90 days (no exponential growth)."""
+        assert compute_interval("e", times_reviewed=3, prev_interval=90) == 90
+        assert compute_interval("e", times_reviewed=5, prev_interval=90) == 90
     
     def test_full_srs_good(self):
         """Test full SRS: good rating."""
@@ -248,9 +247,9 @@ class TestComputeInterval:
         assert compute_interval("g", times_reviewed=5, prev_interval=30) == 30
     
     def test_full_srs_hard(self):
-        """Test full SRS: hard rating."""
-        assert compute_interval("h", times_reviewed=2, prev_interval=7) == 14
-        assert compute_interval("h", times_reviewed=3, prev_interval=14) == 14
+        """Test full SRS: hard rating → always 7 days."""
+        assert compute_interval("h", times_reviewed=2, prev_interval=7) == 7
+        assert compute_interval("h", times_reviewed=3, prev_interval=7) == 7
     
     def test_full_srs_struggled(self):
         """Test full SRS: struggled rating."""

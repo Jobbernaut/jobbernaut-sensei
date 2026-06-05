@@ -3,8 +3,12 @@ name: Test Suite
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "problems/**"
   pull_request:
     branches: [main]
+    paths-ignore:
+      - "problems/**"
   workflow_dispatch:
 
 jobs:
