@@ -220,3 +220,6 @@ __marimo__/
 # Generated exports
 export.csv
 export.md
+
+# Roo Code Modes
+.roomodes
