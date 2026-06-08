@@ -2,7 +2,7 @@
 https://leetcode.com/problems/house-robber-ii/
 '''
 
-last_solved     = "2026-06-03"
+last_solved     = "2026-06-08"
 revisit_in_days = 3
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming"]
