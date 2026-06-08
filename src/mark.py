@@ -23,10 +23,11 @@ BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
 RATING_MAP = {
-    "e": (90,  "easy      → 90 days"),
-    "g": (30,  "good      → 30 days"),
-    "h": (7,   "hard      → 7 days"),
-    "s": (3,   "struggled → 3 days"),
+    "t": (90, "trivial   → 90 days"),
+    "e": (30, "easy      → 30 days"),
+    "g": (7,  "good      → 7 days"),
+    "h": (3,  "hard      → 3 days"),
+    "s": (1,  "struggled → 1 day"),
 }
 
 
@@ -40,61 +41,24 @@ def write_file(path: str, content: str) -> None:
         f.write(content)
 
 
-def read_times_reviewed(source: str) -> int:
-    """Extract the current times_reviewed value from source, default 0."""
-    m = re.search(r"times_reviewed\s*=\s*(\d+)", source)
-    return int(m.group(1)) if m else 0
-
-
-def read_prev_interval(source: str) -> int:
-    """Extract the current revisit_in_days value from source, default 0."""
-    m = re.search(r"revisit_in_days\s*=\s*(\d+)", source)
-    return int(m.group(1)) if m else 0
-
-
-def compute_interval(rating: str, times_reviewed: int, prev_interval: int) -> int:
+def compute_interval(rating: str) -> int:
     """
-    SRS interval based on rating and history.
+    Hardcoded SRS intervals by rating.
 
-    Valid intervals are strictly: {1, 3, 7, 30, 90} — Ebbinghaus forgetting curve.
-
-    Bootstrap phase (new problems need rapid iteration before entering full SRS):
-    - times_reviewed == 0 (first attempt / new problem): 3 days
-    - times_reviewed == 1 (first review): 7 days
-    - times_reviewed >= 2: full SRS based on rating
-
-    Full SRS intervals:
-    - Easy:      90 days
-    - Good:      30 days
-    - Hard:       7 days
-    - Struggled:  3 days
+    - Trivial:   90 days
+    - Easy:      30 days
+    - Good:       7 days
+    - Hard:       3 days
+    - Struggled:  1 day
     """
-    # Bootstrap phase — rating is ignored, memory needs rapid reinforcement
-    if times_reviewed == 0:
-        return 3
-    if times_reviewed == 1:
-        return 7
-
-    # Full SRS — times_reviewed >= 2
-    # Only valid schedule points: 1, 3, 7, 30, 90
-    if rating == "e":
-        return 90
-    elif rating == "g":
-        return 30
-    elif rating == "h":
-        return 7
-    else:  # rating == "s" (struggled)
-        return 3
+    return RATING_MAP[rating][0]
 
 
-def update_metadata(source: str, today_str: str, rating: str) -> str:
+def update_metadata(source: str, today_str: str, rating: str) -> tuple:
     """
-    Replace last_solved and recompute revisit_in_days using graduated intervals.
-    Increment times_reviewed.
+    Replace last_solved and recompute revisit_in_days using hardcoded intervals.
     """
-    times_reviewed = read_times_reviewed(source)
-    prev_interval  = read_prev_interval(source)
-    new_days       = compute_interval(rating, times_reviewed, prev_interval)
+    new_days = compute_interval(rating)
 
     # last_solved
     source = re.sub(
@@ -108,25 +72,12 @@ def update_metadata(source: str, today_str: str, rating: str) -> str:
         f"revisit_in_days = {new_days}",
         source,
     )
-    # times_reviewed — increment if present, add if not
-    if re.search(r"times_reviewed\s*=\s*\d+", source):
-        def increment(m):
-            n = int(m.group(1)) + 1
-            return f"times_reviewed  = {n}"
-        source = re.sub(r"times_reviewed\s*=\s*(\d+)", increment, source)
-    else:
-        # Add times_reviewed = 1 after the last metadata line
-        source = re.sub(
-            r"(topic_tags\s*=.*?\n)",
-            rf"\1times_reviewed  = 1\n",
-            source,
-        )
 
     return source, new_days
 
 
 def prompt_rating() -> tuple:
-    """Ask the user how the session went and return (days, label)."""
+    """Ask the user how the session went and return (rating_key, label)."""
     print(f"\n  How did it go?\n")
     for key, (days, label) in RATING_MAP.items():
         print(f"    [{BOLD}{key}{RESET}]  {label}")
@@ -140,8 +91,9 @@ def prompt_rating() -> tuple:
             sys.exit(0)
 
         if raw in RATING_MAP:
-            return RATING_MAP[raw]
-        print(f"  {GREY}Please enter e, g, h, or s.{RESET}")
+            _, label = RATING_MAP[raw]
+            return raw, label
+        print(f"  {GREY}Please enter t, e, g, h, or s.{RESET}")
 
 
 def main() -> None:
@@ -152,7 +104,7 @@ def main() -> None:
         print(f"    sensei mark 217")
         print(f"    sensei mark contains-duplicate")
         print(f"    sensei mark \"valid anagram\"")
-        print(f"    sensei mark 217 --rating e    (non-interactive)\n")
+        print(f"    sensei mark 217 --rating g    (non-interactive)\n")
         sys.exit(1)
 
     rating_override = None
@@ -164,11 +116,11 @@ def main() -> None:
 
     query = " ".join(args)
     root  = os.path.join(os.getcwd(), "problems")
-    
+
     if not os.path.isdir(root):
         print(f"\n  {YELLOW}problems/ directory not found. Run 'sensei init' first.{RESET}\n")
         sys.exit(1)
-    
+
     files = find_solution_files(root, exclude_files={"revisit.py", "mark.py"})
     match = find_match(query, files)
 
@@ -189,7 +141,7 @@ def main() -> None:
 
     if rating_override:
         if rating_override not in RATING_MAP:
-            print(f"\n  {YELLOW}Invalid rating: {rating_override}. Use e, g, h, or s.{RESET}\n")
+            print(f"\n  {YELLOW}Invalid rating: {rating_override}. Use t, e, g, h, or s.{RESET}\n")
             sys.exit(1)
         rating_key = rating_override
         _, rating_label = RATING_MAP[rating_override]

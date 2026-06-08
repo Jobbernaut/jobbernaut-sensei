@@ -2,11 +2,11 @@
 https://leetcode.com/problems/car-fleet/description/
 '''
 
-last_solved     = "2026-05-30"
+last_solved     = "2026-06-08"
 revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["stack", "monotonic-stack"]
-times_reviewed  = 1
+times_reviewed  = 2
 
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:

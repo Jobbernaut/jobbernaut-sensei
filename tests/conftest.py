@@ -47,7 +47,6 @@ last_solved     = "2026-06-01"
 revisit_in_days = 3
 difficulty      = "easy"
 topic_tags      = ["arrays", "hash-set"]
-times_reviewed  = 0
 
 class Solution:
     def containsDuplicate(self, nums):
@@ -76,7 +75,6 @@ last_solved     = "2026-05-01"
 revisit_in_days = 7
 difficulty      = "easy"
 topic_tags      = ["arrays", "hash-map"]
-times_reviewed  = 1
 
 class Solution:
     def twoSum(self, nums, target):
@@ -97,7 +95,6 @@ last_solved     = "{today}"
 revisit_in_days = 0
 difficulty      = "easy"
 topic_tags      = ["two-pointers", "string"]
-times_reviewed  = 0
 
 class Solution:
     def isPalindrome(self, s):
@@ -117,7 +114,6 @@ last_solved     = "2026-06-01"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["sliding-window", "hash-map"]
-times_reviewed  = 2
 
 class Solution:
     def lengthOfLongestSubstring(self, s):
@@ -145,7 +141,6 @@ last_solved     = "2026-06-01"
 revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["custom"]
-times_reviewed  = 0
 
 class Solution:
     def solve(self):

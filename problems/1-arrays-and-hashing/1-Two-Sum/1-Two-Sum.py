@@ -2,11 +2,11 @@
 https://leetcode.com/problems/two-sum/description/
 '''
 
-last_solved     = "2026-06-03"
-revisit_in_days = 3
+last_solved     = "2026-06-08"
+revisit_in_days = 7
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
-times_reviewed  = 1
+times_reviewed  = 2
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
@@ -15,3 +15,9 @@ class Solution:
             if target - num in hashmap:
                 return [idx, hashmap[target - num]]
             hashmap[num] = idx
+
+'''
+target = 12
+0,1 | 3,3 | 5,1 | 8,4 | 10,2
+[12, 3, 7]
+'''

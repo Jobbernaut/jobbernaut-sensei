@@ -3,10 +3,9 @@ https://leetcode.com/problems/PROBLEM-SLUG/
 '''
 
 last_solved     = "YYYY-MM-DD"           # ISO 8601 — today's date
-revisit_in_days = 3                      # int — days until next review (try: 1, 3, 7, 14, 30)
+revisit_in_days = 3                      # int — days until next review
 difficulty      = "medium"               # easy / medium / hard
 topic_tags      = ["topic1", "topic2"]   # e.g. ["arrays", "hash-map"]
-times_reviewed  = 0                      # auto-managed by `sensei mark` — do not edit manually
 
 class Solution:
     def methodName(self) -> None:

@@ -85,7 +85,7 @@ def extract_solution(filepath):
         return ""
 
     # Find the last line that is a metadata assignment
-    meta_keys = {"last_solved", "revisit_in_days", "difficulty", "topic_tags", "times_reviewed"}
+    meta_keys = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
     last_meta_idx = -1
     for i, line in enumerate(lines):
         stripped = line.strip()
@@ -218,33 +218,41 @@ def main():
             if any(topic_filter in t.lower() for t in p["topic_tags"])
         ]
 
-    # ── JSON mode (AI-agent friendly) ───────────────────────────────────────
-    if do_json:
-        today_str = today.isoformat()
-        output = {
-            "generated": today_str,
-            "total_tracked": len(problems),
-            "problems": [
-                {
-                    "label": p["label"].strip(),
-                    "difficulty": p["difficulty"],
-                    "last_solved": p["last_solved"].isoformat(),
-                    "due_date": p["due_date"].isoformat(),
-                    "days_until_due": (p["due_date"] - today).days,
-                    "topics": p["topic_tags"],
-                    "topic_folder": p["topic_folder"],
-                    "filepath": os.path.relpath(p["filepath"], os.getcwd()),
-                }
-                for p in problems
-            ],
-        }
-        print(json.dumps(output, indent=2))
-        return
-
     overdue   = [p for p in problems if p["due_date"] <  today]
     due_today = [p for p in problems if p["due_date"] == today]
     upcoming  = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
     future    = [p for p in problems if p["due_date"] > today + timedelta(days=7)]
+
+    # ── JSON mode (AI-agent friendly) ───────────────────────────────────────
+    if do_json:
+        def serialise(p):
+            return {
+                "label":         p["label"].strip(),
+                "difficulty":    p["difficulty"],
+                "last_solved":   p["last_solved"].isoformat(),
+                "due_date":      p["due_date"].isoformat(),
+                "days_until_due": (p["due_date"] - today).days,
+                "topics":        p["topic_tags"],
+                "topic_folder":  p["topic_folder"],
+                "filepath":      os.path.relpath(p["filepath"], os.getcwd()),
+            }
+
+        output = {
+            "generated":     today.isoformat(),
+            "total_tracked": len(problems),
+            "overdue":       len(overdue),
+            "due_today":     len(due_today),
+            "upcoming":      len(upcoming),
+            "future":        len(future),
+            "problems": (
+                [serialise(p) for p in overdue]
+                + [serialise(p) for p in due_today]
+                + [serialise(p) for p in upcoming]
+                + [serialise(p) for p in future]
+            ),
+        }
+        print(json.dumps(output, indent=2))
+        return
 
     # Cross-platform date formatting (Windows doesn't support %-d)
     import platform

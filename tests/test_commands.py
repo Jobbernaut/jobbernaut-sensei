@@ -216,80 +216,32 @@ class TestSenseiMark:
 
 
 class TestComputeInterval:
-    """Test SRS interval computation logic."""
-    
-    def test_bootstrap_phase_first_attempt(self):
-        """Test bootstrap: first attempt -> 3 days."""
-        assert compute_interval("e", times_reviewed=0, prev_interval=0) == 3
-        assert compute_interval("g", times_reviewed=0, prev_interval=0) == 3
-        assert compute_interval("h", times_reviewed=0, prev_interval=0) == 3
-        assert compute_interval("s", times_reviewed=0, prev_interval=0) == 3
-    
-    def test_bootstrap_phase_first_review(self):
-        """Test bootstrap: first review -> 7 days."""
-        assert compute_interval("e", times_reviewed=1, prev_interval=3) == 7
-        assert compute_interval("g", times_reviewed=1, prev_interval=3) == 7
-        assert compute_interval("h", times_reviewed=1, prev_interval=3) == 7
-        assert compute_interval("s", times_reviewed=1, prev_interval=3) == 7
-    
-    def test_full_srs_easy(self):
-        """Test full SRS: easy rating."""
-        assert compute_interval("e", times_reviewed=2, prev_interval=7) == 90
-    
-    def test_full_srs_easy_repeated(self):
-        """Test full SRS: easy always returns 90 days (no exponential growth)."""
-        assert compute_interval("e", times_reviewed=3, prev_interval=90) == 90
-        assert compute_interval("e", times_reviewed=5, prev_interval=90) == 90
-    
-    def test_full_srs_good(self):
-        """Test full SRS: good rating."""
-        assert compute_interval("g", times_reviewed=2, prev_interval=7) == 30
-        assert compute_interval("g", times_reviewed=5, prev_interval=30) == 30
-    
-    def test_full_srs_hard(self):
-        """Test full SRS: hard rating → always 7 days."""
-        assert compute_interval("h", times_reviewed=2, prev_interval=7) == 7
-        assert compute_interval("h", times_reviewed=3, prev_interval=7) == 7
-    
-    def test_full_srs_struggled(self):
-        """Test full SRS: struggled rating."""
-        assert compute_interval("s", times_reviewed=2, prev_interval=7) == 3
-        assert compute_interval("s", times_reviewed=10, prev_interval=3) == 3
+    """Test hardcoded SRS interval computation."""
+
+    def test_trivial(self):
+        """Trivial → 90 days."""
+        assert compute_interval("t") == 90
+
+    def test_easy(self):
+        """Easy → 30 days."""
+        assert compute_interval("e") == 30
+
+    def test_good(self):
+        """Good → 7 days."""
+        assert compute_interval("g") == 7
+
+    def test_hard(self):
+        """Hard → 3 days."""
+        assert compute_interval("h") == 3
+
+    def test_struggled(self):
+        """Struggled → 1 day."""
+        assert compute_interval("s") == 1
 
 
 class TestUpdateMetadata:
     """Test metadata update logic."""
-    
-    def test_update_increments_times_reviewed(self):
-        """Test that times_reviewed is incremented."""
-        source = '''
-last_solved = "2026-05-01"
-revisit_in_days = 7
-difficulty = "easy"
-topic_tags = ["arrays"]
-times_reviewed = 2
 
-class Solution:
-    pass
-'''
-        updated, days = update_metadata(source, "2026-06-02", "e")
-        assert 'times_reviewed  = 3' in updated
-        assert days == 90
-    
-    def test_update_adds_times_reviewed_if_missing(self):
-        """Test that times_reviewed is added if not present."""
-        source = '''
-last_solved = "2026-05-01"
-revisit_in_days = 7
-difficulty = "easy"
-topic_tags = ["arrays"]
-
-class Solution:
-    pass
-'''
-        updated, days = update_metadata(source, "2026-06-02", "e")
-        assert 'times_reviewed  = 1' in updated
-    
     def test_update_changes_date(self):
         """Test that last_solved date is updated."""
         source = '''
@@ -297,13 +249,101 @@ last_solved = "2026-05-01"
 revisit_in_days = 7
 difficulty = "easy"
 topic_tags = ["arrays"]
-times_reviewed = 0
 
 class Solution:
     pass
 '''
         updated, days = update_metadata(source, "2026-06-02", "g")
         assert 'last_solved     = "2026-06-02"' in updated
+
+    def test_update_sets_interval_trivial(self):
+        """Test revisit_in_days is set to 90 for trivial."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 3
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, days = update_metadata(source, "2026-06-02", "t")
+        assert days == 90
+        assert "revisit_in_days = 90" in updated
+
+    def test_update_sets_interval_easy(self):
+        """Test revisit_in_days is set to 30 for easy."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 3
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, days = update_metadata(source, "2026-06-02", "e")
+        assert days == 30
+        assert "revisit_in_days = 30" in updated
+
+    def test_update_sets_interval_good(self):
+        """Test revisit_in_days is set to 7 for good."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 30
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, days = update_metadata(source, "2026-06-02", "g")
+        assert days == 7
+        assert "revisit_in_days = 7" in updated
+
+    def test_update_sets_interval_hard(self):
+        """Test revisit_in_days is set to 3 for hard."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 7
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, days = update_metadata(source, "2026-06-02", "h")
+        assert days == 3
+        assert "revisit_in_days = 3" in updated
+
+    def test_update_sets_interval_struggled(self):
+        """Test revisit_in_days is set to 1 for struggled."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 7
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, days = update_metadata(source, "2026-06-02", "s")
+        assert days == 1
+        assert "revisit_in_days = 1" in updated
+
+    def test_update_does_not_touch_times_reviewed(self):
+        """Test that times_reviewed is not modified (field is no longer managed)."""
+        source = '''
+last_solved = "2026-05-01"
+revisit_in_days = 7
+difficulty = "easy"
+topic_tags = ["arrays"]
+
+class Solution:
+    pass
+'''
+        updated, _ = update_metadata(source, "2026-06-02", "e")
+        assert "times_reviewed" not in updated
 
 
 class TestSenseiRevisit:

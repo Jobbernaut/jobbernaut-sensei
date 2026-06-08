@@ -43,7 +43,6 @@ last_solved     = "{today}"
 revisit_in_days = 3
 difficulty      = "{difficulty}"
 topic_tags      = {tags_repr}
-times_reviewed  = 0
 
 class Solution:
     def solve(self) -> None:
