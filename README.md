@@ -39,7 +39,7 @@ Sensei tracks **when** you solved a problem and **how well** you understood it. 
 | `sensei status` | JSON snapshot for you or your AI agent |
 | `sensei hint <problem>` | Get the problem URL + deets **without the answer** (for quizzing) |
 | `sensei show <problem>` | Full problem + your saved solution (for review) |
-| `sensei mark <problem> --rating e` | "Easy" → next review in 90 days (or 135, if you've aced it before) |
+| `sensei mark <problem> --rating g` | "Good" → next review in 7 days |
 | `sensei new <num> <slug> <cat>` | Scaffold a fresh problem in 0.3 seconds |
 | `sensei open <problem>` | Jump into the code + LeetCode page |
 | `sensei revisit --export` | Dump everything to CSV or Markdown |
@@ -59,7 +59,7 @@ sensei hint 217
 sensei show 217
 
 # 4. How'd I do?
-sensei mark 217 --rating g    # good → 30 days
+sensei mark 217 --rating g    # good → 7 days
 ```
 
 That's it. Four commands. Whole loop takes 2 seconds of typing.
@@ -68,18 +68,17 @@ That's it. Four commands. Whole loop takes 2 seconds of typing.
 
 ## 🧠 Spaced Repetition — The Smart Part
 
-Rate yourself after each solve. Sensei learns from your history:
+Rate yourself after each solve. Intervals are hardcoded — no adaptive math, no history weighting:
 
-| Rating | Flag | Next Review | If you keep acing it |
-|--------|------|-------------|----------------------|
-| Easy 🟢 | `--rating e` | 90 days | Grows 1.5× per session (90 → 135 → 180 max) |
-| Good 🔵 | `--rating g` | 30 days | Stays 30 days |
-| Hard 🟡 | `--rating h` | 7 days | 14 days if you've seen it before |
-| Struggled 🔴 | `--rating s` | 3 days | Stays 3 days (agent: flag as leech) |
+| Rating | Flag | Next Review |
+|--------|------|-------------|
+| Trivial 🏆 | `--rating t` | 90 days |
+| Easy 🟢 | `--rating e` | 30 days |
+| Good 🔵 | `--rating g` | 7 days |
+| Hard 🟡 | `--rating h` | 3 days |
+| Struggled 🔴 | `--rating s` | 1 day |
 
-**First time rating "easy"?** → 90 days.  
-**Fourth time rating "easy"?** → 135 days (you clearly know this).  
-**Keep struggling?** → 3 days forever (time to study the pattern, not the problem).
+**The schedule is the curriculum.** Every rating directly sets the next review — no surprises.
 
 ---
 

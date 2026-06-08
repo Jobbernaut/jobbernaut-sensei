@@ -572,7 +572,7 @@ The saved solution is for critique, not copying.
 Then:
 
 ```bash
-sensei mark <problem> --rating <e|g|h|s>
+sensei mark <problem> --rating <t|e|g|h|s>
 ```
 
 The rating reflects:
@@ -616,6 +616,32 @@ Continue until:
 
 # Rating Guidelines
 
+Ratings are hardcoded. There is no adaptive multiplier, no `times_reviewed` bootstrap, no history weighting. Every mark sets a fixed interval.
+
+| Rating | Flag | Next Review |
+|--------|------|-------------|
+| Trivial | `t` | 90 days |
+| Easy | `e` | 30 days |
+| Good | `g` | 7 days |
+| Hard | `h` | 3 days |
+| Struggled | `s` | 1 day |
+
+---
+
+## `t` — Trivial
+
+Use ONLY if:
+
+* instant pattern recognition with zero hesitation
+* solution flowed without any prompting
+* every edge case handled on the first pass
+* complexity analysis was immediate and correct
+* this problem is clearly mastered — no meaningful review value left near-term
+
+Next review: **90 days**
+
+---
+
 ## `e` — Easy
 
 Use ONLY if:
@@ -630,6 +656,8 @@ Use ONLY if:
 
 This means:
 the memory is stable.
+
+Next review: **30 days**
 
 ---
 
@@ -646,6 +674,8 @@ Use when:
 
 Most successful sessions should end here.
 
+Next review: **7 days**
+
 ---
 
 ## `h` — Hard
@@ -661,6 +691,8 @@ Use when:
 * *Optimization:* The user struggled to find the optimal complexity and needed the coach to explain or reveal the optimal strategy.
 
 The user remembered fragments but not fluently.
+
+Next review: **3 days**
 
 ---
 
@@ -680,30 +712,7 @@ Use when:
 This is not failure.
 This is diagnostic information.
 
----
-
-# New Problem Bootstrap Rule — Critical SRS Exception
-
-**When a new problem is solved, NEVER use the rating to determine review interval.**
-
-Instead, use this deterministic rule:
-
-| `times_reviewed` | Next Review | Rationale |
-|---|---|---|
-| `0` (first attempt) | **3 days** | Rapid bootstrapping — build fresh memory |
-| `1` (first review) | **1 week** | Consolidate after retrieval |
-| `2+` | **SRS proper** | Rating now determines interval (e, g, h, s) |
-
-**Why this matters:**
-
-New problems need *rapid iteration* before entering standard spaced repetition. A user may solve a new problem correctly on first attempt, but the memory is fragile. Marking it as `e` (easy) would schedule it 30+ days out — catastrophic for retention.
-
-Instead:
-- First attempt or new problem → 3 days (test memory)
-- Then, second attempt of that problem is their first review → 1 week (strengthen memory)
-- After that → SRS intervals based on demonstrated recall quality
-
-This "bootstrap phase" ensures new knowledge crystallizes before being pushed to long intervals.
+Next review: **1 day**
 
 ---
 
