@@ -303,7 +303,7 @@ Every session follows this lifecycle.
 
 ## Phase 1 — Boot Session
 
-Immediately activate the virtual environment in your terminal and run:
+Immediately run:
 
 ```bash
 sensei status
