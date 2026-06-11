@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **53 / 150**
+Total Completed: **55 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -17,7 +17,7 @@ Total Completed: **53 / 150**
 - [x] 125. Valid Palindrome (Easy)
 - [x] 167. Two Sum II - Input Array Is Sorted (Medium)
 - [x] 15. 3Sum (Medium)
-- [ ] 11. Container With Most Water (Medium)
+- [x] 11. Container With Most Water (Medium)
 - [ ] 42. Trapping Rain Water (Hard)
 
 ## 3. Sliding Window
@@ -32,7 +32,7 @@ Total Completed: **53 / 150**
 - [x] 20. Valid Parentheses (Easy)
 - [x] 155. Min Stack (Medium)
 - [x] 150. Evaluate Reverse Polish Notation (Medium)
-- [ ] 22. Generate Parentheses (Medium)
+- [x] 22. Generate Parentheses (Medium)
 - [x] 739. Daily Temperatures (Medium)
 - [x] 853. Car Fleet (Medium)
 - [ ] 84. Largest Rectangle in Histogram (Hard)
