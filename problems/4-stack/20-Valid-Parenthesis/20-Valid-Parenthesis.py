@@ -2,7 +2,7 @@
 https://leetcode.com/problems/valid-parentheses/description/
 '''
 
-last_solved     = "2026-05-11"
+last_solved     = "2026-06-10"
 revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["stack"]
