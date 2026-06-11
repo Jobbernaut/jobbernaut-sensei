@@ -2,7 +2,7 @@
 https://leetcode.com/problems/evaluate-reverse-polish-notation/description/
 '''
 
-last_solved     = "2026-05-11"
+last_solved     = "2026-06-10"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["stack"]
