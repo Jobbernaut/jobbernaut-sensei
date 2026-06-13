@@ -2,7 +2,7 @@
 https://leetcode.com/problems/top-k-frequent-elements/description/
 '''
 
-last_solved     = "2026-05-14"
+last_solved     = "2026-06-13"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
