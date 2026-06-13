@@ -2,7 +2,7 @@
 https://leetcode.com/problems/longest-repeating-character-replacement/
 '''
 
-last_solved     = "2026-06-05"
+last_solved     = "2026-06-13"
 revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["sliding-window"]

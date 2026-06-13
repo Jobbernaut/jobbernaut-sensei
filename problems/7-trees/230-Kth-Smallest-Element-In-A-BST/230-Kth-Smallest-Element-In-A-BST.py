@@ -2,8 +2,8 @@
 https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 '''
 
-last_solved     = "2026-06-05"
-revisit_in_days = 7
+last_solved     = "2026-06-13"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["trees"]
 times_reviewed  = 2
