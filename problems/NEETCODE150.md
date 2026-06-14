@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **55 / 150**
+Total Completed: **56 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -87,8 +87,8 @@ Total Completed: **55 / 150**
 
 ## 9. Backtracking
 - [x] 78. Subsets (Medium)
-- [ ] 39. Combination Sum (Medium)
-- [ ] 46. Permutations (Medium)
+- [x] 39. Combination Sum (Medium)
+- [x] 46. Permutations (Medium)
 - [ ] 90. Subsets II (Medium)
 - [ ] 40. Combination Sum II (Medium)
 - [ ] 79. Word Search (Medium)
