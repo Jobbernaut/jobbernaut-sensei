@@ -2,8 +2,8 @@
 https://leetcode.com/problems/subtree-of-another-tree/
 '''
 
-last_solved     = "2026-06-08"
-revisit_in_days = 7
+last_solved     = "2026-06-15"
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["trees"]
 times_reviewed  = 1

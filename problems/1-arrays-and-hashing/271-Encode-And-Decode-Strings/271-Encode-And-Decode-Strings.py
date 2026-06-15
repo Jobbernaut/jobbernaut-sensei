@@ -2,8 +2,8 @@
 https://leetcode.com/problems/encode-and-decode-strings/description/
 '''
 
-last_solved     = "2026-05-16"
-revisit_in_days = 30
+last_solved     = "2026-06-15"
+revisit_in_days = 90
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

@@ -2,8 +2,8 @@
 https://leetcode.com/problems/two-sum/description/
 '''
 
-last_solved     = "2026-06-08"
-revisit_in_days = 7
+last_solved     = "2026-06-15"
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
 times_reviewed  = 2
