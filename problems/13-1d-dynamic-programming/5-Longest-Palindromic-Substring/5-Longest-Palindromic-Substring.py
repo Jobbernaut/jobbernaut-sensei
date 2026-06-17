@@ -2,8 +2,8 @@
 https://leetcode.com/problems/longest-palindromic-substring/
 '''
 
-last_solved     = "2026-06-08"
-revisit_in_days = 7
+last_solved     = "2026-06-16"
+revisit_in_days = 3
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]
 times_reviewed  = 1
