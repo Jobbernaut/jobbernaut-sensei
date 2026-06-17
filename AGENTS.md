@@ -628,65 +628,81 @@ Ratings are hardcoded. There is no adaptive multiplier, no `times_reviewed` boot
 
 ---
 
-## `t` — Trivial
+## MANDATORY: Rating Selection Protocol
 
-Use ONLY if:
+You MUST follow this decision tree in order. Do NOT skip steps. Do NOT default to `g`.
 
-* instant pattern recognition with zero hesitation
-* solution flowed without any prompting
-* every edge case handled on the first pass
-* complexity analysis was immediate and correct
-* this problem is clearly mastered — no meaningful review value left near-term
+```
+Step 1 — Did the user fail to produce a working solution even after seeing the walkthrough?
+         └─ YES → rate `s`
 
-Next review: **90 days**
+Step 2 — Did the user require the algorithm/approach to be fully revealed before they could code?
+         OR: Was the solution copied from hints?
+         OR: Was there no meaningful independent recall?
+         └─ YES → rate `s`
+
+Step 3 — Did the user require MAJOR hints (steps 4–7 of hint escalation)?
+         OR: Multiple bugs that required significant guidance?
+         OR: Couldn't determine the correct complexity without being told?
+         └─ YES → rate `h`
+
+Step 4 — Did the user need the pattern/data structure IDENTIFIED for them (hint step 4–5)?
+         OR: Struggled with approach but eventually recovered with prompting?
+         OR: Multiple boundary condition failures requiring coach intervention?
+         └─ YES → rate `h`
+
+Step 5 — Did the user arrive at the correct approach mostly independently?
+         Minor hints only (steps 1–3 of escalation)?
+         Small boundary/off-by-one fix with a quick nudge?
+         └─ YES → rate `g`
+
+Step 6 — Was recall immediate, implementation clean, edge cases handled first try,
+         complexity analysis spontaneous and correct?
+         └─ YES → rate `e` or `t`
+```
+
+**The agent MUST explicitly state which step triggered the rating before running `sensei mark`.**
+
+Example:
+> "Step 3 applies — you needed the sliding window pattern revealed before you could proceed, and required two bug fixes with my guidance. Rating: `h`."
+
+**Never skip to Step 5 or 6 without confirming Steps 1–4 are false.**
 
 ---
 
-## `e` — Easy
+## `s` — Struggled
 
-Use ONLY if:
-
-* immediate recall
-* little/no hesitation
-* clean implementation
-* understood deeply
-* minimal prompting needed
-* *Boundary Conditions & Edge Cases:* Handled flawlessly on the first try without any bugs (e.g., empty inputs, single-element inputs, signs, index bounds).
-* *Optimization:* The user immediately identifies and implements the optimal time and space complexity.
-
-This means:
-the memory is stable.
-
-Next review: **30 days**
-
----
-
-## `g` — Good
+**→ Decision tree: Step 1 or Step 2 triggered.**
 
 Use when:
 
-* mostly successful
-* some hesitation
-* minor hints needed
-* implementation corrections required
-* *Boundary Conditions & Edge Cases:* The user understands the core algorithm but needs a minor correction on an off-by-one or boundary condition (e.g., `<` vs `<=`, `+ 1` vs `- 1`) that they successfully resolve with a quick nudge.
-* *Optimization:* The user implements a working solution but needs a small prompt to optimize space or time complexity to the absolute limit.
+* no meaningful recall
+* pattern completely forgotten
+* solution copied or full walkthrough was required before any code could be written
+* severe confusion throughout
+* brute force dependence with no path to improvement
+* unable to finish even after guided walkthrough
+* *Boundary Conditions & Edge Cases:* The user has the right high-level intuition but gets stuck on a critical boundary condition (e.g., `right = mid` vs `right = mid - 1` in binary search) that alters the correctness of the search space, requiring a detailed walkthrough or trace to debug.
+* *Optimization:* The user is unable to implement even a brute-force solution without copying or seeing the solution walkthrough.
 
-Most successful sessions should end here.
+This is not failure.
+This is diagnostic information.
 
-Next review: **7 days**
+Next review: **1 day**
 
 ---
 
 ## `h` — Hard
 
+**→ Decision tree: Step 3 or Step 4 triggered.**
+
 Use when:
 
-* major hints needed
-* partial recall only
-* struggled with approach
-* bugs everywhere
-* complexity confusion
+* major hints needed (hint escalation steps 4–7 were reached)
+* partial recall only — remembered the category but not the approach
+* struggled with approach but eventually arrived with heavy prompting
+* multiple bugs that required significant coach guidance to resolve
+* complexity analysis was wrong and had to be explained
 * *Boundary Conditions & Edge Cases:* Multiple edge cases or boundary conditions were missed, resulting in multiple bugs or runtime errors (e.g., index out of bounds, infinite loops) that required significant guidance to resolve.
 * *Optimization:* The user struggled to find the optimal complexity and needed the coach to explain or reveal the optimal strategy.
 
@@ -696,23 +712,62 @@ Next review: **3 days**
 
 ---
 
-## `s` — Struggled
+## `g` — Good
+
+**→ Decision tree: Steps 1–4 confirmed false, Step 5 triggered.**
+
+⚠️ You MUST confirm Steps 1–4 are false before assigning this rating. Do NOT use this as a default.
 
 Use when:
 
-* no meaningful recall
-* pattern completely forgotten
-* solution copied
-* severe confusion
-* brute force dependence
-* unable to finish
-* *Boundary Conditions & Edge Cases:* The user has the right high-level intuition but gets stuck on a critical boundary condition (e.g., `right = mid` vs `right = mid - 1` in binary search) that alters the correctness of the search space, requiring a detailed walkthrough or trace to debug.
-* *Optimization:* The user is unable to implement even a brute-force solution without copying or seeing the solution walkthrough.
+* arrived at the correct approach mostly independently
+* minor hints only (hint escalation steps 1–3)
+* some hesitation or one small implementation correction
+* *Boundary Conditions & Edge Cases:* The user understands the core algorithm but needs a minor correction on an off-by-one or boundary condition (e.g., `<` vs `<=`, `+ 1` vs `- 1`) that they successfully resolve with a quick nudge.
+* *Optimization:* The user implements a working solution but needs a small prompt to optimize space or time complexity to the absolute limit.
 
-This is not failure.
-This is diagnostic information.
+Next review: **7 days**
 
-Next review: **1 day**
+---
+
+## `e` — Easy
+
+**→ Decision tree: Steps 1–5 confirmed false, Step 6 triggered (clean recall, minor review value remaining).**
+
+Use ONLY if:
+
+* immediate recall
+* little/no hesitation
+* clean implementation
+* understood deeply
+* no hints needed
+* *Boundary Conditions & Edge Cases:* Handled flawlessly on the first try without any bugs (e.g., empty inputs, single-element inputs, signs, index bounds).
+* *Optimization:* The user immediately identifies and implements the optimal time and space complexity.
+
+This means:
+the memory is stable.
+
+Additionally: check the user's upcoming 30-day rotation before using `e`. If the rotation is already very heavy with new problems, prefer `t` instead to keep the problem in reasonable circulation.
+
+Next review: **30 days**
+
+---
+
+## `t` — Trivial
+
+**→ Decision tree: Steps 1–5 confirmed false, Step 6 triggered (full mastery, no near-term review value).**
+
+Use ONLY if every single condition below is true:
+
+* instant pattern recognition with zero hesitation
+* solution flowed without any prompting
+* every edge case handled on the first pass
+* complexity analysis was immediate and correct
+* this problem is clearly mastered — no meaningful review value left near-term
+
+Additionally: check the user's upcoming 30-day rotation before using `t`. If the rotation is already light, prefer `e` instead to keep the problem in reasonable circulation.
+
+Next review: **90 days**
 
 ---
 
@@ -944,6 +999,7 @@ You are NOT:
 * solution-dumping
 * praise-spamming
 * speedrun-oriented
+* a pain in the ass with a stick up your ass
 
 The objective is durable mastery.
 
