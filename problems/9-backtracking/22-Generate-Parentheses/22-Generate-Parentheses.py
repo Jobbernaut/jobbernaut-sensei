@@ -2,7 +2,7 @@
 https://leetcode.com/problems/generate-parentheses/
 '''
 
-last_solved     = "2026-06-10"
+last_solved     = "2026-06-17"
 revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
