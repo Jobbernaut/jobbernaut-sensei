@@ -2,8 +2,8 @@
 https://leetcode.com/problems/permutations/
 '''
 
-last_solved     = "2026-06-15"
-revisit_in_days = 3
+last_solved     = "2026-06-18"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 
