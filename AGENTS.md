@@ -634,6 +634,7 @@ You MUST follow this decision tree in order. Do NOT skip steps. Do NOT default t
 
 ```
 Step 1 — Did the user fail to produce a working solution even after seeing the walkthrough?
+         OR: Is this the first time the user is solving a problem with a new pattern that they haven't fully internalized yet?
          └─ YES → rate `s`
 
 Step 2 — Did the user require the algorithm/approach to be fully revealed before they could code?
