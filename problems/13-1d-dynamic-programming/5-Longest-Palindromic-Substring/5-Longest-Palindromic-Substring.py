@@ -2,38 +2,41 @@
 https://leetcode.com/problems/longest-palindromic-substring/
 '''
 
-last_solved     = "2026-06-16"
-revisit_in_days = 3
+last_solved     = "2026-06-19"
+revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]
 times_reviewed  = 1
 
 '''
-Space: O(N^2)
-Time: O(1) if output is not considered, O(N) if output is considered
+Time: O(N^2) — outer loop O(N) * expand O(N) worst case
+Space: O(1) — only pointers tracked, output string excluded
 '''
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        def is_palindrome(l_c, r_c):
-            left, right = l_c, r_c
-            length = -1 if l_c == r_c else 0
-            while left >= 0 and right < len(s) and s[left] == s[right]:
-                length += 2
+        def expand(left, right):
+            while 0 <= left < right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
-            return length, left + 1, right - 1
-        
-        max_pal_substr = 1
-        max_substr = s[0]
 
-        for i in range(0, len(s)):
-                curr, l, r = is_palindrome(i, i)
-                if curr > max_pal_substr:
-                    max_pal_substr = curr
-                    max_substr = s[l:r+1]
-                n_curr, n_l, n_r = is_palindrome(i, i + 1)
-                if n_curr > max_pal_substr:
-                    max_pal_substr = n_curr
-                    max_substr = s[n_l:n_r+1]
+            valid_str = s[left+1:right]
+            valid_len = right - left - 1
+
+            return valid_str, valid_len
         
-        return max_substr
+        max_len = 1
+        max_str = s[0]
+        
+        for idx in range(len(s) - 1):
+            odd_valid_str, odd_valid_len = expand(idx-1, idx+1)
+            even_valid_str, even_valid_len = expand(idx, idx + 1)
+
+            if odd_valid_len > max_len:
+                max_len = odd_valid_len
+                max_str = odd_valid_str
+            
+            if even_valid_len > max_len:
+                max_len = even_valid_len
+                max_str = even_valid_str
+        
+        return max_str
