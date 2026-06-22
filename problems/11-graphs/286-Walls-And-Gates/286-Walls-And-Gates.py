@@ -2,7 +2,7 @@
 https://leetcode.com/problems/walls-and-gates/description/
 '''
 
-last_solved     = "2026-05-21"
+last_solved     = "2026-06-21"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["graphs"]
