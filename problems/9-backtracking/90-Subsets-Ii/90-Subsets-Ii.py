@@ -2,8 +2,8 @@
 https://leetcode.com/problems/subsets-ii/
 '''
 
-last_solved     = "2026-06-17"
-revisit_in_days = 3
+last_solved     = "2026-06-21"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 
