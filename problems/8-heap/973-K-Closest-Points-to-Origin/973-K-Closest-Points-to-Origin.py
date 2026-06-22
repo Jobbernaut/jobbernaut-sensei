@@ -2,21 +2,19 @@
 https://leetcode.com/problems/k-closest-points-to-origin/description/
 '''
 
-last_solved     = "2026-05-23"
+last_solved     = "2026-06-22"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["heap"]
 
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        import heapq
+        k_closest = []
 
-        heap = []
-        heapq.heapify(heap)
+        for idx, (x_coord, y_coord) in enumerate(points):
+            dist = -(x_coord**2 + y_coord**2)
+            heapq.heappush(k_closest, (dist, idx))
+            if len(k_closest) > k:
+                heapq.heappop(k_closest)
 
-        for point in points:
-            heapq.heappush(heap, [-1*(point[0]**2 + point[1]**2),point])
-            if len(heap) > k:
-                heapq.heappop(heap)
-        
-        return [point[1] for point in heap]
+        return [points[idx] for _, idx in k_closest]
