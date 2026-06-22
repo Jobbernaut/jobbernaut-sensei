@@ -2,8 +2,8 @@
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 '''
 
-last_solved     = "2026-06-13"
-revisit_in_days = 7
+last_solved     = "2026-06-21"
+revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
 times_reviewed  = 2
