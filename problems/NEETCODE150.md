@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **64 / 150**
+Total Completed: **65 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -97,7 +97,7 @@ Total Completed: **64 / 150**
 - [ ] 51. N-Queens (Hard)
 
 ## 10. Tries
-- [ ] 208. Implement Trie (Prefix Tree) (Medium)
+- [x] 208. Implement Trie (Prefix Tree) (Medium)
 - [ ] 211. Design Add and Search Words Data Structure (Medium)
 - [ ] 212. Word Search II (Hard)
 

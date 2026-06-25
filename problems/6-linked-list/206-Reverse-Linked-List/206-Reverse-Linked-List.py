@@ -1,5 +1,5 @@
 '''
-https://leetcode.com/problems/Reverse Linked List/
+https://leetcode.com/problems/reverse-linked-list/
 '''
 
 last_solved     = "2026-05-27"
