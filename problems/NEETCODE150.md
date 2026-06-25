@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **62 / 150**
+Total Completed: **64 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -72,9 +72,9 @@ Total Completed: **62 / 150**
 - [x] 1448. Count Good Nodes in Binary Tree (Medium)
 - [x] 98. Validate Binary Search Tree (Medium)
 - [x] 230. Kth Smallest Element in a BST (Medium)
-- [ ] 105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)
+- [x] 105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)
 - [x] 124. Binary Tree Maximum Path Sum (Hard)
-- [ ] 297. Serialize and Deserialize Binary Tree (Hard)
+- [x] 297. Serialize and Deserialize Binary Tree (Hard)
 
 ## 8. Heap / Priority Queue
 - [x] 703. Kth Largest Element in a Stream (Easy)
