@@ -2,7 +2,7 @@
 https://leetcode.com/problems/binary-tree-maximum-path-sum/
 '''
 
-last_solved     = "2026-05-26"
+last_solved     = "2026-06-25"
 revisit_in_days = 30
 difficulty      = "hard"
 topic_tags      = ["trees"]
@@ -10,20 +10,21 @@ times_reviewed  = 1
 
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        self.max_sum = float('-inf')
+        self.max_path_sum = float('-inf')
 
-        def max_path_sum(node):
+        def postorder(node):
             if not node:
                 return 0
-
-            left = max(max_path_sum(node.left), 0)
-            right = max(max_path_sum(node.right), 0)
             
-            curr_sum = left + node.val + right
-            self.max_sum = max(self.max_sum, curr_sum)
+            left = max(0, postorder(node.left))
+            right = max(0, postorder(node.right))
+
+            curr = left + node.val + right
+
+            self.max_path_sum = max(self.max_path_sum, curr)
 
             return node.val + max(left, right)
         
-        max_path_sum(root)
+        postorder(root)
 
-        return self.max_sum
+        return self.max_path_sum
