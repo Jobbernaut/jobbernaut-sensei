@@ -2,45 +2,44 @@
 https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 '''
 
-last_solved     = "2026-06-25"
-revisit_in_days = 1
+last_solved     = "2026-06-26"
+revisit_in_days = 3
 difficulty      = "hard"
 topic_tags      = ["trees"]
 
 class Codec:
     def serialize(self, root):
-        self.serialized_binary_tree = []
+        self.serialized_tree = []
 
         def preorder(node):
             if not node:
-                self.serialized_binary_tree.append("N")
-                return None
+                self.serialized_tree.append("N")
+                return
             
-            self.serialized_binary_tree.append(str(node.val))
+            self.serialized_tree.append(str(node.val))
             preorder(node.left)
             preorder(node.right)
         
         preorder(root)
 
-        data = ",".join(self.serialized_binary_tree)
-
-        return data
+        return ",".join(self.serialized_tree)
+        
 
     def deserialize(self, data):
-        def preorder(tree_nodes):
-            if not len(tree_nodes):
+        self.deserialized_tree = list(data.split(","))
+        self.global_index = -1
+
+        def preorder():
+            self.global_index += 1
+
+            if self.deserialized_tree[self.global_index] == "N":
                 return None
             
-            curr = tree_nodes.popleft()
+            node = TreeNode(int(self.deserialized_tree[self.global_index]))
 
-            if curr == "N":
-                return None
-            else:
-                new = TreeNode(curr)
+            node.left = preorder()
+            node.right = preorder()
 
-                new.left = preorder(tree_nodes)
-                new.right = preorder(tree_nodes)
-
-                return new
+            return node
         
-        return preorder(deque(data.split(",")))
+        return preorder()
