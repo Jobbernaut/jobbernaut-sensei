@@ -129,7 +129,7 @@ Total Completed: **65 / 150**
 - [x] 198. House Robber (Medium)
 - [x] 213. House Robber II (Medium)
 - [x] 5. Longest Palindromic Substring (Medium)
-- [ ] 647. Palindromic Substrings (Medium)
+- [x] 647. Palindromic Substrings (Medium)
 - [ ] 91. Decode Ways (Medium)
 - [ ] 322. Coin Change (Medium)
 - [ ] 152. Maximum Product Subarray (Medium)
