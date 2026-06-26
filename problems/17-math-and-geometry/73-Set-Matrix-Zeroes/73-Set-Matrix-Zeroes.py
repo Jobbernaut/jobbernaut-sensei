@@ -2,7 +2,7 @@
 https://leetcode.com/problems/set-matrix-zeroes/description/
 '''
 
-last_solved     = "2026-05-27"
+last_solved     = "2026-06-26"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["math","geometry"]
@@ -10,27 +10,27 @@ times_reviewed  = 1
 
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
-        ROWS, COLS = len(matrix), len(matrix[0])
-        rowZero = False
+        is_first_row_zero = False
+        is_first_col_zero = False
+
+        for row in range(len(matrix)):
+            for col in range(len(matrix[row])):
+                if not matrix[row][col]:
+                    if not is_first_row_zero and not row:
+                        is_first_row_zero = True
+                    if not is_first_col_zero and not col:
+                        is_first_col_zero = True
+                    if row > 0 and col > 0:
+                        matrix[row][0] = 0
+                        matrix[0][col] = 0
         
-        for r in range(ROWS):
-            for c in range(COLS):
-                if matrix[r][c] == 0:
-                    matrix[0][c] = 0
-                    if r > 0:
-                        matrix[r][0] = 0
-                    else:
-                        rowZero = True
-
-        for r in range(1, ROWS):
-            for c in range(1, COLS):
-                if matrix[0][c] == 0 or matrix[r][0] == 0:
-                    matrix[r][c] = 0
-
-        if matrix[0][0] == 0:
-            for r in range(ROWS):
-                matrix[r][0] = 0
-
-        if rowZero:
-            for c in range(COLS):
-                matrix[0][c] = 0
+        for row in range(len(matrix)):
+            for col in range(len(matrix[row])):
+                if row > 0 and col > 0:
+                    if not matrix[row][0] or not matrix[0][col]:
+                        matrix[row][col] = 0
+        
+        for row in range(len(matrix)):
+            for col in range(len(matrix[row])):
+                if (not row and is_first_row_zero) or (not col and is_first_col_zero):
+                    matrix[row][col] = 0
