@@ -2,46 +2,42 @@
 https://leetcode.com/problems/implement-trie-prefix-tree/
 '''
 
-last_solved     = "2026-06-24"
-revisit_in_days = 3
+last_solved     = "2026-06-27"
+revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["trie"]
 
 class TrieNode:
     def __init__(self):
-        self.children = {}
+        self.children  = {}
         self.is_end_of_word = False
 
 class Trie:
     def __init__(self):
         self.trie = TrieNode()
+    
+    def traverse(self, string: str, insert_mode: bool=False) -> None:
+        curr = self.trie
+
+        for character in string:
+            if character not in curr.children:
+                if insert_mode:
+                    curr.children[character] = TrieNode()
+                else:
+                    return None
+            curr = curr.children[character]
+
+        if insert_mode:
+            curr.is_end_of_word = True
+
+        return curr
 
     def insert(self, word: str) -> None:
-        node = self.trie
-
-        for character in word:
-            if character not in node.children:
-                node.children[character] = TrieNode()
-            node = node.children[character]
-
-        node.is_end_of_word = True
+        self.traverse(word, True)
 
     def search(self, word: str) -> bool:
-        node = self.trie
-
-        for character in word:
-            if character not in node.children:
-                return False
-            node = node.children[character]
-        
-        return node.is_end_of_word
+        res = self.traverse(word)
+        return res is not None and res.is_end_of_word
 
     def startsWith(self, prefix: str) -> bool:
-        node = self.trie
-
-        for character in prefix:
-            if character not in node.children:
-                return False
-            node = node.children[character]
-        
-        return True
+        return self.traverse(prefix) is not None
