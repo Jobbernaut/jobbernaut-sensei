@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **68 / 150**
+Total Completed: **70 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -98,12 +98,12 @@ Total Completed: **68 / 150**
 
 ## 10. Tries
 - [x] 208. Implement Trie (Prefix Tree) (Medium)
-- [ ] 211. Design Add and Search Words Data Structure (Medium)
+- [x] 211. Design Add and Search Words Data Structure (Medium)
 - [ ] 212. Word Search II (Hard)
 
 ## 11. Graphs
 - [x] 200. Number of Islands (Medium)
-- [ ] 133. Clone Graph (Medium)
+- [x] 133. Clone Graph (Medium)
 - [ ] 695. Max Area of Island (Medium)
 - [ ] 417. Pacific Atlantic Water Flow (Medium)
 - [ ] 130. Surrounded Regions (Medium)
