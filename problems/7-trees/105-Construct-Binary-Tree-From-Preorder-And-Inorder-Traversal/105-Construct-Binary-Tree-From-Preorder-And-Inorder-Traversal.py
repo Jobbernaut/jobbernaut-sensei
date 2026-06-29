@@ -2,36 +2,36 @@
 https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 '''
 
-last_solved     = "2026-06-26"
-revisit_in_days = 3
+last_solved     = "2026-06-29"
+revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["trees"]
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        self.lookup = {}
+        self.in_lookup = {}
 
-        for idx, node in enumerate(inorder):
-            self.lookup[node] = idx
-        
+        for idx, elem in enumerate(inorder):
+            self.in_lookup[elem] = idx
+
         def build(pre_left, pre_right, in_left, in_right):
             if pre_left > pre_right:
                 return None
-            
-            root_node_val = preorder[pre_left]
-            in_root_idx = self.lookup[root_node_val]
+
+            pre_root_val = preorder[pre_left]
+            in_root_idx = self.in_lookup[pre_root_val]
 
             left_subtree_len = in_root_idx - in_left
             right_subtree_len = in_right - in_root_idx
 
-            node = TreeNode(root_node_val)
+            node = TreeNode(pre_root_val)
 
             node.left = build(
                 pre_left + 1,
                 pre_left + left_subtree_len,
                 in_left,
                 in_root_idx - 1
-            )
+                )
 
             node.right = build(
                 pre_right - right_subtree_len + 1,
