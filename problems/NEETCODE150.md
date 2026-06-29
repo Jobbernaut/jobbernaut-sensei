@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **70 / 150**
+Total Completed: **71 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -40,7 +40,7 @@ Total Completed: **70 / 150**
 ## 5. Binary Search
 - [x] 704. Binary Search (Easy)
 - [x] 74. Search a 2D Matrix (Medium)
-- [ ] 875. Koko Eating Bananas (Medium)
+- [x] 875. Koko Eating Bananas (Medium)
 - [x] 153. Find Minimum in Rotated Sorted Array (Medium)
 - [ ] 33. Search in Rotated Sorted Array (Medium)
 - [x] 981. Time Based Key-Value Store (Medium)
@@ -186,4 +186,5 @@ Total Completed: **70 / 150**
 - [ ] 268. Missing Number (Easy)
 - [ ] 371. Sum of Two Integers (Medium)
 - [ ] 201. Bitwise AND of Numbers Range (Medium)
+
 
