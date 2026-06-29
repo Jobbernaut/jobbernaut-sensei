@@ -2,8 +2,8 @@
 https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 '''
 
-last_solved     = "2026-06-26"
-revisit_in_days = 3
+last_solved     = "2026-06-29"
+revisit_in_days = 7
 difficulty      = "hard"
 topic_tags      = ["trees"]
 
