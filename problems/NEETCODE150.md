@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **73 / 150**
+Total Completed: **74 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -104,7 +104,7 @@ Total Completed: **73 / 150**
 ## 11. Graphs
 - [x] 200. Number of Islands (Medium)
 - [x] 133. Clone Graph (Medium)
-- [ ] 695. Max Area of Island (Medium)
+- [x] 695. Max Area of Island (Medium)
 - [ ] 417. Pacific Atlantic Water Flow (Medium)
 - [ ] 130. Surrounded Regions (Medium)
 - [x] 994. Rotting Oranges (Medium)
