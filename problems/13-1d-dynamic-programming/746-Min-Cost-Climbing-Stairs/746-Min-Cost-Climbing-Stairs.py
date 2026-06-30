@@ -2,8 +2,8 @@
 https://leetcode.com/problems/min-cost-climbing-stairs/
 '''
 
-last_solved     = "2026-06-23"
-revisit_in_days = 7
+last_solved     = "2026-06-30"
+revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["dynamic-programming"]
 times_reviewed  = 1
