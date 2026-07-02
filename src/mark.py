@@ -330,6 +330,23 @@ def main() -> None:
 
     print(f"\n  {GREEN}[OK]{RESET}  Marked as solved today ({today_str}) - next review in {BOLD}{days} days{RESET}{spread_note}\n")
 
+    # ── Schedule health check ──────────────────────────────────────────────────
+    # After each mark, scan for overloaded days (> HEALTH_CAP reviews).
+    # If clusters exist, print a one-line warning so the user knows to rebalance.
+    HEALTH_CAP = 4
+    all_due = get_all_due_dates(root)  # includes the just-marked problem
+    from collections import Counter
+    load = Counter(all_due)
+    hot_days = sorted(d for d, cnt in load.items() if cnt > HEALTH_CAP and d > today)
+    if hot_days:
+        worst      = max(load[d] for d in hot_days)
+        worst_date = max(hot_days, key=lambda d: load[d])
+        print(
+            f"  {YELLOW}⚠  Schedule health:{RESET} {len(hot_days)} overloaded day(s) "
+            f"(peak {BOLD}{worst}{RESET} reviews on {worst_date}). "
+            f"Run {BOLD}sensei rebalance{RESET} to spread the load.\n"
+        )
+
 
 if __name__ == "__main__":
     main()
