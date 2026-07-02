@@ -6,7 +6,7 @@ last_solved     = "2026-07-02"
 revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["binary-search"]
-times_reviewed  = 2
+times_reviewed  = 3
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:

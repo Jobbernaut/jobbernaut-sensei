@@ -3,7 +3,7 @@ https://leetcode.com/problems/invert-binary-tree/
 '''
 
 last_solved     = "2026-05-27"
-revisit_in_days = 90
+revisit_in_days = 75
 difficulty      = "easy"
 topic_tags      = ["tree"]
 times_reviewed  = 1

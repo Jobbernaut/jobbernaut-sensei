@@ -3,7 +3,7 @@ https://leetcode.com/problems/time-based-key-value-store/
 '''
 
 last_solved     = "2026-06-26"
-revisit_in_days = 7
+revisit_in_days = 9
 difficulty      = "medium"
 topic_tags      = ["binary-search", "hash-map"]
 

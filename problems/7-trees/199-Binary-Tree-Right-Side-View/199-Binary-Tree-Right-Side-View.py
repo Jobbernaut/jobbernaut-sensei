@@ -3,7 +3,7 @@ https://leetcode.com/problems/binary-tree-right-side-view/
 '''
 
 last_solved     = "2026-06-21"
-revisit_in_days = 30
+revisit_in_days = 21
 difficulty      = "medium"
 topic_tags      = ["trees", "bfs"]
 times_reviewed  = 2

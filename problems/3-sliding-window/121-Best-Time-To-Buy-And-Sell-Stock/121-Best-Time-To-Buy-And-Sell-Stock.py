@@ -3,7 +3,7 @@ https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 '''
 
 last_solved     = "2026-05-29"
-revisit_in_days = 90
+revisit_in_days = 61
 difficulty      = "easy"
 topic_tags      = ["sliding-window", "stock"]
 times_reviewed  = 1

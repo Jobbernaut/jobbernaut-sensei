@@ -3,7 +3,7 @@ https://leetcode.com/problems/clone-graph/
 '''
 
 last_solved     = "2026-07-01"
-revisit_in_days = 30
+revisit_in_days = 38
 difficulty      = "medium"
 topic_tags      = ["graphs", "dfs", "bfs", "hash-map"]
 

@@ -3,7 +3,7 @@ https://leetcode.com/problems/balanced-binary-tree/
 '''
 
 last_solved     = "2026-05-29"
-revisit_in_days = 90
+revisit_in_days = 64
 difficulty      = "easy"
 topic_tags      = ["trees"]
 times_reviewed  = 1

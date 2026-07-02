@@ -3,7 +3,7 @@ https://leetcode.com/problems/car-fleet/description/
 '''
 
 last_solved     = "2026-06-15"
-revisit_in_days = 90
+revisit_in_days = 52
 difficulty      = "medium"
 topic_tags      = ["stack", "monotonic-stack"]
 times_reviewed  = 2

@@ -3,7 +3,7 @@ https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-tr
 '''
 
 last_solved     = "2026-06-29"
-revisit_in_days = 7
+revisit_in_days = 9
 difficulty      = "medium"
 topic_tags      = ["trees"]
 

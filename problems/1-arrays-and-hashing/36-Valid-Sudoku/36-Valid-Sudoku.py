@@ -3,7 +3,7 @@ https://leetcode.com/problems/valid-sudoku/description/
 '''
 
 last_solved     = "2026-06-21"
-revisit_in_days = 30
+revisit_in_days = 20
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

@@ -3,7 +3,7 @@ https://leetcode.com/problems/maximum-depth-of-binary-tree/
 '''
 
 last_solved     = "2026-05-29"
-revisit_in_days = 90
+revisit_in_days = 66
 difficulty      = "easy"
 topic_tags      = ["trees"]
 times_reviewed  = 1

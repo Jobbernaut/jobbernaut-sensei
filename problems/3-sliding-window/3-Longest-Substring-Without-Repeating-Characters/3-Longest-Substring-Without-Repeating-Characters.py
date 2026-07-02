@@ -3,7 +3,7 @@ https://leetcode.com/problems/longest-substring-without-repeating-characters/
 '''
 
 last_solved     = "2026-05-27"
-revisit_in_days = 90
+revisit_in_days = 61
 difficulty      = "medium"
 topic_tags      = ["sliding-window", "hash-set"]
 times_reviewed  = 1
