@@ -238,6 +238,11 @@ def main():
                 "filepath":      os.path.relpath(p["filepath"], os.getcwd()),
             }
 
+        # Mirror the human view: overdue + due_today + upcoming only.
+        # Include future problems only when --all is explicitly passed.
+        # This keeps JSON and terminal output in sync and avoids dumping
+        # the full 75-problem schedule into LLM context on every boot.
+        active = overdue + due_today + upcoming
         output = {
             "generated":     today.isoformat(),
             "total_tracked": len(problems),
@@ -246,10 +251,8 @@ def main():
             "upcoming":      len(upcoming),
             "future":        len(future),
             "problems": (
-                [serialise(p) for p in overdue]
-                + [serialise(p) for p in due_today]
-                + [serialise(p) for p in upcoming]
-                + [serialise(p) for p in future]
+                [serialise(p) for p in active]
+                + ([serialise(p) for p in future] if show_all else [])
             ),
         }
         print(json.dumps(output, indent=2))
