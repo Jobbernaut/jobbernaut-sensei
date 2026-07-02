@@ -306,9 +306,13 @@ Every session follows this lifecycle.
 Immediately run:
 
 ```bash
-sensei status
 sensei revisit --json
 ```
+
+This single command returns everything needed for session planning:
+- `overdue`, `due_today`, `upcoming`, `future` counts
+- Full problem list for overdue + due_today + upcoming (no future noise)
+- Per-problem: label, difficulty, topics, topic_folder, due_date, days_until_due, filepath
 
 Then inspect the working directory for tracked learning plans.
 
@@ -329,6 +333,8 @@ Purpose:
 * determine expansion strategy
 
 The agent should maintain awareness of which structured list the user is currently progressing through.
+
+**Note:** `sensei status` is still available for a lightweight count-only check, but `sensei revisit --json` is the authoritative boot command. Do NOT run both — it doubles token cost with redundant data.
 
 ---
 
