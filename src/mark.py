@@ -36,18 +36,46 @@ RATING_MAP = {
 # The mark command will shift the due date within this window toward the
 # least-loaded day.  Keeps SRS integrity while smoothing daily review load.
 #
-#   "t" (90d): ±8%  →  85 – 100 days
-#   "e" (30d): ±10% →  27 –  37 days
-#   "g"  (7d): ±14% →   6 –  10 days
-#   "h"  (3d): 0–2  →   3 –   5 days  (never early)
-#   "s"  (1d): 0–1  →   1 –   2 days  (never early)
+#   "s" ( 1d):  0 →  0  →   1 day        (fixed — no spread)
+#   "h" ( 3d): -1 → +1  →   2 –  4 days
+#   "g" ( 7d): -2 → +7  →   5 – 14 days
+#   "e" (30d): -15 → +15 → 15 – 45 days
+#   "t" (90d): -45 → 0  →  45 – 90 days
+#
+# Together: 1 ∪ 2–4 ∪ 5–14 ∪ 15–45 ∪ 45–90 = full 1–90 coverage, contiguous.
 SPREAD_WINDOW = {
-    "t": (-5, 10),
-    "e": (-3,  7),
-    "g": (-1,  3),
-    "h": ( 0,  2),
-    "s": ( 0,  1),
+    "t": (-45,  0),
+    "e": (-15, 15),
+    "g": ( -2,  7),
+    "h": ( -1,  1),
+    "s": (  0,  0),
 }
+
+# ── New-problem progression gate ──────────────────────────────────────────────
+# A problem that has only been reviewed N times cannot be scheduled beyond the
+# cap for that tier, regardless of how well it was solved.  This enforces the
+# 1 → 3 → 7 → 30 → full-SRS ladder for new material.
+#
+#   times_reviewed = 0  (first solve)  → max 1 day
+#   times_reviewed = 1                 → max 3 days
+#   times_reviewed = 2                 → max 7 days
+#   times_reviewed = 3                 → max 30 days
+#   times_reviewed >= 4                → no cap (full SRS)
+#
+# Rating still determines direction: rating `s` on review 3 → 1 day (well under
+# the 30-day cap).  Rating `e` on review 0 → capped at 1 day.
+PROGRESSION_CAPS = {
+    0: 1,
+    1: 3,
+    2: 7,
+    3: 30,
+    # 4+: None (no cap)
+}
+
+
+def get_progression_cap(times_reviewed: int) -> int | None:
+    """Return the max allowed interval for this review count, or None if uncapped."""
+    return PROGRESSION_CAPS.get(times_reviewed)
 
 
 def read_file(path: str) -> str:
@@ -78,23 +106,38 @@ def get_all_due_dates(root: str, exclude_filepath: str = None) -> list:
     return due_dates
 
 
-def compute_spread_interval(base_days: int, rating: str, today: date, all_due_dates: list) -> int:
+# Problems reviewed this many times or more are biased toward the LATER end of
+# their spread window during tie-breaking.  Low-reviewed problems prefer the
+# earliest minimum-load day; high-reviewed problems prefer the latest.
+HIGH_REVIEW_THRESHOLD = 5
+
+
+def compute_spread_interval(base_days: int, rating: str, today: date,
+                            all_due_dates: list, times_reviewed: int = 0) -> int:
     """
     Within the spread window for this rating, find the day with the fewest
-    already-scheduled reviews and return the offset from today.
+    already-scheduled reviews and return the interval from today.
 
-    Tie-breaking: prefer the earliest day (closest to the base interval).
-    Early exit if a day with zero load is found.
+    Tie-breaking is biased by times_reviewed:
+      - Low review count  (< HIGH_REVIEW_THRESHOLD): prefer EARLIEST minimum day
+      - High review count (>= HIGH_REVIEW_THRESHOLD): prefer LATEST minimum day
+        → pushes well-reviewed problems out of clusters, freeing slots for
+          problems that truly need frequent review.
+
+    Early exit if a zero-load day is found.
     """
     lo, hi = SPREAD_WINDOW[rating]
     base_date = today + timedelta(days=base_days)
 
-    best_day  = base_date
-    best_load = sum(1 for d in all_due_dates if d == base_date)
+    prefer_late = times_reviewed >= HIGH_REVIEW_THRESHOLD
 
-    for offset in range(lo, hi + 1):
-        if offset == 0:
-            continue  # base_date already evaluated above
+    # Build candidate list in preference order based on review count
+    offsets = range(lo, hi + 1) if not prefer_late else range(hi, lo - 1, -1)
+
+    best_day  = None
+    best_load = float("inf")
+
+    for offset in offsets:
         candidate = base_date + timedelta(days=offset)
         if candidate <= today:
             continue
@@ -104,6 +147,10 @@ def compute_spread_interval(base_days: int, rating: str, today: date, all_due_da
             best_day  = candidate
             if best_load == 0:
                 break  # can't do better than a fully free day
+
+    # Fallback: if every candidate was in the past (shouldn't happen normally)
+    if best_day is None:
+        best_day = base_date
 
     return (best_day - today).days
 
@@ -121,11 +168,17 @@ def compute_interval(rating: str) -> int:
     return RATING_MAP[rating][0]
 
 
-def update_metadata(source: str, today_str: str, rating: str, actual_days: int) -> tuple:
+def update_metadata(source: str, today_str: str, rating: str, actual_days: int = None,
+                    new_times_reviewed: int = None) -> tuple:
     """
-    Replace last_solved and revisit_in_days in the solution file source.
-    actual_days is the post-spread interval to store.
+    Replace last_solved, revisit_in_days, and times_reviewed in the solution file source.
+    actual_days is the post-spread interval to store (defaults to base interval).
+    new_times_reviewed is written if the field already exists in source;
+    if absent it is inserted after revisit_in_days.
     """
+    if actual_days is None:
+        actual_days = compute_interval(rating)
+
     # last_solved
     source = re.sub(
         r'(last_solved\s*=\s*)["\'][\d\-A-Za-z/]+["\']',
@@ -138,6 +191,22 @@ def update_metadata(source: str, today_str: str, rating: str, actual_days: int) 
         f"revisit_in_days = {actual_days}",
         source,
     )
+
+    if new_times_reviewed is not None:
+        if re.search(r"times_reviewed\s*=\s*\d+", source):
+            # Field already exists — update it in-place
+            source = re.sub(
+                r"(times_reviewed\s*=\s*)\d+",
+                f"times_reviewed  = {new_times_reviewed}",
+                source,
+            )
+        else:
+            # Insert after revisit_in_days line
+            source = re.sub(
+                r"(revisit_in_days\s*=\s*\d+)",
+                f"\\1\ntimes_reviewed  = {new_times_reviewed}",
+                source,
+            )
 
     return source, actual_days
 
@@ -224,19 +293,39 @@ def main() -> None:
     source    = read_file(match)
     base_days = compute_interval(rating_key)
 
+    # Read current times_reviewed (0 for legacy files without the field)
+    existing_meta      = parse_metadata(match)
+    cur_times_reviewed = existing_meta["times_reviewed"] if existing_meta else 0
+    new_times_reviewed = cur_times_reviewed + 1
+
     if no_spread:
         actual_days = base_days
         spread_note = ""
     else:
         all_due_dates = get_all_due_dates(root, exclude_filepath=match)
-        actual_days   = compute_spread_interval(base_days, rating_key, today, all_due_dates)
+        actual_days   = compute_spread_interval(
+            base_days, rating_key, today, all_due_dates,
+            times_reviewed=cur_times_reviewed,
+        )
         spread_note   = (
             f" {GREY}(spread from {base_days}d){RESET}"
             if actual_days != base_days
             else ""
         )
 
-    updated, days = update_metadata(source, today_str, rating_key, actual_days)
+    # ── Progression gate ──────────────────────────────────────────────────────
+    # New problems must climb the 1→3→7→30→full ladder regardless of rating.
+    # This prevents a first-solve rated `e` from jumping to 30 days.
+    prog_cap = get_progression_cap(cur_times_reviewed)
+    if prog_cap is not None and actual_days > prog_cap:
+        capped_note = (
+            f" {YELLOW}(capped at {prog_cap}d — review #{cur_times_reviewed + 1}){RESET}"
+        )
+        actual_days = prog_cap
+        spread_note = capped_note  # overwrite spread note; cap takes priority
+
+    updated, days = update_metadata(source, today_str, rating_key, actual_days,
+                                    new_times_reviewed=new_times_reviewed)
     write_file(match, updated)
 
     print(f"\n  {GREEN}[OK]{RESET}  Marked as solved today ({today_str}) - next review in {BOLD}{days} days{RESET}{spread_note}\n")
@@ -244,3 +333,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

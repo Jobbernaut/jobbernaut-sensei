@@ -60,13 +60,14 @@ def collect_problems(root):
             due_date     = meta["last_solved"] + timedelta(days=meta["revisit_in_days"])
 
             problems.append({
-                "label":        label,
-                "topic_folder": topic_folder,
-                "topic_tags":   meta["topic_tags"],
-                "difficulty":   meta["difficulty"],
-                "last_solved":  meta["last_solved"],
-                "due_date":     due_date,
-                "filepath":     filepath,
+                "label":          label,
+                "topic_folder":   topic_folder,
+                "topic_tags":     meta["topic_tags"],
+                "difficulty":     meta["difficulty"],
+                "last_solved":    meta["last_solved"],
+                "due_date":       due_date,
+                "filepath":       filepath,
+                "times_reviewed": meta.get("times_reviewed", 0),
             })
 
     problems.sort(key=lambda p: p["due_date"])
