@@ -2,8 +2,8 @@
 https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 '''
 
-last_solved     = "2026-06-29"
-revisit_in_days = 3
+last_solved     = "2026-07-02"
+revisit_in_days = 7
 difficulty      = "medium"
 topic_tags      = ["binary-search"]
 times_reviewed  = 2

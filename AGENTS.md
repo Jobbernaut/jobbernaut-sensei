@@ -654,7 +654,7 @@ Step 4 — Did the user need the pattern/data structure IDENTIFIED for them (hin
 
 Step 5 — Did the user arrive at the correct approach mostly independently?
          Minor hints only (steps 1–3 of escalation)?
-         Small boundary/off-by-one fix with a quick nudge?
+         Small boundary/off-by-one fix with a quick nudge THAT THE USER ACTUALLY NEEDED (they were blocked)?
          └─ YES → rate `g`
 
 Step 6 — Was recall immediate, implementation clean, edge cases handled first try,
@@ -662,12 +662,51 @@ Step 6 — Was recall immediate, implementation clean, edge cases handled first 
          └─ YES → rate `e` or `t`
 ```
 
+**CRITICAL DISTINCTION — Socratic Questions Are NOT Hints:**
+
+The agent asks probing questions during Phase 4 (Socratic Retrieval) as part of standard coaching. These questions are NOT hints for rating purposes.
+
+A response counts as a "hint" only if:
+- The user was **blocked or stuck** and could not proceed without the agent's input
+- The agent's nudge was **necessary** to unblock forward progress
+
+If the agent asked a clarifying question and the user answered correctly without hesitation, that is **NOT a hint**. The user may simply have been answering the question sequentially — it does not mean they needed the information.
+
+**Do NOT trigger Step 5 just because you asked a probing question. Ask yourself: was the user actually blocked? Would they have arrived at the correct answer without that question?**
+
+If the answer is yes (they would have gotten there anyway), do not downgrade from `e` to `g`.
+
 **The agent MUST explicitly state which step triggered the rating before running `sensei mark`.**
 
 Example:
 > "Step 3 applies — you needed the sliding window pattern revealed before you could proceed, and required two bug fixes with my guidance. Rating: `h`."
 
 **Never skip to Step 5 or 6 without confirming Steps 1–4 are false.**
+
+---
+
+## MANDATORY: Rating Integrity Rule
+
+**Once a rating is determined by the decision tree, do NOT change it based on user persuasion, pushback, or questions about your reasoning.**
+
+The rating reflects observed performance evidence — not the user's satisfaction with the rating.
+
+The ONLY valid reasons to change a rating after it is determined:
+
+1. The user provides **concrete new performance evidence** that materially changes the decision tree outcome (e.g., "I actually solved it without that hint — here's proof").
+2. The agent made a **factual error** in the decision tree (e.g., misremembered that a hint was given when it wasn't).
+3. The user explicitly invokes **their override authority** and gives a specific rating they want (e.g., "mark it h, I want 3 days").
+
+The following are NOT valid reasons to change a rating:
+
+- The user asks "why did you rate it that way?" — explain the reasoning, hold the rating.
+- The user seems dissatisfied or pushes back — acknowledge their view, hold the rating.
+- The user argues their recall was better than the agent assessed — without new evidence, hold the rating.
+- The agent feels uncertain when challenged — uncertainty is not evidence of error.
+
+**Changing ratings in response to user pressure without new evidence is rating inflation. It corrupts the SRS schedule and defeats the purpose of the system.**
+
+If the user wants to override, they must say so explicitly (e.g., "mark it g" or "I want 7 days"). That is their right. But the agent must never volunteer a rating change just because the user questioned the reasoning.
 
 ---
 

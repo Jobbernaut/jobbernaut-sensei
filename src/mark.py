@@ -5,14 +5,16 @@ Usage:
     sensei mark 217
     sensei mark contains-duplicate
     sensei mark "valid anagram"
+    sensei mark 217 --rating g          (non-interactive)
+    sensei mark 217 --rating g --no-spread  (disable load smoothing)
 '''
 
 import os
 import re
 import sys
-from datetime import date
+from datetime import date, timedelta
 
-from utils import find_solution_files, find_match
+from utils import find_solution_files, find_match, parse_metadata
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 GREEN  = "\033[92m"
@@ -30,6 +32,23 @@ RATING_MAP = {
     "s": (1,  "struggled → 1 day"),
 }
 
+# Per-rating spread window (lo_offset, hi_offset) relative to the base interval.
+# The mark command will shift the due date within this window toward the
+# least-loaded day.  Keeps SRS integrity while smoothing daily review load.
+#
+#   "t" (90d): ±8%  →  85 – 100 days
+#   "e" (30d): ±10% →  27 –  37 days
+#   "g"  (7d): ±14% →   6 –  10 days
+#   "h"  (3d): 0–2  →   3 –   5 days  (never early)
+#   "s"  (1d): 0–1  →   1 –   2 days  (never early)
+SPREAD_WINDOW = {
+    "t": (-5, 10),
+    "e": (-3,  7),
+    "g": (-1,  3),
+    "h": ( 0,  2),
+    "s": ( 0,  1),
+}
+
 
 def read_file(path: str) -> str:
     with open(path, "r", encoding="utf-8") as f:
@@ -41,9 +60,57 @@ def write_file(path: str, content: str) -> None:
         f.write(content)
 
 
+def get_all_due_dates(root: str, exclude_filepath: str = None) -> list:
+    """
+    Return a list of due dates for all tracked problems.
+    Optionally exclude the problem currently being marked so it isn't
+    counted against itself.
+    """
+    files = find_solution_files(root, exclude_files={"revisit.py", "mark.py"})
+    due_dates = []
+    for f in files:
+        if exclude_filepath and os.path.abspath(f) == os.path.abspath(exclude_filepath):
+            continue
+        meta = parse_metadata(f)
+        if meta:
+            due = meta["last_solved"] + timedelta(days=meta["revisit_in_days"])
+            due_dates.append(due)
+    return due_dates
+
+
+def compute_spread_interval(base_days: int, rating: str, today: date, all_due_dates: list) -> int:
+    """
+    Within the spread window for this rating, find the day with the fewest
+    already-scheduled reviews and return the offset from today.
+
+    Tie-breaking: prefer the earliest day (closest to the base interval).
+    Early exit if a day with zero load is found.
+    """
+    lo, hi = SPREAD_WINDOW[rating]
+    base_date = today + timedelta(days=base_days)
+
+    best_day  = base_date
+    best_load = sum(1 for d in all_due_dates if d == base_date)
+
+    for offset in range(lo, hi + 1):
+        if offset == 0:
+            continue  # base_date already evaluated above
+        candidate = base_date + timedelta(days=offset)
+        if candidate <= today:
+            continue
+        load = sum(1 for d in all_due_dates if d == candidate)
+        if load < best_load:
+            best_load = load
+            best_day  = candidate
+            if best_load == 0:
+                break  # can't do better than a fully free day
+
+    return (best_day - today).days
+
+
 def compute_interval(rating: str) -> int:
     """
-    Hardcoded SRS intervals by rating.
+    Base SRS interval by rating (before load-smoothing).
 
     - Trivial:   90 days
     - Easy:      30 days
@@ -54,12 +121,11 @@ def compute_interval(rating: str) -> int:
     return RATING_MAP[rating][0]
 
 
-def update_metadata(source: str, today_str: str, rating: str) -> tuple:
+def update_metadata(source: str, today_str: str, rating: str, actual_days: int) -> tuple:
     """
-    Replace last_solved and recompute revisit_in_days using hardcoded intervals.
+    Replace last_solved and revisit_in_days in the solution file source.
+    actual_days is the post-spread interval to store.
     """
-    new_days = compute_interval(rating)
-
     # last_solved
     source = re.sub(
         r'(last_solved\s*=\s*)["\'][\d\-A-Za-z/]+["\']',
@@ -69,11 +135,11 @@ def update_metadata(source: str, today_str: str, rating: str) -> tuple:
     # revisit_in_days
     source = re.sub(
         r"(revisit_in_days\s*=\s*)\d+",
-        f"revisit_in_days = {new_days}",
+        f"revisit_in_days = {actual_days}",
         source,
     )
 
-    return source, new_days
+    return source, actual_days
 
 
 def prompt_rating() -> tuple:
@@ -104,8 +170,13 @@ def main() -> None:
         print(f"    sensei mark 217")
         print(f"    sensei mark contains-duplicate")
         print(f"    sensei mark \"valid anagram\"")
-        print(f"    sensei mark 217 --rating g    (non-interactive)\n")
+        print(f"    sensei mark 217 --rating g           (non-interactive)")
+        print(f"    sensei mark 217 --rating g --no-spread  (skip smoothing)\n")
         sys.exit(1)
+
+    # ── Flag parsing ──────────────────────────────────────────────────────────
+    no_spread = "--no-spread" in args
+    args = [a for a in args if a != "--no-spread"]
 
     rating_override = None
     if "--rating" in args:
@@ -148,12 +219,27 @@ def main() -> None:
     else:
         rating_key, rating_label = prompt_rating()
 
-    today_str = date.today().isoformat()
+    today     = date.today()
+    today_str = today.isoformat()
     source    = read_file(match)
-    updated, days = update_metadata(source, today_str, rating_key)
+    base_days = compute_interval(rating_key)
+
+    if no_spread:
+        actual_days = base_days
+        spread_note = ""
+    else:
+        all_due_dates = get_all_due_dates(root, exclude_filepath=match)
+        actual_days   = compute_spread_interval(base_days, rating_key, today, all_due_dates)
+        spread_note   = (
+            f" {GREY}(spread from {base_days}d){RESET}"
+            if actual_days != base_days
+            else ""
+        )
+
+    updated, days = update_metadata(source, today_str, rating_key, actual_days)
     write_file(match, updated)
 
-    print(f"\n  {GREEN}[OK]{RESET}  Marked as solved today ({today_str}) - next review in {BOLD}{days} days{RESET}\n")
+    print(f"\n  {GREEN}[OK]{RESET}  Marked as solved today ({today_str}) - next review in {BOLD}{days} days{RESET}{spread_note}\n")
 
 
 if __name__ == "__main__":
