@@ -6,6 +6,7 @@ import mark
 import new
 import lopen
 import revisit
+import rebalance
 from utils import find_solution_files, find_match, parse_metadata
 
 
@@ -137,14 +138,15 @@ def main():
         print("\n  Jobbernaut Sensei CLI")
         print("  Usage: sensei <command> [args]\n")
         print("  Available commands:")
-        print("    init     - Initialize the problems/ directory")
-        print("    revisit  - Run daily review (--json for agent-friendly output)")
-        print("    new      - Scaffold a new problem")
-        print("    open     - Open a problem in editor/browser")
-        print("    hint     - Show problem metadata + URL only (no solution, for coaching)")
-        print("    mark     - Mark a problem as solved (--rating e|g|h|s for non-interactive)")
-        print("    show     - Show problem metadata + solution (JSON output)")
-        print("    status   - Quick summary statistics (JSON output)")
+        print("    init       - Initialize the problems/ directory")
+        print("    revisit    - Run daily review (--json for agent-friendly output)")
+        print("    new        - Scaffold a new problem")
+        print("    open       - Open a problem in editor/browser")
+        print("    hint       - Show problem metadata + URL only (no solution, for coaching)")
+        print("    mark       - Mark a problem as solved (--rating e|g|h|s for non-interactive)")
+        print("    show       - Show problem metadata + solution (JSON output)")
+        print("    status     - Quick summary statistics (JSON output)")
+        print("    rebalance  - Spread overloaded review days (--apply to write changes)")
         sys.exit(1)
 
     cmd = sys.argv[1]
@@ -172,6 +174,8 @@ def main():
         lopen.main()
     elif cmd == "revisit":
         revisit.main()
+    elif cmd == "rebalance":
+        rebalance.main()
     else:
         print(f"Unknown command: {cmd}")
         sys.exit(1)
