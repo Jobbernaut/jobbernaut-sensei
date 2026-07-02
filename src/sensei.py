@@ -103,29 +103,31 @@ def cmd_status():
     problems = revisit.collect_problems(problems_root)
 
     if not problems:
-        print(json.dumps({"total": 0, "overdue": 0, "due_today": 0, "upcoming": 0, "problems": []}))
+        print(json.dumps({"total": 0, "overdue": 0, "due_today": 0, "upcoming": 0, "future": 0, "problems": []}))
         return
 
-    overdue = [p for p in problems if p["due_date"] < today]
+    overdue   = [p for p in problems if p["due_date"] < today]
     due_today = [p for p in problems if p["due_date"] == today]
-    upcoming = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
-    
+    upcoming  = [p for p in problems if today < p["due_date"] <= today + timedelta(days=7)]
+    future    = [p for p in problems if p["due_date"] > today + timedelta(days=7)]
+
     active_queue = overdue + due_today + upcoming
 
     result = {
-        "total": len(problems),
-        "overdue": len(overdue),
+        "total":     len(problems),
+        "overdue":   len(overdue),
         "due_today": len(due_today),
-        "upcoming": len(upcoming),
+        "upcoming":  len(upcoming),
+        "future":    len(future),
         "problems": [
             {
-                "label": p["label"].strip(),
-                "difficulty": p["difficulty"],
-                "last_solved": p["last_solved"].isoformat(),
-                "due_date": p["due_date"].isoformat(),
+                "label":         p["label"].strip(),
+                "difficulty":    p["difficulty"],
+                "last_solved":   p["last_solved"].isoformat(),
+                "due_date":      p["due_date"].isoformat(),
                 "days_until_due": (p["due_date"] - today).days,
-                "topics": p["topic_tags"],
-                "topic_folder": p["topic_folder"],
+                "topics":        p["topic_tags"],
+                "topic_folder":  p["topic_folder"],
             }
             for p in active_queue
         ],

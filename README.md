@@ -185,7 +185,7 @@ sensei hint 217
 sensei hint contains-duplicate
 ```
 
-Same as `show` but **no `solution` field**. Perfect for agents that want to quiz without spoiling.
+Same as `show` but **no `solution` field**. Returns `times_reviewed` so the agent knows review history without seeing the answer. Perfect for agents that want to quiz without spoiling.
 
 ### `sensei mark <problem>` — rate your session
 
@@ -226,7 +226,7 @@ sensei open 217 --no-browser       # Editor only
 sensei status
 ```
 
-Returns `{total, overdue, due_today, upcoming, problems[]}` — one-liner for agents.
+Returns `{total, overdue, due_today, upcoming, future, problems[]}` — one-liner for agents. Schema matches `sensei revisit --json` counts.
 
 ---
 

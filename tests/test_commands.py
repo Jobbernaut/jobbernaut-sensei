@@ -69,6 +69,7 @@ class TestSenseiStatus:
         assert data["total"] == 0
         assert data["overdue"] == 0
         assert data["due_today"] == 0
+        assert "future" in data  # future count must be present
     
     def test_status_with_problems(self, multiple_problems, initialized_workspace):
         """Test status with multiple problems."""
@@ -84,6 +85,7 @@ class TestSenseiStatus:
         assert data["total"] == 3
         assert data["overdue"] >= 1  # At least one overdue
         assert len(data["problems"]) >= 2  # overdue + due_today
+        assert "future" in data  # future count must match revisit --json schema
     
     def test_status_missing_directory(self, temp_workspace):
         """Test status when problems/ doesn't exist."""
@@ -118,7 +120,8 @@ class TestSenseiHint:
         assert "Contains Duplicate" in data["title"]
         assert data["difficulty"] == "easy"
         assert "url" in data
-        assert "solution" not in data  # hint shouldn't show solution
+        assert "solution" not in data        # hint shouldn't show solution
+        assert "times_reviewed" in data      # coaching metadata must be present
     
     def test_hint_no_match(self, sample_problem_file, initialized_workspace):
         """Test hint with no matching problem."""
@@ -488,3 +491,4 @@ topic_tags      = ["arrays"]
 '''
         updated, _ = update_metadata(source, "2026-06-01", "g")
         assert "times_reviewed  = 5" in updated
+
