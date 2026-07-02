@@ -39,9 +39,10 @@ Sensei tracks **when** you solved a problem and **how well** you understood it. 
 | `sensei status` | JSON snapshot for you or your AI agent |
 | `sensei hint <problem>` | Get the problem URL + deets **without the answer** (for quizzing) |
 | `sensei show <problem>` | Full problem + your saved solution (for review) |
-| `sensei mark <problem> --rating g` | "Good" → next review in 7 days |
+| `sensei mark <problem> --rating g` | "Good" → next review in 7 days (with load smoothing) |
 | `sensei new <num> <slug> <cat>` | Scaffold a fresh problem in 0.3 seconds |
 | `sensei open <problem>` | Jump into the code + LeetCode page |
+| `sensei rebalance` | Spread review clusters across empty days |
 | `sensei revisit --export` | Dump everything to CSV or Markdown |
 
 ---
@@ -79,6 +80,36 @@ Rate yourself after each solve. Intervals are hardcoded — no adaptive math, no
 | Struggled 🔴 | `--rating s` | 1 day |
 
 **The schedule is the curriculum.** Every rating directly sets the next review — no surprises.
+
+### 📈 New-Problem Progression Gate
+
+New problems are gated through a 1 → 3 → 7 → 30 day ladder before entering full SRS. No matter how well you solve a brand-new problem, it can't skip ahead:
+
+| Review # | Max interval |
+|----------|-------------|
+| 1st solve | 1 day |
+| 2nd solve | 3 days |
+| 3rd solve | 7 days |
+| 4th solve | 30 days |
+| 5th+ | Full SRS (no cap) |
+
+Rating `e` on your first solve → capped at 1 day. Rating `s` on your 4th solve → 1 day (under cap). The gate only fires when the rating would exceed the cap.
+
+### ⚖️ Load Smoothing
+
+`sensei mark` automatically spreads reviews across nearby days to avoid spikes. Instead of 6 problems all landing on the same day, the scheduler finds the least-loaded day within a window:
+
+| Rating | Base | Spread range |
+|--------|------|-------------|
+| `s` | 1d | fixed |
+| `h` | 3d | 2–4 days |
+| `g` | 7d | 5–14 days |
+| `e` | 30d | 15–45 days |
+| `t` | 90d | 45–90 days |
+
+Problems reviewed 5+ times are biased toward the **later** end of their window (stable memory, safe to defer). Newer problems stay at the **earlier** end (fragile memory, keep close).
+
+Disable with `--no-spread` to get exact base intervals.
 
 ---
 
@@ -159,9 +190,22 @@ Same as `show` but **no `solution` field**. Perfect for agents that want to quiz
 ### `sensei mark <problem>` — rate your session
 
 ```bash
-sensei mark 217                    # Interactive prompt
-sensei mark 217 --rating e         # Non-interactive (agent-friendly)
+sensei mark 217                         # Interactive prompt
+sensei mark 217 --rating e              # Non-interactive (agent-friendly)
+sensei mark 217 --rating g --no-spread  # Exact base interval, no smoothing
 ```
+
+Automatically increments `times_reviewed` and applies the progression gate and load smoothing.
+
+### `sensei rebalance` — flatten review spikes
+
+```bash
+sensei rebalance              # Dry run — preview moves, no writes
+sensei rebalance --apply      # Write changes to disk
+sensei rebalance --cap 2      # Flag days with more than 2 reviews
+```
+
+Finds days exceeding the review cap and displaces the most-reviewed problems (most stable memory) to nearby low-load dates within ±50% of their current interval. Always preview before applying.
 
 ### `sensei new <num> <slug> <cat>` — scaffold
 
