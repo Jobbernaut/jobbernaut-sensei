@@ -23,9 +23,13 @@ def parse_metadata(filepath: str) -> dict | None:
     Reads a .py solution file and extracts the 4 required metadata variables:
         last_solved, revisit_in_days, difficulty, topic_tags
 
+    Also reads the optional field:
+        times_reviewed  (int, default 0 if absent)
+
     Returns a dict on success, or None if any required field is missing/malformed.
     """
     required = {"last_solved", "revisit_in_days", "difficulty", "topic_tags"}
+    optional = {"times_reviewed"}
     meta = {}
 
     try:
@@ -42,7 +46,7 @@ def parse_metadata(filepath: str) -> dict | None:
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
             for target in node.targets:
-                if isinstance(target, ast.Name) and target.id in required:
+                if isinstance(target, ast.Name) and target.id in required | optional:
                     try:
                         meta[target.id] = ast.literal_eval(node.value)
                     except (ValueError, TypeError):
@@ -59,6 +63,12 @@ def parse_metadata(filepath: str) -> dict | None:
 
     if not isinstance(meta["topic_tags"], list):
         meta["topic_tags"] = [meta["topic_tags"]]
+
+    # Optional field — default to 0 if absent or malformed
+    try:
+        meta["times_reviewed"] = int(meta.get("times_reviewed", 0))
+    except (ValueError, TypeError):
+        meta["times_reviewed"] = 0
 
     return meta
 

@@ -40,7 +40,8 @@ def build_content(number: str, slug: str, difficulty: str, tags: list, today: st
 \'\'\'
 
 last_solved     = "{today}"
-revisit_in_days = 3
+revisit_in_days = 1
+times_reviewed  = 0
 difficulty      = "{difficulty}"
 topic_tags      = {tags_repr}
 
