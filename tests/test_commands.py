@@ -384,7 +384,7 @@ class TestSenseiNew:
     def test_new_creates_problem(self, initialized_workspace):
         """Test creating a new problem."""
         result = subprocess.run(
-            [sys.executable, "-m", "sensei", "new", 
+            [sys.executable, "-m", "sensei", "new",
              "123", "test-problem", "1-test-category",
              "-d", "easy", "-t", "arrays", "hash-map"],
             capture_output=True,
@@ -396,7 +396,7 @@ class TestSenseiNew:
         assert "Created" in result.stdout
         
         # Verify file exists
-        problem_path = (initialized_workspace / "problems" / 
+        problem_path = (initialized_workspace / "problems" /
                        "1-test-category" / "123-Test-Problem" / "123-Test-Problem.py")
         assert problem_path.exists()
         
@@ -406,3 +406,85 @@ class TestSenseiNew:
         assert 'difficulty      = "easy"' in content
         assert '"arrays"' in content
         assert '"hash-map"' in content
+        # New problems must start with times_reviewed = 0
+        assert "times_reviewed  = 0" in content
+        # New problems must start at revisit_in_days = 1 (progression gate)
+        assert "revisit_in_days = 1" in content
+
+
+class TestProgressionGate:
+    """Test new-problem progression cap enforcement."""
+
+    def test_first_solve_capped_at_1(self):
+        """Rating e on first solve should be capped at 1 day."""
+        from mark import get_progression_cap, compute_interval
+        cap = get_progression_cap(0)  # times_reviewed = 0
+        base = compute_interval("e")   # 30 days
+        assert cap == 1
+        assert base > cap
+
+    def test_second_solve_capped_at_3(self):
+        """times_reviewed = 1 → max 3 days."""
+        from mark import get_progression_cap
+        assert get_progression_cap(1) == 3
+
+    def test_third_solve_capped_at_7(self):
+        """times_reviewed = 2 → max 7 days."""
+        from mark import get_progression_cap
+        assert get_progression_cap(2) == 7
+
+    def test_fourth_solve_capped_at_30(self):
+        """times_reviewed = 3 → max 30 days."""
+        from mark import get_progression_cap
+        assert get_progression_cap(3) == 30
+
+    def test_fifth_solve_uncapped(self):
+        """times_reviewed = 4 → no cap (full SRS)."""
+        from mark import get_progression_cap
+        assert get_progression_cap(4) is None
+
+    def test_rating_under_cap_not_affected(self):
+        """Rating s (1 day) on review #3 stays 1 day — under 30-day cap."""
+        from mark import get_progression_cap, compute_interval
+        cap = get_progression_cap(3)
+        base = compute_interval("s")
+        assert base <= cap  # no capping needed
+
+
+class TestTimesReviewedField:
+    """Test times_reviewed tracking in update_metadata."""
+
+    def test_times_reviewed_inserted_if_absent(self):
+        """If times_reviewed absent, it should be inserted after revisit_in_days."""
+        source = '''last_solved     = "2026-05-01"
+revisit_in_days = 7
+difficulty      = "easy"
+topic_tags      = ["arrays"]
+'''
+        updated, _ = update_metadata(source, "2026-06-01", "g",
+                                     new_times_reviewed=1)
+        assert "times_reviewed  = 1" in updated
+
+    def test_times_reviewed_updated_if_present(self):
+        """If times_reviewed already exists, it should be updated in-place."""
+        source = '''last_solved     = "2026-05-01"
+revisit_in_days = 7
+times_reviewed  = 3
+difficulty      = "easy"
+topic_tags      = ["arrays"]
+'''
+        updated, _ = update_metadata(source, "2026-06-01", "g",
+                                     new_times_reviewed=4)
+        assert "times_reviewed  = 4" in updated
+        assert "times_reviewed  = 3" not in updated
+
+    def test_times_reviewed_not_touched_if_none(self):
+        """If new_times_reviewed is None, existing field should be untouched."""
+        source = '''last_solved     = "2026-05-01"
+revisit_in_days = 7
+times_reviewed  = 5
+difficulty      = "easy"
+topic_tags      = ["arrays"]
+'''
+        updated, _ = update_metadata(source, "2026-06-01", "g")
+        assert "times_reviewed  = 5" in updated
