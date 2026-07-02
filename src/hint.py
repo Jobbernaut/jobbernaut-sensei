@@ -57,15 +57,16 @@ def main() -> None:
     url = extract_url(match)
 
     result = {
-        "label": label,
-        "number": number,
-        "title": title,
-        "difficulty": meta["difficulty"],
-        "topics": meta["topic_tags"],
-        "url": url,
+        "label":          label,
+        "number":         number,
+        "title":          title,
+        "difficulty":     meta["difficulty"],
+        "topics":         meta["topic_tags"],
+        "url":            url,
+        "times_reviewed": meta.get("times_reviewed", 0),
         "status": {
-            "last_solved": meta["last_solved"].isoformat(),
-            "due_date": due_date.isoformat(),
+            "last_solved":    meta["last_solved"].isoformat(),
+            "due_date":       due_date.isoformat(),
             "days_until_due": (due_date - today).days,
         },
     }
