@@ -994,10 +994,66 @@ Never spoil prematurely.
 
 ```bash
 sensei mark 217 --rating g
+sensei mark 217 --rating g --no-spread   # exact base interval, no smoothing
 ```
 
 The agent chooses the rating.
-Sensei handles interval scheduling.
+Sensei handles interval scheduling, load smoothing, and the progression gate.
+
+### What happens on mark
+
+1. `times_reviewed` is incremented and written back to the file.
+2. The progression gate caps the interval for new problems (see below).
+3. Load smoothing shifts the due date toward the least-loaded day in the spread window.
+
+### Progression Gate
+
+New problems are gated through a mandatory ladder:
+
+| `times_reviewed` (before mark) | Max interval allowed |
+|--------------------------------|---------------------|
+| 0 (first solve) | 1 day |
+| 1 | 3 days |
+| 2 | 7 days |
+| 3 | 30 days |
+| 4+ | No cap — full SRS |
+
+This prevents a brand-new problem from jumping to 30 days on a good first solve.
+
+The gate ONLY fires when the computed interval exceeds the cap.
+Rating `s` (1 day) on review #3 is fine — 1 < 30, no capping occurs.
+
+### Load Smoothing
+
+`sensei mark` scans all existing due dates and shifts the new due date toward the least-loaded day within a spread window:
+
+| Rating | Spread range |
+|--------|-------------|
+| `s` | 1 day (fixed) |
+| `h` | 2–4 days |
+| `g` | 5–14 days |
+| `e` | 15–45 days |
+| `t` | 45–90 days |
+
+Tie-breaking: problems with `times_reviewed < 5` prefer the EARLIEST minimum-load day (fragile memory, keep close). Problems with `times_reviewed >= 5` prefer the LATEST (stable memory, safe to defer out of clusters).
+
+Use `--no-spread` to skip smoothing and get the exact base interval.
+
+---
+
+## Rebalance Schedule
+
+```bash
+sensei rebalance           # dry run — preview only
+sensei rebalance --apply   # write changes to disk
+sensei rebalance --cap 2   # flag days with more than 2 reviews
+```
+
+Use when large clusters exist after a period of intense new-problem addition.
+
+The command displaces problems in order of `times_reviewed DESC` — most-reviewed (most stable) problems are moved first. Each problem is shifted within ±50% of its current interval.
+
+**Always preview with dry run before `--apply`.**
 
 ---
 
@@ -1008,6 +1064,10 @@ sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-se
 ```
 
 Use when introducing new material.
+
+Scaffolded files start with:
+- `revisit_in_days = 1` — bottom of the progression ladder
+- `times_reviewed  = 0` — fresh tracking
 
 ---
 
