@@ -2,8 +2,8 @@
 https://leetcode.com/problems/subsets/
 '''
 
-last_solved     = "2026-06-01"
-revisit_in_days = 30
+last_solved     = "2026-07-01"
+revisit_in_days = 90
 difficulty      = "medium"
 topic_tags      = ["backtracking"]
 times_reviewed  = 1
