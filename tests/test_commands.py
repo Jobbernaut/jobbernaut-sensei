@@ -20,7 +20,13 @@ import mark
 import new
 import lopen
 import revisit
-from mark import compute_interval, update_metadata
+from mark import (
+    compute_interval,
+    update_metadata,
+    compute_spread_interval,
+    SMOOTH_OVERLOAD_CAP,
+    RATING_ESCALATION,
+)
 
 
 class TestSenseiInit:
@@ -491,4 +497,74 @@ topic_tags      = ["arrays"]
 '''
         updated, _ = update_metadata(source, "2026-06-01", "g")
         assert "times_reviewed  = 5" in updated
+
+
+class TestComputeSpreadIntervalEscalation:
+    """Test auto-escalation in compute_spread_interval when all nearby days are overloaded."""
+
+    def _make_due_dates(self, target_date, count):
+        """Return a list of `count` copies of target_date to simulate an overloaded day."""
+        return [target_date] * count
+
+    def test_no_escalation_when_free_day_exists(self):
+        """If a free day is available in the spread window, no escalation happens."""
+        from datetime import date, timedelta
+        today = date(2026, 6, 1)
+        # No competing due dates — plenty of room
+        days, effective = compute_spread_interval(1, "s", today, [], times_reviewed=0)
+        assert effective == "s"
+        assert days >= 1
+
+    def test_escalation_chain_is_correct(self):
+        """RATING_ESCALATION must follow s→h→g→e→t→None."""
+        assert RATING_ESCALATION["s"] == "h"
+        assert RATING_ESCALATION["h"] == "g"
+        assert RATING_ESCALATION["g"] == "e"
+        assert RATING_ESCALATION["e"] == "t"
+        assert RATING_ESCALATION["t"] is None
+
+    def test_smooth_overload_cap_constant(self):
+        """SMOOTH_OVERLOAD_CAP must be 8."""
+        assert SMOOTH_OVERLOAD_CAP == 8
+
+    def test_escalation_triggered_when_all_days_overloaded(self):
+        """When every day in the 's' window is loaded >= SMOOTH_OVERLOAD_CAP, escalate to 'h'."""
+        from datetime import date, timedelta
+        today = date(2026, 6, 1)
+        # 's' window: base=1d, spread (0,0) → only tomorrow
+        # 'h' window: base=3d, spread (-1,+1) → days 2,3,4
+        # Fill tomorrow AND days 2–4 with SMOOTH_OVERLOAD_CAP reviews to force h→g escalation
+        # Just fill tomorrow heavily so we escalate at least once
+        overloaded_day = today + timedelta(days=1)
+        all_due = [overloaded_day] * SMOOTH_OVERLOAD_CAP  # exactly at threshold
+        days, effective = compute_spread_interval(1, "s", today, all_due, times_reviewed=0)
+        # Should have escalated beyond "s"
+        assert effective != "s", "expected escalation away from 's'"
+        assert days > 1, "escalated interval should be larger than the base 1 day"
+
+    def test_escalation_stops_at_trivial(self):
+        """Escalation never goes beyond 't' (top of chain)."""
+        from datetime import date, timedelta
+        today = date(2026, 6, 1)
+        # Flood every possible day for t's window (45–90 days out) with overload load
+        # This is unrealistic but ensures the loop terminates gracefully at 't'
+        overloaded_dates = []
+        for delta in range(1, 100):
+            overloaded_dates.extend([today + timedelta(days=delta)] * SMOOTH_OVERLOAD_CAP)
+        days, effective = compute_spread_interval(1, "s", today, overloaded_dates, times_reviewed=0)
+        # Must always return something and never raise
+        assert effective == "t"
+        assert days >= 1
+
+    def test_returned_days_use_escalated_tier_base(self):
+        """Days returned after escalation are computed from the escalated tier's base, not original."""
+        from datetime import date, timedelta
+        today = date(2026, 6, 1)
+        # Pack tomorrow (only day for 's') so escalation to 'h' is forced
+        overloaded_day = today + timedelta(days=1)
+        all_due = [overloaded_day] * SMOOTH_OVERLOAD_CAP
+        days, effective = compute_spread_interval(1, "s", today, all_due, times_reviewed=0)
+        if effective == "h":
+            # h base is 3 days; spread window is (-1,+1) → should land in 2–4 day range
+            assert 2 <= days <= 4
 

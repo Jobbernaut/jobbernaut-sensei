@@ -111,12 +111,36 @@ def get_all_due_dates(root: str, exclude_filepath: str = None) -> list:
 # earliest minimum-load day; high-reviewed problems prefer the latest.
 HIGH_REVIEW_THRESHOLD = 5
 
+# ── Smooth-overload escalation ────────────────────────────────────────────────
+# If the minimum-load day found within a rating's spread window already has
+# this many (or more) reviews, the spread window is considered "impossible"
+# and the rating is automatically escalated one tier so the problem lands on
+# a quieter day further out.
+#
+# Escalation chain:  s → h → g → e → t  (each step doubles or more the interval)
+#
+# Example: rating=s (1 day) but tomorrow has 8 reviews → try h (3 days window).
+#          If that window is also packed → try g (7 days), etc.
+SMOOTH_OVERLOAD_CAP = 8
+
+RATING_ESCALATION = {
+    "s": "h",
+    "h": "g",
+    "g": "e",
+    "e": "t",
+    "t": None,   # already at the top tier — no further escalation possible
+}
+
 
 def compute_spread_interval(base_days: int, rating: str, today: date,
-                            all_due_dates: list, times_reviewed: int = 0) -> int:
+                            all_due_dates: list, times_reviewed: int = 0) -> tuple:
     """
     Within the spread window for this rating, find the day with the fewest
-    already-scheduled reviews and return the interval from today.
+    already-scheduled reviews and return (interval_from_today, effective_rating).
+
+    If every candidate day in the window has >= SMOOTH_OVERLOAD_CAP reviews,
+    the rating is escalated one tier (s→h→g→e→t) and the search is retried.
+    The returned effective_rating reflects any escalation that occurred.
 
     Tie-breaking is biased by times_reviewed:
       - Low review count  (< HIGH_REVIEW_THRESHOLD): prefer EARLIEST minimum day
@@ -126,33 +150,47 @@ def compute_spread_interval(base_days: int, rating: str, today: date,
 
     Early exit if a zero-load day is found.
     """
-    lo, hi = SPREAD_WINDOW[rating]
-    base_date = today + timedelta(days=base_days)
+    effective_rating = rating
 
-    prefer_late = times_reviewed >= HIGH_REVIEW_THRESHOLD
+    while True:
+        lo, hi = SPREAD_WINDOW[effective_rating]
+        # Recompute base_date from the effective tier's base interval each loop
+        tier_base_days = RATING_MAP[effective_rating][0]
+        base_date = today + timedelta(days=tier_base_days)
 
-    # Build candidate list in preference order based on review count
-    offsets = range(lo, hi + 1) if not prefer_late else range(hi, lo - 1, -1)
+        prefer_late = times_reviewed >= HIGH_REVIEW_THRESHOLD
 
-    best_day  = None
-    best_load = float("inf")
+        # Build candidate list in preference order based on review count
+        offsets = range(lo, hi + 1) if not prefer_late else range(hi, lo - 1, -1)
 
-    for offset in offsets:
-        candidate = base_date + timedelta(days=offset)
-        if candidate <= today:
-            continue
-        load = sum(1 for d in all_due_dates if d == candidate)
-        if load < best_load:
-            best_load = load
-            best_day  = candidate
-            if best_load == 0:
-                break  # can't do better than a fully free day
+        best_day  = None
+        best_load = float("inf")
 
-    # Fallback: if every candidate was in the past (shouldn't happen normally)
-    if best_day is None:
-        best_day = base_date
+        for offset in offsets:
+            candidate = base_date + timedelta(days=offset)
+            if candidate <= today:
+                continue
+            load = sum(1 for d in all_due_dates if d == candidate)
+            if load < best_load:
+                best_load = load
+                best_day  = candidate
+                if best_load == 0:
+                    break  # can't do better than a fully free day
 
-    return (best_day - today).days
+        # Fallback: if every candidate was in the past (shouldn't happen normally)
+        if best_day is None:
+            best_day = base_date
+
+        # If the best available day is still heavily loaded, escalate one tier
+        if best_load >= SMOOTH_OVERLOAD_CAP:
+            next_rating = RATING_ESCALATION.get(effective_rating)
+            if next_rating is not None:
+                effective_rating = next_rating
+                continue  # retry with the escalated tier's wider window
+
+        break  # found a reasonable day, or already at the top tier (t)
+
+    return (best_day - today).days, effective_rating
 
 
 def compute_interval(rating: str) -> int:
@@ -299,19 +337,27 @@ def main() -> None:
     new_times_reviewed = cur_times_reviewed + 1
 
     if no_spread:
-        actual_days = base_days
-        spread_note = ""
+        actual_days    = base_days
+        spread_note    = ""
+        effective_rating = rating_key
     else:
         all_due_dates = get_all_due_dates(root, exclude_filepath=match)
-        actual_days   = compute_spread_interval(
+        actual_days, effective_rating = compute_spread_interval(
             base_days, rating_key, today, all_due_dates,
             times_reviewed=cur_times_reviewed,
         )
-        spread_note   = (
-            f" {GREY}(spread from {base_days}d){RESET}"
-            if actual_days != base_days
-            else ""
-        )
+        if effective_rating != rating_key:
+            # Rating was auto-escalated because every nearby day was overloaded
+            _, orig_label = RATING_MAP[rating_key]
+            _, esc_label  = RATING_MAP[effective_rating]
+            spread_note = (
+                f" {YELLOW}(overloaded — escalated {rating_key}→{effective_rating}, "
+                f"{actual_days}d){RESET}"
+            )
+        elif actual_days != base_days:
+            spread_note = f" {GREY}(spread from {base_days}d){RESET}"
+        else:
+            spread_note = ""
 
     # ── Progression gate ──────────────────────────────────────────────────────
     # New problems must climb the 1→3→7→30→full ladder regardless of rating.
