@@ -6,7 +6,7 @@ last_solved     = "2026-06-25"
 revisit_in_days = 30
 difficulty      = "hard"
 topic_tags      = ["trees"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:

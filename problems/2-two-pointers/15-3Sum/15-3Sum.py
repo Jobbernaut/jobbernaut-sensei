@@ -6,7 +6,7 @@ last_solved     = "2026-07-01"
 revisit_in_days = 90
 difficulty      = "medium"
 topic_tags      = ["two-pointers", "array"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:

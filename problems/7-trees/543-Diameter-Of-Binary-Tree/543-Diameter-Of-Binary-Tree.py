@@ -6,7 +6,7 @@ last_solved     = "2026-07-01"
 revisit_in_days = 45
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:

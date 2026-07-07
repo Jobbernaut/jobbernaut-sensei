@@ -3,10 +3,10 @@ https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 '''
 
 last_solved     = "2026-07-02"
-revisit_in_days = 7
+revisit_in_days = 9
 difficulty      = "medium"
 topic_tags      = ["binary-search"]
-times_reviewed  = 3
+times_reviewed  = 5
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:

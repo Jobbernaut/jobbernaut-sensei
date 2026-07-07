@@ -6,7 +6,7 @@ last_solved     = "2026-06-23"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def rob(self, nums: List[int]) -> int:

@@ -6,7 +6,7 @@ last_solved     = "2026-05-27"
 revisit_in_days = 75
 difficulty      = "easy"
 topic_tags      = ["tree"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:

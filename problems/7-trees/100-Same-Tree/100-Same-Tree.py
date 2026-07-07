@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 67
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 0
+times_reviewed  = 5
 
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:

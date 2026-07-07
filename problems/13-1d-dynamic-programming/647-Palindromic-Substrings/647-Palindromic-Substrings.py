@@ -2,9 +2,9 @@
 https://leetcode.com/problems/palindromic-substrings/
 '''
 
-last_solved     = "2026-07-03"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-07-06"
+revisit_in_days = 10
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]
 

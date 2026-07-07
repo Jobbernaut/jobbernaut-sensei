@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 74
 difficulty      = "easy"
 topic_tags      = ["binary-search"]
-times_reviewed  = 0
+times_reviewed  = 5
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:

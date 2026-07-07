@@ -6,7 +6,7 @@ last_solved     = "2026-06-21"
 revisit_in_days = 23
 difficulty      = "medium"
 topic_tags      = ["trees", "bfs"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:

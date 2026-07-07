@@ -6,7 +6,7 @@ last_solved     = "2026-06-21"
 revisit_in_days = 24
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':

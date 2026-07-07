@@ -2,8 +2,9 @@
 https://leetcode.com/problems/search-a-2d-matrix/
 '''
 
-last_solved     = "2026-06-26"
-revisit_in_days = 8
+last_solved     = "2026-07-06"
+revisit_in_days = 2
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["binary-search", "matrix"]
 

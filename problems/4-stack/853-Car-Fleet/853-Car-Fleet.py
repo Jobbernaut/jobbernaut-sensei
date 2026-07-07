@@ -6,7 +6,7 @@ last_solved     = "2026-06-15"
 revisit_in_days = 52
 difficulty      = "medium"
 topic_tags      = ["stack", "monotonic-stack"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:

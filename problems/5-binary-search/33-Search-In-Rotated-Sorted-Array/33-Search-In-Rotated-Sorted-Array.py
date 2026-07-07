@@ -2,8 +2,9 @@
 https://leetcode.com/problems/search-in-rotated-sorted-array/
 '''
 
-last_solved     = "2026-07-02"
+last_solved     = "2026-07-06"
 revisit_in_days = 3
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["binary-search"]
 

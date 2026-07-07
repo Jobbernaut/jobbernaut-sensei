@@ -6,7 +6,7 @@ last_solved     = "2026-05-27"
 revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["linked-list", "recursion"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 from typing import List, Optional
 

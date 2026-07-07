@@ -6,7 +6,7 @@ last_solved     = "2026-06-26"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def longestPalindrome(self, s: str) -> str:

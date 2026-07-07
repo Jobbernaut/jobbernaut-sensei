@@ -6,7 +6,7 @@ last_solved     = "2026-07-01"
 revisit_in_days = 90
 difficulty      = "medium"
 topic_tags      = ["backtracking"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:

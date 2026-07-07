@@ -6,7 +6,7 @@ last_solved     = "2026-06-15"
 revisit_in_days = 59
 difficulty      = "easy"
 topic_tags      = ["math"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def isHappy(self, n: int) -> bool:

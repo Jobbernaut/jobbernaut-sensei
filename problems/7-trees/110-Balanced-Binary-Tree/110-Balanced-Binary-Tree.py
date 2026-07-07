@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 64
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:

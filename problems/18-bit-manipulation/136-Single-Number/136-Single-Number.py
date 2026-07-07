@@ -3,7 +3,7 @@ https://leetcode.com/problems/single-number/
 '''
 
 last_solved     = "2026-06-30"
-revisit_in_days = 7
+revisit_in_days = 14
 difficulty      = "easy"
 topic_tags      = ["bit-manipulation"]
 

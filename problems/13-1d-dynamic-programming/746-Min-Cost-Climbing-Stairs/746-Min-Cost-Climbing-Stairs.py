@@ -6,7 +6,7 @@ last_solved     = "2026-06-30"
 revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["dynamic-programming"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:

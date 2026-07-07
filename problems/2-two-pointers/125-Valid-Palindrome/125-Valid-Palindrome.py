@@ -6,7 +6,7 @@ last_solved     = "2026-05-27"
 revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["two-pointers", "string"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:

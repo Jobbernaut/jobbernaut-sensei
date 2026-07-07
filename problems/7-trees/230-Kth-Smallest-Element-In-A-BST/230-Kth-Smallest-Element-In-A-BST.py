@@ -6,7 +6,7 @@ last_solved     = "2026-06-13"
 revisit_in_days = 30
 difficulty      = "medium"
 topic_tags      = ["trees"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:

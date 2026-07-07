@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 61
 difficulty      = "easy"
 topic_tags      = ["sliding-window", "stock"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:

@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 66
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:

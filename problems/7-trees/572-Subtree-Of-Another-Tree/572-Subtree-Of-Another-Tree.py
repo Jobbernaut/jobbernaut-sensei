@@ -6,7 +6,7 @@ last_solved     = "2026-06-15"
 revisit_in_days = 53
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:

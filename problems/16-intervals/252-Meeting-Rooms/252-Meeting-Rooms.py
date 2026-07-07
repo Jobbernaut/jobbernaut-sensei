@@ -6,7 +6,7 @@ last_solved     = "2026-06-01"
 revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["intervals"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:

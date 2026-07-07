@@ -6,7 +6,7 @@ last_solved     = "2026-06-15"
 revisit_in_days = 51
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:

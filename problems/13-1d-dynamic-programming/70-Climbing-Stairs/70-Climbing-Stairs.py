@@ -6,7 +6,7 @@ last_solved     = "2026-06-16"
 revisit_in_days = 30
 difficulty      = "easy"
 topic_tags      = ["dynamic-programming", "recursion", "memoization"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 
 '''

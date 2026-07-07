@@ -2,8 +2,9 @@
 https://leetcode.com/problems/time-based-key-value-store/
 '''
 
-last_solved     = "2026-06-26"
+last_solved     = "2026-07-06"
 revisit_in_days = 9
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["binary-search", "hash-map"]
 

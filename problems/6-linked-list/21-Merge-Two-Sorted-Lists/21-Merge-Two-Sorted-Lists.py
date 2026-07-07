@@ -6,7 +6,7 @@ last_solved     = "2026-05-29"
 revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["linked-list"]
-times_reviewed  = 0
+times_reviewed  = 5
 
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:

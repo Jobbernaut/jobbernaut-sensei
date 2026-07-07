@@ -3,10 +3,10 @@ https://leetcode.com/problems/binary-tree-right-side-view/
 '''
 
 last_solved     = "2026-06-21"
-revisit_in_days = 21
+revisit_in_days = 29
 difficulty      = "medium"
 topic_tags      = ["trees", "bfs"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:

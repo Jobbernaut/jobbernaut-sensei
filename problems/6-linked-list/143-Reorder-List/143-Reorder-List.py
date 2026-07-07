@@ -2,9 +2,9 @@
 https://leetcode.com/problems/reorder-list/
 '''
 
-last_solved     = "2026-07-03"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-07-06"
+revisit_in_days = 3
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["linked-list", "two-pointers"]
 

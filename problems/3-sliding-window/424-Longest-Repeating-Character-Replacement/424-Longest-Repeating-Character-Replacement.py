@@ -3,10 +3,10 @@ https://leetcode.com/problems/longest-repeating-character-replacement/
 '''
 
 last_solved     = "2026-06-21"
-revisit_in_days = 20
+revisit_in_days = 28
 difficulty      = "medium"
 topic_tags      = ["sliding-window"]
-times_reviewed  = 2
+times_reviewed  = 5
 
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:

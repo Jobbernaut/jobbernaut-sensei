@@ -6,7 +6,7 @@ last_solved     = "2026-05-26"
 revisit_in_days = 90
 difficulty      = "medium"
 topic_tags      = ["graphs", "bfs"]
-times_reviewed  = 1
+times_reviewed  = 5
 
 from collections import deque
 from typing import List
