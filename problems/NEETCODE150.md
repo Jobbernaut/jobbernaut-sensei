@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **75 / 150**
+Total Completed: **77 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -50,8 +50,8 @@ Total Completed: **75 / 150**
 - [x] 206. Reverse Linked List (Easy)
 - [x] 21. Merge Two Sorted Lists (Easy)
 - [x] 143. Reorder List (Medium)
-- [ ] 19. Remove Nth Node From End of List (Medium)
-- [ ] 138. Copy List with Random Pointer (Medium)
+- [x] 19. Remove Nth Node From End of List (Medium)
+- [x] 138. Copy List with Random Pointer (Medium)
 - [ ] 2. Add Two Numbers (Medium)
 - [x] 141. Linked List Cycle (Easy)
 - [ ] 287. Find the Duplicate Number (Medium)
