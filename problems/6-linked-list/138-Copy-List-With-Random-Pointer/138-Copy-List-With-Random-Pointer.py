@@ -2,9 +2,9 @@
 https://leetcode.com/problems/copy-list-with-random-pointer/
 '''
 
-last_solved     = "2026-07-07"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-07-08"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["linked-list", "hash-map"]
 
@@ -12,33 +12,39 @@ class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         if not head:
             return head
+            
+        orig_copy_d = {}
 
-        lookup = {}
+        copy_list = Node(head.val)
+        orig_copy_d[head] = copy_list
 
-        copy = Node(head.val)
+        orig = head
+        copy = copy_list
 
-        org = head
-        curr = copy
+        while orig:
+            copy.val = orig.val
 
-        lookup[org] = curr
+            orig_copy_d[orig] = copy
 
-        while org.next:
-            curr.next = Node(org.next.val)
-            lookup[org.next] = curr.next
-
-            curr = curr.next
-            org = org.next
-        
-        org = head
-        curr = copy
-
-        while org:
-            if org.random:
-                curr.random = lookup[org.random]
+            if orig.next is None:
+                copy.next = None
             else:
-                curr.random = None
+                if orig.next in orig_copy_d:
+                    copy.next = orig_copy_d[orig.next]
+                else:
+                    copy.next = Node(orig.next.val)
+                    orig_copy_d[orig.next] = copy.next
+            
+            if orig.random is None:
+                copy.random = None
+            else:
+                if orig.random in orig_copy_d:
+                    copy.random = orig_copy_d[orig.random]
+                else:
+                    copy.random = Node(orig.random.val)
+                    orig_copy_d[orig.random] = copy.random
+            
+            orig = orig.next
+            copy = copy.next
 
-            curr = curr.next
-            org = org.next
-        
-        return copy
+        return copy_list
