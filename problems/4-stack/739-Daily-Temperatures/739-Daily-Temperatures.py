@@ -4,6 +4,7 @@ https://leetcode.com/problems/daily-temperatures/description/
 
 last_solved     = "2026-06-28"
 revisit_in_days = 30
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["stack", "monotonic-stack"]
 

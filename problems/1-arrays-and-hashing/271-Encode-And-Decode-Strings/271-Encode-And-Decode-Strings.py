@@ -4,6 +4,7 @@ https://leetcode.com/problems/encode-and-decode-strings/description/
 
 last_solved     = "2026-06-15"
 revisit_in_days = 90
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

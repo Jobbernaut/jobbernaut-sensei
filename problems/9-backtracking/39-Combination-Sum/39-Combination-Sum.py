@@ -4,6 +4,7 @@ https://leetcode.com/problems/combination-sum/
 
 last_solved     = "2026-06-24"
 revisit_in_days = 30
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 

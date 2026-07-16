@@ -4,6 +4,7 @@ https://leetcode.com/problems/validate-binary-search-tree/
 
 last_solved     = "2026-06-17"
 revisit_in_days = 28
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
 

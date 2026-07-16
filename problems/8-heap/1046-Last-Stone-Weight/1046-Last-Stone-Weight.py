@@ -3,7 +3,8 @@ https://leetcode.com/problems/last-stone-weight/description/
 '''
 
 last_solved     = "2026-06-22"
-revisit_in_days = 27
+revisit_in_days = 36
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["heap"]
 

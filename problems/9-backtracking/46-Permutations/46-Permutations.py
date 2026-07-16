@@ -4,6 +4,7 @@ https://leetcode.com/problems/permutations/
 
 last_solved     = "2026-06-18"
 revisit_in_days = 30
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 

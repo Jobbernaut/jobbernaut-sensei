@@ -4,6 +4,7 @@ https://leetcode.com/problems/longest-consecutive-sequence/description/
 
 last_solved     = "2026-05-14"
 revisit_in_days = 87
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

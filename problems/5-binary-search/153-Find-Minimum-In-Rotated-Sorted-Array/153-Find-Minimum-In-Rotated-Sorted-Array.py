@@ -2,11 +2,11 @@
 https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 '''
 
-last_solved     = "2026-07-02"
-revisit_in_days = 9
+last_solved     = "2026-07-16"
+revisit_in_days = 38
 difficulty      = "medium"
 topic_tags      = ["binary-search"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:

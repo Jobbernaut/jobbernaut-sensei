@@ -3,7 +3,8 @@ https://leetcode.com/problems/evaluate-reverse-polish-notation/description/
 '''
 
 last_solved     = "2026-06-10"
-revisit_in_days = 38
+revisit_in_days = 47
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["stack"]
 
