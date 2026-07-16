@@ -2,11 +2,11 @@
 https://leetcode.com/problems/permutation-in-string/
 '''
 
-last_solved     = "2026-06-21"
-revisit_in_days = 23
+last_solved     = "2026-07-16"
+revisit_in_days = 44
 difficulty      = "medium"
 topic_tags      = ["sliding-window", "hash-map"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:

@@ -2,9 +2,9 @@
 https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 '''
 
-last_solved     = "2026-06-29"
-revisit_in_days = 13
-times_reviewed  = 6
+last_solved     = "2026-07-16"
+revisit_in_days = 33
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["trees"]
 

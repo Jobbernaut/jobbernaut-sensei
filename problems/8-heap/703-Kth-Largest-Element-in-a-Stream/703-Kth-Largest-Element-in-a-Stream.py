@@ -2,9 +2,9 @@
 https://leetcode.com/problems/kth-largest-element-in-a-stream/description/
 '''
 
-last_solved     = "2026-06-22"
-revisit_in_days = 20
-times_reviewed  = 6
+last_solved     = "2026-07-16"
+revisit_in_days = 32
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["heap"]
 
