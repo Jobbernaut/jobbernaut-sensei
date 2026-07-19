@@ -2,9 +2,9 @@
 https://leetcode.com/problems/permutations/
 '''
 
-last_solved     = "2026-06-18"
-revisit_in_days = 30
-times_reviewed  = 6
+last_solved     = "2026-07-19"
+revisit_in_days = 45
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 

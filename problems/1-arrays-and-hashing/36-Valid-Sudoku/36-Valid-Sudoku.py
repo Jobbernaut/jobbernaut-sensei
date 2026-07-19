@@ -2,9 +2,9 @@
 https://leetcode.com/problems/valid-sudoku/description/
 '''
 
-last_solved     = "2026-07-16"
-revisit_in_days = 2
-times_reviewed  = 6
+last_solved     = "2026-07-19"
+revisit_in_days = 90
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 

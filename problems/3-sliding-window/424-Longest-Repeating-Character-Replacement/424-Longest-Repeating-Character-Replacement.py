@@ -2,11 +2,11 @@
 https://leetcode.com/problems/longest-repeating-character-replacement/
 '''
 
-last_solved     = "2026-06-21"
-revisit_in_days = 28
+last_solved     = "2026-07-19"
+revisit_in_days = 44
 difficulty      = "medium"
 topic_tags      = ["sliding-window"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
