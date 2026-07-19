@@ -94,12 +94,13 @@ def build_load_map(problems: list) -> dict:
 
 
 def find_best_date(current_due: date, interval: int, today: date, load_map: dict,
-                   exclude_date: date) -> date | None:
+                   exclude_date: date, cap: int) -> date | None:
     """
     Within ±REBALANCE_WINDOW_PCT of the current interval, find the earliest
-    date with the minimum load (not counting the problem's own current slot).
+    date whose current load is strictly below `cap` (so adding this problem
+    keeps it at or under the cap).
 
-    Returns None if no better date exists (already optimal).
+    Returns None if no valid target exists within the window.
     """
     window = max(int(interval * REBALANCE_WINDOW_PCT), REBALANCE_MIN_WINDOW)
     lo = current_due - timedelta(days=window)
@@ -108,27 +109,23 @@ def find_best_date(current_due: date, interval: int, today: date, load_map: dict
     # Clamp lo to tomorrow minimum
     lo = max(lo, today + timedelta(days=1))
 
-    current_load = load_map.get(current_due, 0) - 1  # remove self
-
     best_day  = None
     best_load = float("inf")
 
-    delta = 0
-    # iterate outward from current_due toward lo (earliest first)
+    # iterate earliest-first within the window
     for offset in range(0, (hi - lo).days + 1):
         candidate = lo + timedelta(days=offset)
         if candidate == exclude_date:
             continue
         c_load = load_map.get(candidate, 0)
-        if c_load < best_load:
+        # Only consider days that won't exceed the cap after we add this problem
+        if c_load < cap and c_load < best_load:
             best_load = c_load
             best_day  = candidate
             if best_load == 0:
-                break
+                break  # can't do better
 
-    if best_day == current_due or best_load >= current_load:
-        return None  # no improvement
-    return best_day
+    return best_day  # None if no under-cap day found in window
 
 
 def update_problem_due_date(filepath: str, new_due: date, last_solved: date) -> None:
@@ -204,7 +201,7 @@ def main() -> None:
                 break  # day is now under cap
 
             best = find_best_date(p["due_date"], p["interval"], today, load_map,
-                                  exclude_date=p["due_date"])
+                                  exclude_date=p["due_date"], cap=cap)
             if best is None:
                 continue
 
