@@ -2,21 +2,16 @@
 https://leetcode.com/problems/task-scheduler/
 '''
 
-last_solved     = "2026-07-22"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-07-24"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["heap", "greedy"]
 
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        count_max = 0
-
         counter = Counter(tasks)
-        f = max(counter.values())
+        max_freq = max(counter.values())
+        no_max_freq = len([key for key, value in counter.items() if value == max_freq])
 
-        for task, value in counter.items():
-            if value == f:
-                count_max += 1
-
-        return max(len(tasks), (n+1)*(f-1) + count_max) 
+        return max(len(tasks), (max_freq - 1) * (n + 1) + no_max_freq)
