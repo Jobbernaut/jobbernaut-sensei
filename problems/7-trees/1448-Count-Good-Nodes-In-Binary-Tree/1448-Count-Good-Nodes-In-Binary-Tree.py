@@ -2,9 +2,9 @@
 https://leetcode.com/problems/count-good-nodes-in-binary-tree/
 '''
 
-last_solved     = "2026-06-17"
-revisit_in_days = 37
-times_reviewed  = 6
+last_solved     = "2026-07-24"
+revisit_in_days = 14
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["trees", "dfs"]
 
