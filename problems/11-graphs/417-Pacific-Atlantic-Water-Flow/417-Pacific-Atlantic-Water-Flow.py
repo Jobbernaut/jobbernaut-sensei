@@ -2,9 +2,9 @@
 https://leetcode.com/problems/pacific-atlantic-water-flow/
 '''
 
-last_solved     = "2026-07-22"
-revisit_in_days = 3
-times_reviewed  = 2
+last_solved     = "2026-07-25"
+revisit_in_days = 7
+times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["graphs", "dfs"]
 
