@@ -2,11 +2,11 @@
 https://leetcode.com/problems/binary-tree-maximum-path-sum/
 '''
 
-last_solved     = "2026-06-25"
-revisit_in_days = 30
+last_solved     = "2026-07-25"
+revisit_in_days = 45
 difficulty      = "hard"
 topic_tags      = ["trees"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
