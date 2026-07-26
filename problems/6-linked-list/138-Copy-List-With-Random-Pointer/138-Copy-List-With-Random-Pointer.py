@@ -2,9 +2,9 @@
 https://leetcode.com/problems/copy-list-with-random-pointer/
 '''
 
-last_solved     = "2026-07-16"
-revisit_in_days = 9
-times_reviewed  = 6
+last_solved     = "2026-07-26"
+revisit_in_days = 45
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["linked-list", "hash-map"]
 
