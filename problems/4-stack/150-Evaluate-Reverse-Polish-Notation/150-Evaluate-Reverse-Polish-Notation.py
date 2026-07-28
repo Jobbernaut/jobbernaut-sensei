@@ -2,9 +2,9 @@
 https://leetcode.com/problems/evaluate-reverse-polish-notation/description/
 '''
 
-last_solved     = "2026-06-10"
-revisit_in_days = 47
-times_reviewed  = 6
+last_solved     = "2026-07-27"
+revisit_in_days = 87
+times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["stack"]
 
@@ -13,23 +13,18 @@ class Solution:
         stack = []
 
         for token in tokens:
-            if token == "+":
-                op_2 = int(stack.pop())
-                op_1 = int(stack.pop())
-                stack.append(str(op_1 + op_2))
-            elif token == '-':
-                op_2 = int(stack.pop())
-                op_1 = int(stack.pop())
-                stack.append(str(op_1 - op_2))
-            elif token == "*":
-                op_2 = int(stack.pop())
-                op_1 = int(stack.pop())
-                stack.append(str(op_1 * op_2))
-            elif token == "/":
-                op_2 = int(stack.pop())
-                op_1 = int(stack.pop())
-                stack.append(str(int(op_1 / op_2)))
-            else:
-                stack.append(token)
+            try:
+                stack.append(int(token))
+            except ValueError:
+                op2 = stack.pop()
+                op1 = stack.pop()
+                if token == "+":
+                    stack.append(op1 + op2)
+                elif token == '-':
+                    stack.append(op1 - op2)
+                elif token == "*":
+                    stack.append(op1 * op2)
+                else:
+                    stack.append(int(op1 / op2))
         
-        return int(stack[0])
+        return stack[0]
