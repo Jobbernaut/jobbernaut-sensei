@@ -2,11 +2,11 @@
 https://leetcode.com/problems/longest-substring-without-repeating-characters/
 '''
 
-last_solved     = "2026-05-27"
-revisit_in_days = 61
+last_solved     = "2026-07-27"
+revisit_in_days = 88
 difficulty      = "medium"
 topic_tags      = ["sliding-window", "hash-set"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 from typing import List, Optional
 
