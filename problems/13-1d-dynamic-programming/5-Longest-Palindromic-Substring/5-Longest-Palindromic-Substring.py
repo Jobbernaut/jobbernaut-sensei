@@ -2,39 +2,24 @@
 https://leetcode.com/problems/longest-palindromic-substring/
 '''
 
-last_solved     = "2026-06-26"
-revisit_in_days = 30
+last_solved     = "2026-07-27"
+revisit_in_days = 89
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         def expand(left, right):
-            while 0 <= left < right < len(s) and s[left] == s[right]:
+            while 0 <= left <= right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
             
-            return (right - left - 1, s[left+1:right])
-
-        max_len = 1
-        max_s = s[0]
-
-        for idx in range(0, len(s) - 1):
-            local_len, local_s = None, None
-
-            odd_len, odd_s = expand(idx - 1, idx + 1)
-            even_len, even_s = expand(idx, idx + 1)
-
-            if odd_len >= even_len:
-                local_len = odd_len
-                local_s = odd_s
-            else:
-                local_len = even_len
-                local_s = even_s
-            
-            if local_len >= max_len:
-                max_len = local_len
-                max_s = local_s
+            return s[left+1:right]
         
-        return max_s
+        max_str = s[0]
+        for idx in range(len(s)):
+            odd_str, even_str = expand(idx, idx), expand(idx, idx + 1)
+            max_str = max(max_str, odd_str, even_str, key=len)
+        
+        return max_str
