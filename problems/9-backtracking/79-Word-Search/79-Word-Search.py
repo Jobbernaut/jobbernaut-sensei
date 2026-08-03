@@ -2,9 +2,9 @@
 https://leetcode.com/problems/word-search/
 '''
 
-last_solved     = "2026-07-28"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-08-02"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["backtracking", "dfs"]
 
