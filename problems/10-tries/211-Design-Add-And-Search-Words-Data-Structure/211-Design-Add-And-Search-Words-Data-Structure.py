@@ -3,7 +3,7 @@ https://leetcode.com/problems/design-add-and-search-words-data-structure/
 '''
 
 last_solved     = "2026-07-21"
-revisit_in_days = 13
+revisit_in_days = 18
 times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["trie", "dfs"]
