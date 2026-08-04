@@ -3,7 +3,7 @@ https://leetcode.com/problems/plus-one/
 '''
 
 last_solved     = "2026-06-01"
-revisit_in_days = 90
+revisit_in_days = 115
 difficulty      = "easy"
 topic_tags      = ["math"]
 times_reviewed  = 5

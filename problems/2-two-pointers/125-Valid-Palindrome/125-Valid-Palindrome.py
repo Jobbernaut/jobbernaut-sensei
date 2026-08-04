@@ -3,7 +3,7 @@ https://leetcode.com/problems/valid-palindrome/
 '''
 
 last_solved     = "2026-05-27"
-revisit_in_days = 90
+revisit_in_days = 117
 difficulty      = "easy"
 topic_tags      = ["two-pointers", "string"]
 times_reviewed  = 5

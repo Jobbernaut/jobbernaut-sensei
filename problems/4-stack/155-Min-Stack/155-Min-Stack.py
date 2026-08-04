@@ -3,7 +3,7 @@ https://leetcode.com/problems/min-stack/description/
 '''
 
 last_solved     = "2026-06-05"
-revisit_in_days = 94
+revisit_in_days = 112
 difficulty      = "medium"
 topic_tags      = ["stack"]
 times_reviewed  = 12

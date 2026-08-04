@@ -3,7 +3,7 @@ https://leetcode.com/problems/palindromic-substrings/
 '''
 
 last_solved     = "2026-08-03"
-revisit_in_days = 45
+revisit_in_days = 55
 times_reviewed  = 8
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "strings"]

@@ -3,7 +3,7 @@ https://leetcode.com/problems/contains-duplicate/description/
 '''
 
 last_solved     = "2026-05-14"
-revisit_in_days = 90
+revisit_in_days = 128
 times_reviewed  = 6
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
