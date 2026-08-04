@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **81 / 150**
+Total Completed: **82 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -130,7 +130,7 @@ Total Completed: **81 / 150**
 - [x] 213. House Robber II (Medium)
 - [x] 5. Longest Palindromic Substring (Medium)
 - [x] 647. Palindromic Substrings (Medium)
-- [ ] 91. Decode Ways (Medium)
+- [x] 91. Decode Ways (Medium)
 - [ ] 322. Coin Change (Medium)
 - [ ] 152. Maximum Product Subarray (Medium)
 - [ ] 139. Word Break (Medium)
