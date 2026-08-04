@@ -2,24 +2,20 @@
 https://leetcode.com/problems/same-tree/
 '''
 
-last_solved     = "2026-05-29"
-revisit_in_days = 67
+last_solved     = "2026-08-04"
+revisit_in_days = 89
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 5
+times_reviewed  = 7
 
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        def same(node1, node2):
-            if not node1 and not node2:
+        def same(p, q):
+            if not p and not q:
                 return True
-            
-            if not node1 and node2 or node1 and not node2 or node1.val != node2.val:
+            elif not p or not q or p.val != q.val:
                 return False
             
-            left_subtree = same(node1.left, node2.left)
-            right_subtree = same(node1.right, node2.right)
+            return same(p.left, q.left) and same(p.right, q.right)
 
-            return left_subtree and right_subtree
-        
         return same(p, q)
