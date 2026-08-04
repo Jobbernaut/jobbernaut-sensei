@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **77 / 150**
+Total Completed: **80 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -81,7 +81,7 @@ Total Completed: **77 / 150**
 - [x] 1046. Last Stone Weight (Easy)
 - [x] 973. K Closest Points to Origin (Medium)
 - [x] 215. Kth Largest Element in an Array (Medium)
-- [ ] 621. Task Scheduler (Medium)
+- [x] 621. Task Scheduler (Medium)
 - [ ] 355. Design Twitter (Medium)
 - [ ] 295. Find Median from Data Stream (Hard)
 
@@ -91,7 +91,7 @@ Total Completed: **77 / 150**
 - [x] 46. Permutations (Medium)
 - [x] 90. Subsets II (Medium)
 - [x] 40. Combination Sum II (Medium)
-- [ ] 79. Word Search (Medium)
+- [x] 79. Word Search (Medium)
 - [ ] 131. Palindrome Partitioning (Medium)
 - [ ] 17. Letter Combinations of a Phone Number (Medium)
 - [ ] 51. N-Queens (Hard)
@@ -105,7 +105,7 @@ Total Completed: **77 / 150**
 - [x] 200. Number of Islands (Medium)
 - [x] 133. Clone Graph (Medium)
 - [x] 695. Max Area of Island (Medium)
-- [ ] 417. Pacific Atlantic Water Flow (Medium)
+- [x] 417. Pacific Atlantic Water Flow (Medium)
 - [ ] 130. Surrounded Regions (Medium)
 - [x] 994. Rotting Oranges (Medium)
 - [x] 286. Walls and Gates (Medium)
