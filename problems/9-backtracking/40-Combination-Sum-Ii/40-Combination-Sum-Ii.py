@@ -3,7 +3,7 @@ https://leetcode.com/problems/combination-sum-ii/
 '''
 
 last_solved     = "2026-08-02"
-revisit_in_days = 6
+revisit_in_days = 9
 times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
