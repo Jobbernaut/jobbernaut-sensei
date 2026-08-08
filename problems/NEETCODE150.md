@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **84 / 150**
+Total Completed: **86 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -55,7 +55,7 @@ Total Completed: **84 / 150**
 - [x] 2. Add Two Numbers (Medium)
 - [x] 141. Linked List Cycle (Easy)
 - [x] 287. Find the Duplicate Number (Medium)
-- [ ] 146. LRU Cache (Medium)
+- [x] 146. LRU Cache (Medium)
 - [ ] 23. Merge k Sorted Lists (Hard)
 - [ ] 25. Reverse Nodes in k-Group (Hard)
 
@@ -131,7 +131,7 @@ Total Completed: **84 / 150**
 - [x] 5. Longest Palindromic Substring (Medium)
 - [x] 647. Palindromic Substrings (Medium)
 - [x] 91. Decode Ways (Medium)
-- [ ] 322. Coin Change (Medium)
+- [x] 322. Coin Change (Medium)
 - [ ] 152. Maximum Product Subarray (Medium)
 - [ ] 139. Word Break (Medium)
 - [ ] 300. Longest Increasing Subsequence (Medium)
