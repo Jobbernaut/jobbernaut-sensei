@@ -1,4 +1,4 @@
-# Jobbernaut Sensei — AGENTS.md
+# LeetCode Sensei — AGENTS.md
 
 ## AI Coaching Protocol for Spaced Repetition LeetCode Training
 

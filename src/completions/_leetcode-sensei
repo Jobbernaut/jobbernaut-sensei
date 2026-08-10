@@ -1,21 +1,21 @@
 #compdef sensei
 
-# Zsh completion for Jobbernaut Sensei CLI
+# Zsh completion for LeetCode Sensei CLI
 #
 # Install (add to ~/.zshrc):
-#   fpath=(/path/to/jobbernaut-sensei/src/completions $fpath)
+#   fpath=(/path/to/leetcode-sensei/src/completions $fpath)
 #   autoload -Uz compinit && compinit
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
-_jobbernaut_repo_root() {
+_leetcode_sensei_repo_root() {
   # Walk up from the completion script's real location to the repo root
   echo "${${(%):-%x}:A:h:h:h}"
 }
 
-_jobbernaut_problems() {
+_leetcode_sensei_problems() {
   local root
-  root="$(_jobbernaut_repo_root)/problems"
+  root="$(_leetcode_sensei_repo_root)/problems"
   [[ -d "$root" ]] || return
 
   local -a names numbers
@@ -36,16 +36,16 @@ _jobbernaut_problems() {
   compadd -a names
 }
 
-_jobbernaut_categories() {
+_leetcode_sensei_categories() {
   local root
-  root="$(_jobbernaut_repo_root)/problems"
+  root="$(_leetcode_sensei_repo_root)/problems"
   [[ -d "$root" ]] || return
   local -a cats
   cats=("${root}"/*(/:t))
   compadd -a cats
 }
 
-_jobbernaut_difficulties() {
+_leetcode_sensei_difficulties() {
   compadd easy medium hard
 }
 
@@ -77,19 +77,19 @@ _sensei() {
   case "$cmd" in
     mark)
       _arguments \
-        '1:problem:_jobbernaut_problems'
+        '1:problem:_leetcode_sensei_problems'
       ;;
     open)
       _arguments \
         '--no-browser[skip opening the browser]' \
-        '*:problem:_jobbernaut_problems'
+        '*:problem:_leetcode_sensei_problems'
       ;;
     new)
       _arguments \
         '1:number:(1 2 3)' \
         '2:slug:' \
-        '3:category:_jobbernaut_categories' \
-        '(-d --difficulty)'{-d,--difficulty}'[difficulty]:difficulty:_jobbernaut_difficulties' \
+        '3:category:_leetcode_sensei_categories' \
+        '(-d --difficulty)'{-d,--difficulty}'[difficulty]:difficulty:_leetcode_sensei_difficulties' \
         '(-t --tags)'{-t,--tags}'[topic tags]:tag:' \
         '--open[open file in editor after creation]'
       ;;

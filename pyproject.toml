@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jobbernaut-sensei"
+name = "leetcode-sensei"
 version = "0.5.3"
 description = "A spaced-repetition CLI for LeetCode practice problems"
 readme = "README.md"
@@ -28,10 +28,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jobbernaut/jobbernaut-sensei"
-Repository = "https://github.com/jobbernaut/jobbernaut-sensei"
-BugTracker = "https://github.com/jobbernaut/jobbernaut-sensei/issues"
-Documentation = "https://github.com/jobbernaut/jobbernaut-sensei/blob/main/README.md"
+Homepage = "https://github.com/overkill-labs/leetcode-sensei"
+Repository = "https://github.com/overkill-labs/leetcode-sensei"
+BugTracker = "https://github.com/overkill-labs/leetcode-sensei/issues"
+Documentation = "https://github.com/overkill-labs/leetcode-sensei/blob/main/README.md"
 
 [project.scripts]
 sensei = "sensei:main"
@@ -44,7 +44,7 @@ py-modules = ["sensei", "hint", "mark", "new", "lopen", "revisit", "utils"]
 where = ["src"]
 
 [tool.setuptools.package-data]
-"*" = ["completions/_jobbernaut"]
+"*" = ["completions/_leetcode-sensei"]
 
 [project.optional-dependencies]
 test = [

@@ -1,6 +1,6 @@
-# Jobbernaut Sensei Test Suite
+# LeetCode Sensei Test Suite
 
-Comprehensive test suite for the Jobbernaut Sensei CLI application.
+Comprehensive test suite for the LeetCode Sensei CLI application.
 
 ## Overview
 

@@ -137,7 +137,7 @@ def cmd_status():
 
 def main():
     if len(sys.argv) < 2:
-        print("\n  Jobbernaut Sensei CLI")
+        print("\n  LeetCode Sensei CLI")
         print("  Usage: sensei <command> [args]\n")
         print("  Available commands:")
         print("    init       - Initialize the problems/ directory")

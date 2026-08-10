@@ -1,15 +1,18 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/jobbernaut/jobbernaut-sensei/main/logo.jpeg" alt="Jobbernaut Sensei Logo" width="180"/>
+  <img src="assets/overkill-labs.png" height="80" alt="OverKill Labs" />
+
+  <h1>LeetCode Sensei</h1>
+  <p>An <strong>OverKill Labs</strong> spaced-repetition CLI for LeetCode practice.</p>
 </div>
 
-# Jobbernaut Sensei 🥋
+---
 
 > Your LeetCode practice, but you actually remember what you solved.
 
 **Sensei** is a spaced-repetition CLI that stops you from grinding LeetCode into the void. Every command outputs clean JSON — it's built for humans but **designed for AI agents**.
 
 ```bash
-pip install jobbernaut-sensei
+pip install leetcode-sensei
 sensei init
 ```
 
@@ -132,7 +135,7 @@ See **[`AGENTS.md`](AGENTS.md)** for the complete agent integration guide.
 ## 📦 Setup
 
 ```bash
-pip install jobbernaut-sensei
+pip install leetcode-sensei
 sensei init                      # Creates problems/ directory
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 code problems/                   # Start solving
@@ -161,7 +164,7 @@ sensei revisit --export-md        # → export.md
 Colored terminal output:
 
 ```
-📅  Jobbernaut Sensei Revisit — Tuesday, May 26 2026
+📅  LeetCode Sensei Revisit — Tuesday, May 26 2026
 
 🟢  UPCOMING (7 days)
 ──────────────────────────────────────────────────────────────────────────
@@ -247,7 +250,7 @@ It matches the first unique result. No tab-complete needed (but we have it anywa
 ## 🐚 Zsh Completions
 
 ```zsh
-fpath=(/path/to/jobbernaut-sensei/src/completions $fpath)
+fpath=(/path/to/leetcode-sensei/src/completions $fpath)
 autoload -Uz compinit && compinit
 ```
 
@@ -258,3 +261,9 @@ autoload -Uz compinit && compinit
 PolyForm Noncommercial License 1.0.0 — free for personal and non-commercial use.
 
 Full license in [`LICENSE`](LICENSE).
+
+---
+
+<div align="center">
+  <sub>Built with precision by <strong>OverKill Labs</strong></sub>
+</div>

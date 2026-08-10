@@ -217,7 +217,7 @@ class TestSenseiRevisitDirect:
             revisit.main()
         
         captured = capsys.readouterr()
-        assert "Jobbernaut Sensei Revisit" in captured.out
+        assert "LeetCode Sensei Revisit" in captured.out
 
 
 class TestSenseiNewDirect:
