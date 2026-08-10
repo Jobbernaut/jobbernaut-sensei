@@ -1,5 +1,9 @@
 <div align="center">
   <img src="assets/overkill-labs.png" height="80" alt="OverKill Labs" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/leetcode.png" height="80" alt="LeetCode" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/neetcode.webp" height="80" alt="NeetCode" />
 
   <h1>LeetCode Sensei</h1>
   <p>An <strong>OverKill Labs</strong> spaced-repetition CLI for LeetCode practice.</p>
