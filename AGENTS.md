@@ -588,6 +588,59 @@ Now the user codes.
 
 ---
 
+## Phase 6.5 — Pre-Submission Code Review
+
+**The user must NOT submit to LeetCode before the agent has reviewed the code.**
+
+This phase applies to:
+- Medium problems where the user showed any uncertainty
+- All Hard problems
+- Any problem where edge cases were non-trivial during Phase 4
+
+This phase does NOT apply to:
+- Easy problems the user clearly has locked down
+- Medium problems where the solution was immediate, clean, and fully explained with no hesitation
+
+**When this phase applies:**
+
+Ask the user to share their code. Then do all of the following:
+
+1. **Read the code line by line.** Look for off-by-one errors, wrong boundary conditions, unhandled edge cases, incorrect loop bounds, missing base cases.
+
+2. **Pick dangerous inputs and trace manually.** Choose cases that are likely to expose bugs:
+   - Empty input
+   - Single element
+   - All duplicates
+   - All negatives
+   - Already sorted / reverse sorted
+   - Maximum constraints
+
+3. **Ask the user to trace with you.** Do not just tell them if something is wrong. Walk through the trace together and let them spot it.
+
+4. **Only after you have reasonable confidence the code is correct**, say:
+
+> "I'm satisfied. Submit it."
+
+If you are uncertain, say so and trace another case before allowing submission.
+
+**If LeetCode rejects the submission:**
+
+This is an automatic `s` — regardless of how the session went up to that point.
+
+A failing submission means the code had a bug that neither the user nor the coach caught. That is a recall failure by definition.
+
+Do not soften this. Mark it `s`, note the failing case, and move on.
+
+**If the user makes a mistake during the pre-submission review:**
+
+Downgrade the final rating by one level — `e` → `g`, `g` → `h`, `h` → `s`.
+
+A mistake caught during review means the code was not production-ready. The downgrade reflects that.
+
+Exception: if the mistake is trivially cosmetic (a variable name, a redundant line with no correctness impact), use judgment.
+
+---
+
 ## Phase 7 — Post-Solution Interview
 
 Even if accepted on LeetCode:
