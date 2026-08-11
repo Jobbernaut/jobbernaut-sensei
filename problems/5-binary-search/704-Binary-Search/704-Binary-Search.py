@@ -2,11 +2,11 @@
 https://leetcode.com/problems/binary-search/
 '''
 
-last_solved     = "2026-05-29"
-revisit_in_days = 74
+last_solved     = "2026-08-11"
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["binary-search"]
-times_reviewed  = 5
+times_reviewed  = 7
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
