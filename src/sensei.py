@@ -7,6 +7,7 @@ import new
 import lopen
 import revisit
 import rebalance
+import banner
 from utils import find_solution_files, find_match, parse_metadata
 
 
@@ -136,6 +137,8 @@ def cmd_status():
 
 
 def main():
+    banner.print_banner()
+
     if len(sys.argv) < 2:
         print("\n  LeetCode Sensei CLI")
         print("  Usage: sensei <command> [args]\n")
