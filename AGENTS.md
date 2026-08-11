@@ -1101,7 +1101,13 @@ The command displaces problems in order of `times_reviewed DESC` — most-review
 
 ## Scaffold New Problem
 
+Two supported forms:
+
 ```bash
+# From a LeetCode URL (preferred) — auto-fetches number, difficulty, and tags
+sensei new https://leetcode.com/problems/contains-duplicate/ 1-arrays-and-hashing
+
+# Legacy form — all fields manual
 sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-set
 ```
 
@@ -1110,6 +1116,21 @@ Use when introducing new material.
 Scaffolded files start with:
 - `revisit_in_days = 1` — bottom of the progression ladder
 - `times_reviewed  = 0` — fresh tracking
+
+The URL form queries the LeetCode GraphQL API to fill in the problem number, difficulty, and topic tags automatically. Only the category folder must be provided manually. Falls back to requiring `-d` and `-t` flags if the API is unreachable.
+
+---
+
+## Progress Dashboard
+
+```bash
+sensei progress           # terminal dashboard
+sensei progress --json    # machine-readable output
+```
+
+Shows NeetCode 150 completion across topics and difficulties, recent velocity (problems/week over the last 4 weeks), and projected completion date.
+
+Use at the start of an expansion session to identify which topic areas have the most remaining work and should be prioritized for new problem introduction.
 
 ---
 
