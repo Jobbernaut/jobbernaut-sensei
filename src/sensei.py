@@ -5,6 +5,7 @@ import hint
 import mark
 import new
 import lopen
+import progress
 import revisit
 import rebalance
 from utils import find_solution_files, find_match, parse_metadata
@@ -149,6 +150,7 @@ def main():
         print("    show       - Show problem metadata + solution (JSON output)")
         print("    status     - Quick summary statistics (JSON output)")
         print("    rebalance  - Spread overloaded review days (--apply to write changes)")
+        print("    progress   - NeetCode 150 progress dashboard (--json for machine output)")
         sys.exit(1)
 
     cmd = sys.argv[1]
@@ -161,6 +163,9 @@ def main():
         return
     elif cmd == "status":
         cmd_status()
+        return
+    elif cmd == "progress":
+        progress.main()
         return
 
     # Remove 'sensei' and the command name from argv for the sub-scripts
