@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **86 / 150**
+Total Completed: **88 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -132,8 +132,8 @@ Total Completed: **86 / 150**
 - [x] 647. Palindromic Substrings (Medium)
 - [x] 91. Decode Ways (Medium)
 - [x] 322. Coin Change (Medium)
-- [ ] 152. Maximum Product Subarray (Medium)
-- [ ] 139. Word Break (Medium)
+- [x] 152. Maximum Product Subarray (Medium)
+- [x] 139. Word Break (Medium)
 - [ ] 300. Longest Increasing Subsequence (Medium)
 - [ ] 416. Partition Equal Subset Sum (Medium)
 
