@@ -269,5 +269,7 @@ Full license in [`LICENSE`](LICENSE).
 ---
 
 <div align="center">
+  <img src="assets/overkill-labs.png" height="48" alt="OverKill Labs" />
+  <br/>
   <sub>Built with precision by <strong>OverKill Labs</strong></sub>
 </div>
