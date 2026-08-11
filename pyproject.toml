@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "leetcode-sensei"
-version = "0.5.3"
+version = "0.6.0"
 description = "A spaced-repetition CLI for LeetCode practice problems"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,7 +38,7 @@ sensei = "sensei:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["sensei", "hint", "mark", "new", "lopen", "revisit", "utils", "banner"]
+py-modules = ["sensei", "hint", "mark", "new", "lopen", "revisit", "utils"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
