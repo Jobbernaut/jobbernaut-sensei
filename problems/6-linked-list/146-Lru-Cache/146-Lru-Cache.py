@@ -2,67 +2,69 @@
 https://leetcode.com/problems/lru-cache/
 '''
 
-last_solved     = "2026-08-08"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-08-10"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["linked-list", "hash-map", "design"]
 
 class Node:
 
-    def __init__(self, key=-1, value=-1, prev=None, next=None):
+    def __init__(self, key=None, val=None, prev=None, next=None):
         self.key = key
-        self.val = value
+        self.val = val
         self.prev = prev
         self.next = next
 
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.node_lookup = {}
-        self.capacity = capacity
-
         self.head = Node()
         self.tail = Node()
 
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def get(self, key: int) -> int:
-        if key in self.node_lookup:
-            self._move_to_front(self.node_lookup[key])
-            return self.node_lookup[key].val
+        self.lookup = {}
 
-        return -1
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self.lookup:
+            return -1
+        
+        self._move_to_front(self.lookup[key])
+
+        return self.lookup[key].val
 
     def put(self, key: int, value: int) -> None:
-        if key in self.node_lookup:
-            self.node_lookup[key].val = value
-            self._move_to_front(self.node_lookup[key])
+        if key in self.lookup:
+            self.lookup[key].val = value
+            self._move_to_front(self.lookup[key])
         else:
-            node_to_add = Node(key, value)
-            self._insert(node_to_add)
-            self.node_lookup[key] = node_to_add
+            self._insert(Node(key, value))
 
-        if len(self.node_lookup) > self.capacity:
-            key_to_remove = self.tail.prev.key
-            self._remove(self.tail.prev)
-            del self.node_lookup[key_to_remove]
-
+            if len(self.lookup) > self.capacity:
+                self._remove(self.tail.prev)
+    
     def _remove(self, node_to_remove):
         node_to_remove.prev.next = node_to_remove.next
         node_to_remove.next.prev = node_to_remove.prev
+
         node_to_remove.prev = None
         node_to_remove.next = None
-        return node_to_remove
 
+        del self.lookup[node_to_remove.key]
+    
     def _insert(self, node_to_insert):
-        node_to_insert.next = self.head.next
-        node_to_insert.prev = self.head
-        self.head.next.prev = node_to_insert
-        self.head.next = node_to_insert
-        return node_to_insert
+        self.lookup[node_to_insert.key] = node_to_insert
 
-    def _move_to_front(self, node):
-        self._remove(node)
-        self._insert(node)
+        node_to_insert.prev = self.head
+        node_to_insert.next = self.head.next
+
+        self.head.next = node_to_insert
+        node_to_insert.next.prev = node_to_insert
+    
+    def _move_to_front(self, node_to_move):
+        self._remove(node_to_move)
+        self._insert(node_to_move)
