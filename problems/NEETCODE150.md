@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **89 / 150**
+Total Completed: **90 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -152,7 +152,7 @@ Total Completed: **89 / 150**
 
 ## 15. Greedy
 - [x] 53. Maximum Subarray (Medium)
-- [ ] 55. Jump Game (Medium)
+- [x] 55. Jump Game (Medium)
 - [ ] 45. Jump Game II (Medium)
 - [ ] 134. Gas Station (Medium)
 - [ ] 846. Hand of Straights (Medium)
