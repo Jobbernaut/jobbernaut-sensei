@@ -20,6 +20,7 @@ import mark
 import new
 import lopen
 import revisit
+import progress
 
 
 class TestSenseiInitDirect:
@@ -324,7 +325,183 @@ class TestSenseiMainDirect:
         """Test main routing to status command."""
         with patch("sys.argv", ["sensei", "status"]):
             sensei.main()
-        
+
         captured = capsys.readouterr()
         data = json.loads(captured.out)
         assert "total" in data
+
+    def test_main_progress_command(self, initialized_workspace, capsys):
+        """Test main routing to progress command."""
+        (initialized_workspace / "problems" / "NEETCODE150.md").write_text(
+            "# NeetCode 150\n\nTotal: **0 / 150**\n\n## 1. Arrays\n- [ ] 1. Problem (Easy)\n"
+        )
+        with patch("sys.argv", ["sensei", "progress"]):
+            progress.main()
+        captured = capsys.readouterr()
+        assert "NeetCode 150" in captured.out
+
+
+class TestSenseiNewUrlMode:
+    """Tests for sensei new URL mode."""
+
+    def test_slug_extracted_from_url(self, initialized_workspace, capsys):
+        """URL mode derives slug from URL and scaffolds correctly."""
+        mock_meta = {
+            "number": "217",
+            "difficulty": "easy",
+            "tags": ["arrays", "hash-set"],
+        }
+        with patch("new.fetch_leetcode_metadata", return_value=mock_meta):
+            with patch("sys.argv", ["new", "https://leetcode.com/problems/contains-duplicate/",
+                                    "1-arrays-and-hashing"]):
+                new.main()
+
+        captured = capsys.readouterr()
+        assert "Created" in captured.out
+        path = (initialized_workspace / "problems" / "1-arrays-and-hashing"
+                / "217-Contains-Duplicate" / "217-Contains-Duplicate.py")
+        assert path.exists()
+        content = path.read_text()
+        assert 'difficulty      = "easy"' in content
+        assert "contains-duplicate" in content
+
+    def test_api_metadata_used_for_difficulty_and_tags(self, initialized_workspace, capsys):
+        """Difficulty and tags from API are written into the scaffolded file."""
+        mock_meta = {
+            "number": "139",
+            "difficulty": "medium",
+            "tags": ["dynamic-programming", "trie"],
+        }
+        with patch("new.fetch_leetcode_metadata", return_value=mock_meta):
+            with patch("sys.argv", ["new", "https://leetcode.com/problems/word-break/",
+                                    "13-1d-dynamic-programming"]):
+                new.main()
+
+        path = (initialized_workspace / "problems" / "13-1d-dynamic-programming"
+                / "139-Word-Break" / "139-Word-Break.py")
+        content = path.read_text()
+        assert 'difficulty      = "medium"' in content
+        assert "dynamic-programming" in content
+
+    def test_fallback_when_api_unavailable(self, initialized_workspace, capsys):
+        """Falls back to manual flags when API returns None."""
+        with patch("new.fetch_leetcode_metadata", return_value=None):
+            with patch("sys.argv", ["new", "https://leetcode.com/problems/word-break/",
+                                    "13-1d-dynamic-programming",
+                                    "-d", "medium", "-t", "dynamic-programming"]):
+                new.main()
+
+        captured = capsys.readouterr()
+        assert "warn" in captured.out
+        path = (initialized_workspace / "problems" / "13-1d-dynamic-programming"
+                / "0-Word-Break" / "0-Word-Break.py")
+        assert path.exists()
+
+    def test_fallback_without_manual_flags_exits(self, initialized_workspace, capsys):
+        """Falls back and exits when API unavailable and no -d/-t flags provided."""
+        with patch("new.fetch_leetcode_metadata", return_value=None):
+            with patch("sys.argv", ["new", "https://leetcode.com/problems/word-break/",
+                                    "13-1d-dynamic-programming"]):
+                with pytest.raises(SystemExit) as exc_info:
+                    new.main()
+                assert exc_info.value.code == 1
+
+    def test_invalid_url_exits(self, initialized_workspace, capsys):
+        """Non-LeetCode URL exits with error."""
+        with patch("sys.argv", ["new", "https://example.com/not-leetcode/",
+                                "1-arrays-and-hashing"]):
+            with pytest.raises(SystemExit) as exc_info:
+                new.main()
+            assert exc_info.value.code == 1
+
+    def test_legacy_mode_unchanged(self, initialized_workspace, capsys):
+        """Legacy positional form still works."""
+        with patch("sys.argv", ["new", "999", "legacy-problem", "1-arrays-and-hashing",
+                                "-d", "hard", "-t", "graphs"]):
+            new.main()
+
+        path = (initialized_workspace / "problems" / "1-arrays-and-hashing"
+                / "999-Legacy-Problem" / "999-Legacy-Problem.py")
+        assert path.exists()
+        assert 'difficulty      = "hard"' in path.read_text()
+
+
+class TestProgressDashboard:
+    """Tests for sensei progress command."""
+
+    SAMPLE_MD = """\
+# NeetCode 150 Progress Tracker
+
+Total Completed: **2 / 4**
+
+## 1. Arrays & Hashing
+- [x] 217. Contains Duplicate (Easy)
+- [ ] 49. Group Anagrams (Medium)
+
+## 2. Two Pointers
+- [x] 125. Valid Palindrome (Easy)
+- [ ] 42. Trapping Rain Water (Hard)
+"""
+
+    @pytest.fixture
+    def progress_workspace(self, initialized_workspace):
+        (initialized_workspace / "problems" / "NEETCODE150.md").write_text(self.SAMPLE_MD)
+        return initialized_workspace
+
+    def test_parse_neetcode150_sections(self, progress_workspace):
+        md = progress_workspace / "problems" / "NEETCODE150.md"
+        sections = progress._parse_neetcode150(str(md))
+        assert len(sections) == 2
+        assert sections[0]["topic"] == "Arrays & Hashing"
+        assert len(sections[0]["problems"]) == 2
+        assert sections[0]["problems"][0]["number"] == 217
+        assert sections[0]["problems"][0]["difficulty"] == "easy"
+
+    def test_terminal_output_shows_dashboard(self, progress_workspace, capsys):
+        with patch("sys.argv", ["sensei", "progress"]):
+            progress.main()
+        out = capsys.readouterr().out
+        assert "NeetCode 150" in out
+        assert "Completed" in out
+        assert "By Topic" in out
+        assert "Velocity" in out
+
+    def test_json_output_structure(self, progress_workspace, capsys):
+        with patch("sys.argv", ["sensei", "progress", "--json"]):
+            progress.main()
+        data = json.loads(capsys.readouterr().out)
+        assert "completed" in data
+        assert "total" in data
+        assert "by_difficulty" in data
+        assert "by_topic" in data
+        assert "velocity_per_week" in data
+        assert len(data["by_topic"]) == 2
+
+    def test_json_topic_counts_match_filesystem(self, progress_workspace, capsys):
+        """Solved count is driven by filesystem, not .md checkboxes."""
+        p_dir = progress_workspace / "problems" / "1-arrays-and-hashing" / "217-Contains-Duplicate"
+        p_dir.mkdir(parents=True)
+        (p_dir / "217-Contains-Duplicate.py").write_text(
+            '\'\'\'https://leetcode.com/problems/contains-duplicate/\'\'\'\n'
+            'last_solved = "2026-08-10"\nrevisit_in_days = 30\n'
+            'difficulty = "easy"\ntopic_tags = ["arrays"]\n'
+        )
+        with patch("sys.argv", ["sensei", "progress", "--json"]):
+            progress.main()
+        data = json.loads(capsys.readouterr().out)
+        assert data["completed"] == 1
+        arrays_topic = next(t for t in data["by_topic"] if t["topic"] == "Arrays & Hashing")
+        assert arrays_topic["done"] == 1
+        assert arrays_topic["total"] == 2
+
+    def test_missing_problems_dir_exits(self, temp_workspace, capsys):
+        with patch("sys.argv", ["sensei", "progress"]):
+            with pytest.raises(SystemExit) as exc_info:
+                progress.main()
+            assert exc_info.value.code == 1
+
+    def test_missing_neetcode_md_exits(self, initialized_workspace, capsys):
+        with patch("sys.argv", ["sensei", "progress"]):
+            with pytest.raises(SystemExit) as exc_info:
+                progress.main()
+            assert exc_info.value.code == 1
