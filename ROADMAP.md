@@ -23,4 +23,20 @@ Auto-surface topic imbalances at session start based on recent performance histo
 After each session, write a structured log entry (date, problems attempted, ratings given) to a local file. Use it to show monthly trends: recall improvement, topic mastery over time, average rating per topic.
 
 ### Interview Mode
-A timed mock interview flow: pick N random problems (optionally filtered by topic/difficulty), hide topic tags, enforce a time limit per problem, no hints. Generates a score at the end. Intentionally bypasses SRS scheduling — interview readiness, not memory maintenance.
+A dedicated high-pressure coaching mode that bypasses normal SRS pacing and applies a strict interview simulation protocol. Distinct from daily review in every way:
+
+**Coaching behavior:**
+- Adversarial interviewer stance — not a tutor
+- Probe every edge case unprompted: empty input, single element, all negatives, duplicates, max constraints
+- Force manual traces: "walk me through exactly what happens with `[2, -3, 1, -1]` — state at each step"
+- Ask follow-up questions after every answer — never let a correct answer be the end of the exchange
+- Deliberately mislead to test conviction: propose wrong complexity, suggest incorrect simplifications, claim the solution might fail on a case (even if it doesn't). If the user pushes back correctly and explains why you're wrong, that's the best signal. If they capitulate without reasoning, that reveals shallow understanding
+- Pre-submission code review mandatory: agent reads code line by line, traces dangerous inputs with the user, and must explicitly clear the submission before LeetCode is opened
+- LeetCode rejection → automatic `s`, no exceptions
+- Mistake caught during pre-submission review → downgrade final rating one level
+
+**CLI design (planned):**
+- `sensei interview` — enter interview mode, pick N problems
+- Optional filters: `--topic graphs`, `--difficulty medium`, `--timed 30m`
+- Topic tags hidden by default
+- Score report at the end: problems attempted, ratings, time per problem
