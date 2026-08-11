@@ -38,7 +38,7 @@ sensei = "sensei:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["sensei", "hint", "mark", "new", "lopen", "revisit", "utils"]
+py-modules = ["sensei", "hint", "mark", "new", "lopen", "revisit", "utils", "progress"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
