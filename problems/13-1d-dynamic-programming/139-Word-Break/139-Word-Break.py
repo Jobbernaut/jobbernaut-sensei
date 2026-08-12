@@ -2,9 +2,9 @@
 https://leetcode.com/problems/word-break/
 '''
 
-last_solved     = "2026-08-11"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-08-12"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming"]
 
