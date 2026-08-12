@@ -2,22 +2,17 @@
 https://leetcode.com/problems/maximum-depth-of-binary-tree/
 '''
 
-last_solved     = "2026-05-29"
-revisit_in_days = 75
+last_solved     = "2026-08-12"
+revisit_in_days = 90
 difficulty      = "easy"
 topic_tags      = ["trees"]
-times_reviewed  = 5
+times_reviewed  = 7
 
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        def depth(node):
-            if not node:
-                return 0
-            elif not node.left and node.right:
-                return 1 + depth(node.right)
-            elif node.left and not node.right:
-                return 1 + depth(node.left)
-            else:
-                return 1 + max(depth(node.left), depth(node.right))
+        def max_depth(node):
+            if not node: return 0
+
+            return 1 + max(max_depth(node.left), max_depth(node.right))
         
-        return depth(root)
+        return max_depth(root)

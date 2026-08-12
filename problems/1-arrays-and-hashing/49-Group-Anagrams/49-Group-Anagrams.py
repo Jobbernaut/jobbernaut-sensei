@@ -2,9 +2,9 @@
 https://leetcode.com/problems/group-anagrams/description/
 '''
 
-last_solved     = "2026-05-14"
-revisit_in_days = 90
-times_reviewed  = 6
+last_solved     = "2026-08-12"
+revisit_in_days = 88
+times_reviewed  = 8
 difficulty      = "medium"
 topic_tags      = ["arrays", "hashing"]
 
