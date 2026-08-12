@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **90 / 150**
+Total Completed: **92 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -153,7 +153,7 @@ Total Completed: **90 / 150**
 ## 15. Greedy
 - [x] 53. Maximum Subarray (Medium)
 - [x] 55. Jump Game (Medium)
-- [ ] 45. Jump Game II (Medium)
+- [x] 45. Jump Game II (Medium)
 - [ ] 134. Gas Station (Medium)
 - [ ] 846. Hand of Straights (Medium)
 - [ ] 1899. Merge Triplets to Form Target Triplet (Medium)
@@ -161,7 +161,7 @@ Total Completed: **90 / 150**
 - [ ] 678. Valid Parenthesis String (Medium)
 
 ## 16. Intervals
-- [ ] 57. Insert Interval (Medium)
+- [x] 57. Insert Interval (Medium)
 - [ ] 56. Merge Intervals (Medium)
 - [ ] 435. Non-overlapping Intervals (Medium)
 - [x] 252. Meeting Rooms (Easy)
