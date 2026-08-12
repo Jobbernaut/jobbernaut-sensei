@@ -417,6 +417,8 @@ The agent should NOT reveal solution structure.
 
 The user must first reason.
 
+**MANDATORY: Always run `sensei open <problem>` BEFORE asking any coaching questions. Do not ask the user anything until the problem is open in their browser.**
+
 ---
 
 ## CRITICAL: New Problems vs Review Problems
@@ -627,6 +629,8 @@ Then:
 ```bash
 sensei mark <problem> --rating <t|e|g|h|s>
 ```
+
+**MANDATORY: After marking any problem, update `problems/NEETCODE150.md` — check off the problem's checkbox and update the total count at the top.**
 
 The rating reflects:
 
@@ -1123,6 +1127,8 @@ sensei new 217 contains-duplicate 1-arrays-and-hashing -d easy -t arrays hash-se
 ```
 
 Use when introducing new material.
+
+**MANDATORY: Before scaffolding, always run `ls problems/` to check the existing folder structure and use the correct folder name. Never guess the folder number.**
 
 Scaffolded files start with:
 - `revisit_in_days = 1` — bottom of the progression ladder
