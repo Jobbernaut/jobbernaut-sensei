@@ -3,7 +3,7 @@ https://leetcode.com/problems/course-schedule-ii/
 '''
 
 last_solved     = "2026-08-08"
-revisit_in_days = 7
+revisit_in_days = 6
 times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["graphs", "topological-sort", "dfs"]
