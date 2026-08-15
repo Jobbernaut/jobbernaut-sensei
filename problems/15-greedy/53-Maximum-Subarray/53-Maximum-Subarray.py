@@ -2,9 +2,9 @@
 https://leetcode.com/problems/maximum-subarray/
 '''
 
-last_solved     = "2026-08-12"
-revisit_in_days = 3
-times_reviewed  = 2
+last_solved     = "2026-08-15"
+revisit_in_days = 7
+times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming", "greedy"]
 

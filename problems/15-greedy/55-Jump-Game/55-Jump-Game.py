@@ -2,20 +2,24 @@
 https://leetcode.com/problems/jump-game/
 '''
 
-last_solved     = "2026-08-12"
-revisit_in_days = 3
-times_reviewed  = 2
+last_solved     = "2026-08-15"
+revisit_in_days = 7
+times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["greedy"]
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        farthest = 0
+        max_idx = 0
 
-        for idx, n in enumerate(nums):
-            if idx > farthest:
+        for idx, num in enumerate(nums):
+            if max_idx >= len(nums) - 1:
+                return True
+            
+            max_idx = max(max_idx, idx + nums[idx])
+
+            if idx == max_idx:
                 return False
-            farthest = max(farthest, idx + n)
         
-        return farthest >= len(nums) - 1
+        return True
 
