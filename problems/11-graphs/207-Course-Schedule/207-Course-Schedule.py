@@ -3,8 +3,8 @@ https://leetcode.com/problems/course-schedule/
 '''
 
 last_solved     = "2026-08-14"
-revisit_in_days = 1
-times_reviewed  = 1
+revisit_in_days = 9999
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["depth-first-search", "breadth-first-search", "graph", "topological-sort", "directed-acyclic-graph"]
 
