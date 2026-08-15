@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **95 / 150**
+Total Completed: **97 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -118,7 +118,7 @@ Total Completed: **95 / 150**
 
 ## 12. Advanced Graphs
 - [ ] 1584. Min Cost to Connect All Points (Medium)
-- [ ] 743. Network Delay Time (Medium)
+- [x] 743. Network Delay Time (Medium)
 - [ ] 787. Cheapest Flights Within K Stops (Medium)
 - [ ] 332. Reconstruct Itinerary (Hard)
 - [ ] 269. Alien Dictionary (Hard)
@@ -142,7 +142,7 @@ Total Completed: **95 / 150**
 - [x] 62. Unique Paths (Medium)
 - [x] 1143. Longest Common Subsequence (Medium)
 - [ ] 309. Best Time to Buy and Sell Stock with Cooldown (Medium)
-- [ ] 518. Coin Change II (Medium)
+- [x] 518. Coin Change II (Medium)
 - [ ] 494. Target Sum (Medium)
 - [ ] 97. Interleaving String (Medium)
 - [ ] 329. Longest Increasing Path in a Matrix (Hard)
