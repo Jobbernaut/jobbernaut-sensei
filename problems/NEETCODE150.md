@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **94 / 150**
+Total Completed: **95 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -109,7 +109,7 @@ Total Completed: **94 / 150**
 - [ ] 130. Surrounded Regions (Medium)
 - [x] 994. Rotting Oranges (Medium)
 - [x] 286. Walls and Gates (Medium)
-- [ ] 207. Course Schedule (Medium)
+- [x] 207. Course Schedule (Medium)
 - [x] 210. Course Schedule II (Medium)
 - [ ] 684. Redundant Connection (Medium)
 - [ ] 323. Number of Connected Components in an Undirected Graph (Medium)
