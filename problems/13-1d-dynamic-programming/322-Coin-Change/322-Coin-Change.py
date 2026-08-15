@@ -13,14 +13,14 @@ class Solution:
         dp = [float('inf')] * (amount + 1)
         dp[0] = 0
 
-        for amt in range(1, amount + 1):
-            min_coins = float('inf')
-
-            for d in coins:
+        for d in coins:
+            for amt in range(1, amount + 1):
+                min_coins = float('inf')
+                
                 if d <= amt:
                     min_coins = min(min_coins, 1 + dp[amt - d])
             
-            dp[amt] = min_coins
+                dp[amt] = min(dp[amt], min_coins)
         
         if isinf(dp[amount]):
             return -1
