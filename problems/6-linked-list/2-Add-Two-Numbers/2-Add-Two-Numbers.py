@@ -3,7 +3,7 @@ https://leetcode.com/problems/add-two-numbers/
 '''
 
 last_solved     = "2026-08-10"
-revisit_in_days = 7
+revisit_in_days = 9
 times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["linked-list"]

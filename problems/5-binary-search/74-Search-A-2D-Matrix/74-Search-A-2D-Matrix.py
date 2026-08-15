@@ -3,7 +3,7 @@ https://leetcode.com/problems/search-a-2d-matrix/
 '''
 
 last_solved     = "2026-07-08"
-revisit_in_days = 45
+revisit_in_days = 57
 times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["binary-search", "matrix"]

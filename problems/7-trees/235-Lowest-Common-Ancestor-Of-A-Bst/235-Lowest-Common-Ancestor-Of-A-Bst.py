@@ -3,7 +3,7 @@ https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 '''
 
 last_solved     = "2026-07-16"
-revisit_in_days = 37
+revisit_in_days = 50
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
 times_reviewed  = 6
