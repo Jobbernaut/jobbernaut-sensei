@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **93 / 150**
+Total Completed: **94 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -139,7 +139,7 @@ Total Completed: **93 / 150**
 
 ## 14. 2-D Dynamic Programming
 - [x] 62. Unique Paths (Medium)
-- [ ] 1143. Longest Common Subsequence (Medium)
+- [x] 1143. Longest Common Subsequence (Medium)
 - [ ] 309. Best Time to Buy and Sell Stock with Cooldown (Medium)
 - [ ] 518. Coin Change II (Medium)
 - [ ] 494. Target Sum (Medium)
