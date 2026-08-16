@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **98 / 150**
+Total Completed: **101 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -182,9 +182,9 @@ Total Completed: **98 / 150**
 ## 18. Bit Manipulation
 - [x] 136. Single Number (Easy)
 - [x] 191. Number of 1 Bits (Easy)
-- [ ] 338. Counting Bits (Easy)
-- [ ] 190. Reverse Bits (Easy)
-- [ ] 268. Missing Number (Easy)
+- [x] 338. Counting Bits (Easy)
+- [x] 190. Reverse Bits (Easy)
+- [x] 268. Missing Number (Easy)
 - [ ] 371. Sum of Two Integers (Medium)
 - [ ] 201. Bitwise AND of Numbers Range (Medium)
 
