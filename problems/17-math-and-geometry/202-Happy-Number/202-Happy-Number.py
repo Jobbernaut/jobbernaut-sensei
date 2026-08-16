@@ -2,11 +2,11 @@
 https://leetcode.com/problems/happy-number/
 '''
 
-last_solved     = "2026-06-15"
-revisit_in_days = 62
+last_solved     = "2026-08-16"
+revisit_in_days = 5
 difficulty      = "easy"
 topic_tags      = ["math"]
-times_reviewed  = 5
+times_reviewed  = 7
 
 class Solution:
     def isHappy(self, n: int) -> bool:
