@@ -3,7 +3,7 @@ https://leetcode.com/problems/implement-trie-prefix-tree/
 '''
 
 last_solved     = "2026-07-07"
-revisit_in_days = 45
+revisit_in_days = 61
 times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["trie"]

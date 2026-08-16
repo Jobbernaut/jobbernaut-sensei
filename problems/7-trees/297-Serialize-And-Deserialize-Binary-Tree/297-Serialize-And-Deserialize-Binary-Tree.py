@@ -3,7 +3,7 @@ https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 '''
 
 last_solved     = "2026-07-08"
-revisit_in_days = 42
+revisit_in_days = 59
 times_reviewed  = 6
 difficulty      = "hard"
 topic_tags      = ["trees"]

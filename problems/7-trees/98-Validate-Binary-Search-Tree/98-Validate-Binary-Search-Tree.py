@@ -3,7 +3,7 @@ https://leetcode.com/problems/validate-binary-search-tree/
 '''
 
 last_solved     = "2026-07-16"
-revisit_in_days = 38
+revisit_in_days = 53
 times_reviewed  = 7
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
