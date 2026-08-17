@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **101 / 150**
+Total Completed: **102 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -163,7 +163,7 @@ Total Completed: **101 / 150**
 
 ## 16. Intervals
 - [x] 57. Insert Interval (Medium)
-- [ ] 56. Merge Intervals (Medium)
+- [x] 56. Merge Intervals (Medium)
 - [ ] 435. Non-overlapping Intervals (Medium)
 - [x] 252. Meeting Rooms (Easy)
 - [ ] 253. Meeting Rooms II (Medium)
