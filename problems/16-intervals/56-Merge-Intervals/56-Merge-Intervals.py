@@ -26,3 +26,4 @@ class Solution:
         output.append([curr_start, curr_end])
 
         return output
+
