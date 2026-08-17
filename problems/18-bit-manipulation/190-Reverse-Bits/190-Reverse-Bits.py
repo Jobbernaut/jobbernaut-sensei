@@ -2,9 +2,9 @@
 https://leetcode.com/problems/reverse-bits/
 '''
 
-last_solved     = "2026-08-16"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-08-17"
+revisit_in_days = 2
+times_reviewed  = 2
 difficulty      = "easy"
 topic_tags      = ["divide-and-conquer", "bit-manipulation"]
 
