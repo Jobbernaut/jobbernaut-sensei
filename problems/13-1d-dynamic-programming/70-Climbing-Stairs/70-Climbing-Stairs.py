@@ -3,7 +3,7 @@ https://leetcode.com/problems/climbing-stairs/
 '''
 
 last_solved     = "2026-07-16"
-revisit_in_days = 40
+revisit_in_days = 56
 difficulty      = "easy"
 topic_tags      = ["dynamic-programming", "recursion", "memoization"]
 times_reviewed  = 6

@@ -2,9 +2,9 @@
 https://leetcode.com/problems/coin-change-ii/
 '''
 
-last_solved     = "2026-08-16"
-revisit_in_days = 3
-times_reviewed  = 2
+last_solved     = "2026-08-19"
+revisit_in_days = 2
+times_reviewed  = 3
 difficulty      = "medium"
 topic_tags      = ["array", "dynamic-programming", "knapsack-problem", "complete-knapsack"]
 
