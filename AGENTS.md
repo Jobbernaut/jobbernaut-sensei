@@ -864,6 +864,8 @@ Use ONLY if every single condition below is true:
 
 Additionally: check the user's upcoming 30-day rotation before using `t`. If the rotation is already light, prefer `e` instead to keep the problem in reasonable circulation.
 
+**EXPLICIT USER DIRECTIVE:** For trivially simple easy problems — basic bit manipulation (count bits, reverse bits, single XOR, missing number via Gauss), obvious math one-liners, and similar sub-10-line problems with zero pattern complexity — the default rating is `t`. The user has no use for seeing these repeatedly. Do NOT rate these `e` out of caution. If it's clearly trivial, mark it trivial.
+
 Next review: **90 days**
 
 ---
