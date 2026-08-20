@@ -2,9 +2,9 @@
 https://leetcode.com/problems/coin-change/
 '''
 
-last_solved     = "2026-08-13"
-revisit_in_days = 7
-times_reviewed  = 3
+last_solved     = "2026-08-20"
+revisit_in_days = 30
+times_reviewed  = 4
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming"]
 
@@ -15,14 +15,10 @@ class Solution:
 
         for d in coins:
             for amt in range(1, amount + 1):
-                min_coins = float('inf')
-                
                 if d <= amt:
-                    min_coins = min(min_coins, 1 + dp[amt - d])
-            
-                dp[amt] = min(dp[amt], min_coins)
+                    dp[amt] = min(dp[amt], 1 + dp[amt - d])
         
         if isinf(dp[amount]):
             return -1
-        
+
         return dp[amount]
