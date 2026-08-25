@@ -2,9 +2,9 @@
 https://leetcode.com/problems/target-sum/
 '''
 
-last_solved     = "2026-08-20"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-08-24"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["array", "dynamic-programming", "backtracking", "knapsack-problem", "0-1-knapsack"]
 

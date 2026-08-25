@@ -2,9 +2,9 @@
 https://leetcode.com/problems/network-delay-time/
 '''
 
-last_solved     = "2026-08-19"
-revisit_in_days = 3
-times_reviewed  = 3
+last_solved     = "2026-08-24"
+revisit_in_days = 6
+times_reviewed  = 4
 difficulty      = "medium"
 topic_tags      = ["depth-first-search", "breadth-first-search", "graph", "heap-priority-queue", "shortest-path", "dijkstra"]
 

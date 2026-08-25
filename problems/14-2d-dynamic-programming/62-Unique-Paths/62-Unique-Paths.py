@@ -2,9 +2,9 @@
 https://leetcode.com/problems/unique-paths/
 '''
 
-last_solved     = "2026-08-17"
-revisit_in_days = 7
-times_reviewed  = 3
+last_solved     = "2026-08-24"
+revisit_in_days = 1
+times_reviewed  = 4
 difficulty      = "medium"
 topic_tags      = ["math", "dynamic-programming", "combinatorics"]
 
