@@ -3,7 +3,7 @@ https://leetcode.com/problems/linked-list-cycle/
 '''
 
 last_solved     = "2026-05-29"
-revisit_in_days = 117
+revisit_in_days = 133
 difficulty      = "easy"
 topic_tags      = ["linked-list"]
 times_reviewed  = 5

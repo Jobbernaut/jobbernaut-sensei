@@ -3,7 +3,7 @@ https://leetcode.com/problems/binary-tree-level-order-traversal/
 '''
 
 last_solved     = "2026-07-16"
-revisit_in_days = 43
+revisit_in_days = 60
 difficulty      = "medium"
 topic_tags      = ["trees", "bfs"]
 times_reviewed  = 6

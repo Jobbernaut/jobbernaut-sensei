@@ -3,7 +3,7 @@ https://leetcode.com/problems/reverse-linked-list/
 '''
 
 last_solved     = "2026-05-27"
-revisit_in_days = 90
+revisit_in_days = 130
 difficulty      = "easy"
 topic_tags      = ["linked-list", "recursion"]
 times_reviewed  = 5

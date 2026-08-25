@@ -3,7 +3,7 @@ https://leetcode.com/problems/two-sum/description/
 '''
 
 last_solved     = "2026-08-05"
-revisit_in_days = 45
+revisit_in_days = 63
 difficulty      = "easy"
 topic_tags      = ["arrays", "hashing"]
 times_reviewed  = 6

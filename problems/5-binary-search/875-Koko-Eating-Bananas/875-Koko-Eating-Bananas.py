@@ -3,7 +3,7 @@ https://leetcode.com/problems/koko-eating-bananas/
 '''
 
 last_solved     = "2026-07-07"
-revisit_in_days = 55
+revisit_in_days = 81
 times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["binary-search"]

@@ -3,7 +3,7 @@ https://leetcode.com/problems/number-of-1-bits/
 '''
 
 last_solved     = "2026-08-20"
-revisit_in_days = 7
+revisit_in_days = 42
 times_reviewed  = 3
 difficulty      = "easy"
 topic_tags      = ["divide-and-conquer", "bit-manipulation"]

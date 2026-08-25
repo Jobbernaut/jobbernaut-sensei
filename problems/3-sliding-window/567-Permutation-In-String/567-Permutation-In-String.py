@@ -3,7 +3,7 @@ https://leetcode.com/problems/permutation-in-string/
 '''
 
 last_solved     = "2026-07-16"
-revisit_in_days = 44
+revisit_in_days = 61
 difficulty      = "medium"
 topic_tags      = ["sliding-window", "hash-map"]
 times_reviewed  = 6
