@@ -3,7 +3,7 @@ https://leetcode.com/problems/longest-repeating-character-replacement/
 '''
 
 last_solved     = "2026-07-19"
-revisit_in_days = 44
+revisit_in_days = 83
 difficulty      = "medium"
 topic_tags      = ["sliding-window"]
 times_reviewed  = 6
