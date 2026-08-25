@@ -35,7 +35,7 @@ RED    = "\033[91m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-DEFAULT_CAP = 3
+DEFAULT_CAP = 2
 
 # Max % the interval can shift in either direction during rebalance.
 # e.g. 0.5 → a problem due in 30 days can be moved to 15–45.
@@ -85,11 +85,22 @@ def collect_problems(root: str, today: date) -> list:
     return problems
 
 
+def is_load_exempt(p: dict) -> bool:
+    """
+    Problems exempt from the daily cap:
+      - Struggled (s-rated): interval == 1 day
+      - Brand-new problems:  times_reviewed <= 1
+    These are never displaced and don't count toward load.
+    """
+    return p["interval"] <= 1 or p["times_reviewed"] <= 1
+
+
 def build_load_map(problems: list) -> dict:
-    """Return {due_date: count} for all tracked problems."""
+    """Return {due_date: count} for non-exempt tracked problems."""
     load = {}
     for p in problems:
-        load[p["due_date"]] = load.get(p["due_date"], 0) + 1
+        if not is_load_exempt(p):
+            load[p["due_date"]] = load.get(p["due_date"], 0) + 1
     return load
 
 
@@ -188,11 +199,13 @@ def main() -> None:
     changed = set()
 
     for day in overloaded_days:
-        # Get problems on this day, sorted by times_reviewed DESC then interval DESC
-        # (most-reviewed / most-stable are displaced first)
+        # Get non-exempt problems on this day, sorted by times_reviewed DESC then
+        # interval DESC (most-reviewed / most-stable are displaced first).
+        # Exempt problems (s-rated, brand-new) are never displaced.
         day_problems = [
             p for p in problems
             if p["due_date"] == day and p["filepath"] not in changed
+            and not is_load_exempt(p)
         ]
         day_problems.sort(key=lambda p: (p["times_reviewed"], p["interval"]), reverse=True)
 

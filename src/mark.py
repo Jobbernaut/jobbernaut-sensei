@@ -88,9 +88,21 @@ def write_file(path: str, content: str) -> None:
         f.write(content)
 
 
+def is_load_exempt(meta: dict) -> bool:
+    """
+    Problems exempt from the daily cap (do not count toward load):
+      - Struggled (s-rated): revisit_in_days == 1
+      - Brand-new problems:  times_reviewed <= 1
+    These can pile onto any day without triggering overload logic.
+    """
+    return meta.get("revisit_in_days", 0) <= 1 or meta.get("times_reviewed", 0) <= 1
+
+
 def get_all_due_dates(root: str, exclude_filepath: str = None) -> list:
     """
-    Return a list of due dates for all tracked problems.
+    Return a list of due dates for all tracked problems that count toward
+    the daily load cap.  Exempt problems (s-rated, brand-new) are excluded
+    so they never inflate the load count.
     Optionally exclude the problem currently being marked so it isn't
     counted against itself.
     """
@@ -100,7 +112,7 @@ def get_all_due_dates(root: str, exclude_filepath: str = None) -> list:
         if exclude_filepath and os.path.abspath(f) == os.path.abspath(exclude_filepath):
             continue
         meta = parse_metadata(f)
-        if meta:
+        if meta and not is_load_exempt(meta):
             due = meta["last_solved"] + timedelta(days=meta["revisit_in_days"])
             due_dates.append(due)
     return due_dates
@@ -121,7 +133,7 @@ HIGH_REVIEW_THRESHOLD = 5
 #
 # Example: rating=s (1 day) but tomorrow has 8 reviews → try h (3 days window).
 #          If that window is also packed → try g (7 days), etc.
-SMOOTH_OVERLOAD_CAP = 8
+SMOOTH_OVERLOAD_CAP = 2
 
 RATING_ESCALATION = {
     "s": "h",
@@ -180,6 +192,12 @@ def compute_spread_interval(base_days: int, rating: str, today: date,
         # Fallback: if every candidate was in the past (shouldn't happen normally)
         if best_day is None:
             best_day = base_date
+
+        # Never escalate `s` — it must return tomorrow regardless of load.
+        # (If tomorrow is heavy, that's a scheduling problem; but the user
+        #  explicitly needs to re-review a struggled problem the next day.)
+        if effective_rating == "s":
+            break
 
         # If the best available day is still heavily loaded, escalate one tier
         if best_load >= SMOOTH_OVERLOAD_CAP:
@@ -379,7 +397,7 @@ def main() -> None:
     # ── Schedule health check ──────────────────────────────────────────────────
     # After each mark, scan for overloaded days (> HEALTH_CAP reviews).
     # If clusters exist, print a one-line warning so the user knows to rebalance.
-    HEALTH_CAP = 4
+    HEALTH_CAP = 2
     all_due = get_all_due_dates(root)  # includes the just-marked problem
     from collections import Counter
     load = Counter(all_due)
