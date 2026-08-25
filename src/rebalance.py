@@ -104,39 +104,59 @@ def build_load_map(problems: list) -> dict:
     return load
 
 
-def find_best_date(current_due: date, interval: int, today: date, load_map: dict,
-                   exclude_date: date, cap: int) -> date | None:
-    """
-    Within ±REBALANCE_WINDOW_PCT of the current interval, find the earliest
-    date whose current load is strictly below `cap` (so adding this problem
-    keeps it at or under the cap).
+# Cascade multipliers for the rebalance window.  When the ±50% window is
+# packed, we retry with ±100%, then ±200%, then a forward-only unlimited scan.
+REBALANCE_WINDOW_MULTIPLIERS = [0.5, 1.0, 2.0]
+# Hard forward-scan limit (days) used as the last-resort pass.
+REBALANCE_FORWARD_LIMIT = 365
 
-    Returns None if no valid target exists within the window.
-    """
-    window = max(int(interval * REBALANCE_WINDOW_PCT), REBALANCE_MIN_WINDOW)
-    lo = current_due - timedelta(days=window)
+
+def _search_window(current_due: date, window: int, today: date,
+                   load_map: dict, exclude_date: date, cap: int) -> date | None:
+    """Search earliest-first within [current_due-window, current_due+window]."""
+    lo = max(current_due - timedelta(days=window), today + timedelta(days=1))
     hi = current_due + timedelta(days=window)
-
-    # Clamp lo to tomorrow minimum
-    lo = max(lo, today + timedelta(days=1))
 
     best_day  = None
     best_load = float("inf")
 
-    # iterate earliest-first within the window
     for offset in range(0, (hi - lo).days + 1):
         candidate = lo + timedelta(days=offset)
         if candidate == exclude_date:
             continue
         c_load = load_map.get(candidate, 0)
-        # Only consider days that won't exceed the cap after we add this problem
         if c_load < cap and c_load < best_load:
             best_load = c_load
             best_day  = candidate
             if best_load == 0:
-                break  # can't do better
+                break
 
-    return best_day  # None if no under-cap day found in window
+    return best_day
+
+
+def find_best_date(current_due: date, interval: int, today: date, load_map: dict,
+                   exclude_date: date, cap: int) -> date | None:
+    """
+    Try progressively wider windows (±50%, ±100%, ±200%) to find a date
+    whose load is strictly below `cap`.  If all windows fail, do a forward-only
+    scan up to REBALANCE_FORWARD_LIMIT days from today.
+
+    Returns the first viable date found, or None if none exists.
+    """
+    for mult in REBALANCE_WINDOW_MULTIPLIERS:
+        window = max(int(interval * mult), REBALANCE_MIN_WINDOW)
+        result = _search_window(current_due, window, today, load_map, exclude_date, cap)
+        if result is not None:
+            return result
+
+    # Last resort: scan forward from tomorrow until a free slot appears
+    candidate = today + timedelta(days=1)
+    for _ in range(REBALANCE_FORWARD_LIMIT):
+        if candidate != exclude_date and load_map.get(candidate, 0) < cap:
+            return candidate
+        candidate += timedelta(days=1)
+
+    return None
 
 
 def update_problem_due_date(filepath: str, new_due: date, last_solved: date) -> None:
