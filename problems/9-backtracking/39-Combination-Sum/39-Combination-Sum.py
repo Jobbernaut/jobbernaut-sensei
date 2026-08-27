@@ -2,9 +2,9 @@
 https://leetcode.com/problems/combination-sum/
 '''
 
-last_solved     = "2026-08-06"
-revisit_in_days = 20
-times_reviewed  = 8
+last_solved     = "2026-08-26"
+revisit_in_days = 43
+times_reviewed  = 9
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 
