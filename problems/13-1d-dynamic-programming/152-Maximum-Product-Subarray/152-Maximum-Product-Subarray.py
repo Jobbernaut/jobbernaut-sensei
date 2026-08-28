@@ -2,9 +2,9 @@
 https://leetcode.com/problems/maximum-product-subarray/
 '''
 
-last_solved     = "2026-08-22"
-revisit_in_days = 6
-times_reviewed  = 4
+last_solved     = "2026-08-28"
+revisit_in_days = 44
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["dynamic-programming"]
 
