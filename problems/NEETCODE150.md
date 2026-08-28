@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **104 / 150**
+Total Completed: **105 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -155,7 +155,7 @@ Total Completed: **104 / 150**
 - [x] 53. Maximum Subarray (Medium)
 - [x] 55. Jump Game (Medium)
 - [x] 45. Jump Game II (Medium)
-- [ ] 134. Gas Station (Medium)
+- [x] 134. Gas Station (Medium)
 - [ ] 846. Hand of Straights (Medium)
 - [ ] 1899. Merge Triplets to Form Target Triplet (Medium)
 - [ ] 763. Partition Labels (Medium)
