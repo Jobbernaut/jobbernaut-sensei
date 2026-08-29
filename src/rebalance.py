@@ -1,9 +1,9 @@
 '''
 Rebalance the review schedule by spreading overloaded days.
 
-Finds days where more than --cap (default: 3) reviews are scheduled,
-then pushes the most-reviewed problems on those days to the nearest
-low-load date within a ±50% window of their current interval.
+Finds days where more than --cap reviews are scheduled, then pushes the
+most-reviewed problems on those days to the nearest low-load date within
+a ±50% window of their current interval.
 
 Most-reviewed problems are displaced first — they have the most stable
 memory and are the safest to defer.  Problems that are struggling
@@ -12,10 +12,10 @@ memory and are the safest to defer.  Problems that are struggling
 Usage:
     sensei rebalance              # dry run (preview only)
     sensei rebalance --apply      # write changes to disk
-    sensei rebalance --cap 3      # treat days with > 3 reviews as overloaded
-    sensei rebalance --apply --cap 4
+    sensei rebalance --cap 4      # treat days with > 4 reviews as overloaded
+    sensei rebalance --apply --cap 5
 
-Default cap is 3 — consistent with the per-mark load-smoothing threshold.
+Default cap is controlled by DAILY_LOAD_CAP in src/config.py.
 '''
 
 import json
@@ -25,6 +25,7 @@ import sys
 from datetime import date, timedelta
 
 from utils import find_solution_files, parse_metadata, SKIP_DIRS
+from config import DAILY_LOAD_CAP
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 GREEN  = "\033[92m"
@@ -35,7 +36,7 @@ RED    = "\033[91m"
 BOLD   = "\033[1m"
 RESET  = "\033[0m"
 
-DEFAULT_CAP = 2
+DEFAULT_CAP = DAILY_LOAD_CAP
 
 # Max % the interval can shift in either direction during rebalance.
 # e.g. 0.5 → a problem due in 30 days can be moved to 15–45.

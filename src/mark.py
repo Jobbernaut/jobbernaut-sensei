@@ -15,6 +15,7 @@ import sys
 from datetime import date, timedelta
 
 from utils import find_solution_files, find_match, parse_metadata
+from config import DAILY_LOAD_CAP
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 GREEN  = "\033[92m"
@@ -133,7 +134,7 @@ HIGH_REVIEW_THRESHOLD = 5
 #
 # Example: rating=s (1 day) but tomorrow has 8 reviews → try h (3 days window).
 #          If that window is also packed → try g (7 days), etc.
-SMOOTH_OVERLOAD_CAP = 2
+SMOOTH_OVERLOAD_CAP = DAILY_LOAD_CAP
 
 RATING_ESCALATION = {
     "s": "h",
@@ -397,7 +398,7 @@ def main() -> None:
     # ── Schedule health check ──────────────────────────────────────────────────
     # After each mark, scan for overloaded days (> HEALTH_CAP reviews).
     # If clusters exist, print a one-line warning so the user knows to rebalance.
-    HEALTH_CAP = 2
+    HEALTH_CAP = DAILY_LOAD_CAP
     all_due = get_all_due_dates(root)  # includes the just-marked problem
     from collections import Counter
     load = Counter(all_due)

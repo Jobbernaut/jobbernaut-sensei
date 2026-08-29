@@ -1105,8 +1105,10 @@ Use `--no-spread` to skip smoothing and get the exact base interval.
 ```bash
 sensei rebalance           # dry run — preview only
 sensei rebalance --apply   # write changes to disk
-sensei rebalance --cap 2   # flag days with more than 2 reviews
+sensei rebalance --cap 4   # flag days with more than 4 reviews
 ```
+
+Default cap is `DAILY_LOAD_CAP` from `src/config.py` (currently 4). Change it there to adjust both rebalance and per-mark load smoothing simultaneously.
 
 Use when large clusters exist after a period of intense new-problem addition.
 

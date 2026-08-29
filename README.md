@@ -209,7 +209,7 @@ Automatically increments `times_reviewed` and applies the progression gate and l
 ```bash
 sensei rebalance              # Dry run — preview moves, no writes
 sensei rebalance --apply      # Write changes to disk
-sensei rebalance --cap 2      # Flag days with more than 2 reviews
+sensei rebalance --cap 4      # Flag days with more than 4 reviews
 ```
 
 Finds days exceeding the review cap and displaces the most-reviewed problems (most stable memory) to nearby low-load dates within ±50% of their current interval. Always preview before applying.

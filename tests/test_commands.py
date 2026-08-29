@@ -524,35 +524,32 @@ class TestComputeSpreadIntervalEscalation:
         assert RATING_ESCALATION["t"] is None
 
     def test_smooth_overload_cap_constant(self):
-        """SMOOTH_OVERLOAD_CAP must be 8."""
-        assert SMOOTH_OVERLOAD_CAP == 8
+        """SMOOTH_OVERLOAD_CAP must equal DAILY_LOAD_CAP from config."""
+        from config import DAILY_LOAD_CAP
+        assert SMOOTH_OVERLOAD_CAP == DAILY_LOAD_CAP
 
     def test_escalation_triggered_when_all_days_overloaded(self):
-        """When every day in the 's' window is loaded >= SMOOTH_OVERLOAD_CAP, escalate to 'h'."""
+        """When every day in the 'g' window is loaded >= SMOOTH_OVERLOAD_CAP, escalate to 'e'."""
         from datetime import date, timedelta
         today = date(2026, 6, 1)
-        # 's' window: base=1d, spread (0,0) → only tomorrow
-        # 'h' window: base=3d, spread (-1,+1) → days 2,3,4
-        # Fill tomorrow AND days 2–4 with SMOOTH_OVERLOAD_CAP reviews to force h→g escalation
-        # Just fill tomorrow heavily so we escalate at least once
-        overloaded_day = today + timedelta(days=1)
-        all_due = [overloaded_day] * SMOOTH_OVERLOAD_CAP  # exactly at threshold
-        days, effective = compute_spread_interval(1, "s", today, all_due, times_reviewed=0)
-        # Should have escalated beyond "s"
-        assert effective != "s", "expected escalation away from 's'"
-        assert days > 1, "escalated interval should be larger than the base 1 day"
+        # 'g' base=7d, spread (-2,+7) → days 5–14
+        # Note: 's' is explicitly exempt from escalation — use 'g' to test this behaviour
+        overloaded_dates = []
+        for delta in range(5, 15):
+            overloaded_dates.extend([today + timedelta(days=delta)] * SMOOTH_OVERLOAD_CAP)
+        days, effective = compute_spread_interval(7, "g", today, overloaded_dates, times_reviewed=0)
+        assert effective != "g", "expected escalation away from 'g'"
+        assert days > 7, "escalated interval should be larger than the base 7 days"
 
     def test_escalation_stops_at_trivial(self):
         """Escalation never goes beyond 't' (top of chain)."""
         from datetime import date, timedelta
         today = date(2026, 6, 1)
-        # Flood every possible day for t's window (45–90 days out) with overload load
-        # This is unrealistic but ensures the loop terminates gracefully at 't'
+        # Flood every day 1–99 to force escalation through g→e→t
         overloaded_dates = []
         for delta in range(1, 100):
             overloaded_dates.extend([today + timedelta(days=delta)] * SMOOTH_OVERLOAD_CAP)
-        days, effective = compute_spread_interval(1, "s", today, overloaded_dates, times_reviewed=0)
-        # Must always return something and never raise
+        days, effective = compute_spread_interval(7, "g", today, overloaded_dates, times_reviewed=0)
         assert effective == "t"
         assert days >= 1
 
@@ -560,11 +557,12 @@ class TestComputeSpreadIntervalEscalation:
         """Days returned after escalation are computed from the escalated tier's base, not original."""
         from datetime import date, timedelta
         today = date(2026, 6, 1)
-        # Pack tomorrow (only day for 's') so escalation to 'h' is forced
-        overloaded_day = today + timedelta(days=1)
-        all_due = [overloaded_day] * SMOOTH_OVERLOAD_CAP
-        days, effective = compute_spread_interval(1, "s", today, all_due, times_reviewed=0)
-        if effective == "h":
-            # h base is 3 days; spread window is (-1,+1) → should land in 2–4 day range
-            assert 2 <= days <= 4
+        # Flood 'g' window (days 5–14) to force escalation to 'e'
+        overloaded_dates = []
+        for delta in range(5, 15):
+            overloaded_dates.extend([today + timedelta(days=delta)] * SMOOTH_OVERLOAD_CAP)
+        days, effective = compute_spread_interval(7, "g", today, overloaded_dates, times_reviewed=0)
+        # e base is 30 days; spread window (-15,+15) → should land in 15–45 day range
+        assert effective == "e"
+        assert 15 <= days <= 45
 
