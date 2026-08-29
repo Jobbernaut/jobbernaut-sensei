@@ -2,9 +2,9 @@
 https://leetcode.com/problems/longest-common-subsequence/
 '''
 
-last_solved     = "2026-08-24"
-revisit_in_days = 5
-times_reviewed  = 4
+last_solved     = "2026-08-29"
+revisit_in_days = 36
+times_reviewed  = 5
 difficulty      = "medium"
 topic_tags      = ["string", "dynamic-programming", "longest-common-subsequence"]
 

@@ -2,9 +2,9 @@
 https://leetcode.com/problems/counting-bits/
 '''
 
-last_solved     = "2026-08-28"
-revisit_in_days = 1
-times_reviewed  = 4
+last_solved     = "2026-08-29"
+revisit_in_days = 46
+times_reviewed  = 5
 difficulty      = "easy"
 topic_tags      = ["dynamic-programming", "bit-manipulation"]
 
