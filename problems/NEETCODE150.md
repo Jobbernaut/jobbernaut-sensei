@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **106 / 150**
+Total Completed: **107 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -119,7 +119,7 @@ Total Completed: **106 / 150**
 ## 12. Advanced Graphs
 - [x] 1584. Min Cost to Connect All Points (Medium)
 - [x] 743. Network Delay Time (Medium)
-- [ ] 787. Cheapest Flights Within K Stops (Medium)
+- [x] 787. Cheapest Flights Within K Stops (Medium)
 - [ ] 332. Reconstruct Itinerary (Hard)
 - [ ] 269. Alien Dictionary (Hard)
 - [ ] 778. Swim in Rising Water (Hard)
