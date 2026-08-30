@@ -2,11 +2,11 @@
 https://leetcode.com/problems/meeting-rooms/
 '''
 
-last_solved     = "2026-06-01"
-revisit_in_days = 90
+last_solved     = "2026-08-30"
+revisit_in_days = 45
 difficulty      = "easy"
 topic_tags      = ["intervals"]
-times_reviewed  = 5
+times_reviewed  = 6
 
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
