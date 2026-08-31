@@ -2,28 +2,30 @@
 https://leetcode.com/problems/merge-intervals/
 '''
 
-last_solved     = "2026-08-24"
-revisit_in_days = 7
-times_reviewed  = 3
+last_solved     = "2026-08-31"
+revisit_in_days = 30
+times_reviewed  = 4
 difficulty      = "medium"
 topic_tags      = ["array", "sorting", "quicksort"]
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort()
-        
         output = []
 
-        curr_start, curr_end = intervals[0][0], intervals[0][1]
-        for next_start, next_end in intervals[1:]:
-            if max(curr_start, next_start) <= min(curr_end, next_end):
-                curr_start = min(curr_start, next_start)
-                curr_end = max(curr_end, next_end)
+        intervals.sort()
+
+        l, u = intervals[0]
+
+        for idx in range(1, len(intervals)):
+            n_l, n_u = intervals[idx]
+
+            if u >= n_l:
+                u = max(u, n_u)
             else:
-                output.append([curr_start, curr_end])
-                curr_start, curr_end = next_start, next_end
-        
-        output.append([curr_start, curr_end])
+                output.append([l, u])
+                l, u = n_l, n_u
+
+        output.append([l, u])
 
         return output
 

@@ -2,9 +2,9 @@
 https://leetcode.com/problems/kth-largest-element-in-an-array/description/
 '''
 
-last_solved     = "2026-07-22"
-revisit_in_days = 40
-times_reviewed  = 7
+last_solved     = "2026-08-31"
+revisit_in_days = 90
+times_reviewed  = 9
 difficulty      = "medium"
 topic_tags      = ["heap"]
 
