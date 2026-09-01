@@ -2,42 +2,39 @@
 https://leetcode.com/problems/course-schedule-ii/
 '''
 
-last_solved     = "2026-08-14"
-revisit_in_days = 18
-times_reviewed  = 5
+last_solved     = "2026-09-01"
+revisit_in_days = 14
+times_reviewed  = 6
 difficulty      = "medium"
 topic_tags      = ["graphs", "topological-sort", "dfs"]
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adj_lst = defaultdict(set)
-        indegree_lst = [0] * numCourses
-
-        for course, prereq in prerequisites:
-            adj_lst[prereq].add(course)
-            indegree_lst[course] += 1
-        
         output = []
 
-        q = deque()
+        indegree = [0] * numCourses
+        adj_list = defaultdict(list)
+        queue = deque()
 
-        for course_no, indegree in enumerate(indegree_lst):
-            if indegree == 0:
-                q.append(course_no)
-        
-        while q:
-            for _ in range(len(q)):
-                curr = q.popleft()
+        for subseq, prereq in prerequisites:
+            adj_list[prereq].append(subseq)
+            indegree[subseq] += 1
 
-                output.append(curr)
+        for idx, degree in enumerate(indegree):
+            if not degree:
+                queue.append(idx)
 
-                for each_course in adj_lst[curr]:
-                    indegree_lst[each_course] -= 1
+        while queue:
+            prereq = queue.popleft()
+            output.append(prereq)
 
-                    if indegree_lst[each_course] == 0:
-                        q.append(each_course)
+            for subseq in adj_list[prereq]:
+                indegree[subseq] -= 1
+
+                if not indegree[subseq]:
+                    queue.append(subseq)
 
         if len(output) < numCourses:
             return []
-        
+
         return output
