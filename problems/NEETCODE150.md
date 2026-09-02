@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **110 / 150**
+Total Completed: **111 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -18,7 +18,7 @@ Total Completed: **110 / 150**
 - [x] 167. Two Sum II - Input Array Is Sorted (Medium)
 - [x] 15. 3Sum (Medium)
 - [x] 11. Container With Most Water (Medium)
-- [ ] 42. Trapping Rain Water (Hard)
+- [x] 42. Trapping Rain Water (Hard)
 
 ## 3. Sliding Window
 - [x] 121. Best Time to Buy and Sell Stock (Easy)
