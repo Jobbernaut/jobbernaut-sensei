@@ -2,27 +2,27 @@
 https://leetcode.com/problems/permutations/
 '''
 
-last_solved     = "2026-07-19"
-revisit_in_days = 45
-times_reviewed  = 7
+last_solved     = "2026-09-02"
+revisit_in_days = 43
+times_reviewed  = 8
 difficulty      = "medium"
 topic_tags      = ["backtracking", "recursion"]
 
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        self.output = []
+        output = []
 
-        def backtrack(curr, available):
-            if not len(available):
-                self.output.append(list(curr))
+        def backtrack(curr, pending):
+            if len(curr) == len(nums):
+                output.append(list(curr))
                 return
-            
-            for each_elem in list(available):
-                curr.append(each_elem)
-                available.remove(each_elem)
-                backtrack(curr, available)
-                available.add(curr.pop())
-        
+
+            for num in list(pending):
+                curr.append(num)
+                pending.remove(num)
+                backtrack(curr, pending)
+                pending.add(curr.pop())
+
         backtrack([], set(nums))
 
-        return self.output
+        return output
