@@ -2,9 +2,9 @@
 https://leetcode.com/problems/alien-dictionary/
 '''
 
-last_solved     = "2026-09-01"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-09-02"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "hard"
 topic_tags      = ["array", "string", "depth-first-search", "breadth-first-search", "graph", "topological-sort", "directed-acyclic-graph"]
 
