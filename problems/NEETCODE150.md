@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **111 / 150**
+Total Completed: **112 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -172,7 +172,7 @@ Total Completed: **111 / 150**
 ## 17. Math & Geometry
 - [x] 73. Set Matrix Zeroes (Medium)
 - [ ] 54. Spiral Matrix (Medium)
-- [ ] 48. Rotate Image (Medium)
+- [x] 48. Rotate Image (Medium)
 - [x] 202. Happy Number (Easy)
 - [x] 66. Plus One (Easy)
 - [ ] 172. Factorial Trailing Zeroes (Medium)
