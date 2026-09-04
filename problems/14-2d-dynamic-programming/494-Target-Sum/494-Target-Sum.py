@@ -2,33 +2,21 @@
 https://leetcode.com/problems/target-sum/
 '''
 
-last_solved     = "2026-08-28"
+last_solved     = "2026-09-04"
 revisit_in_days = 7
-times_reviewed  = 3
+times_reviewed  = 4
 difficulty      = "medium"
 topic_tags      = ["array", "dynamic-programming", "backtracking", "knapsack-problem", "0-1-knapsack"]
 
+from functools import lru_cache
+
 class Solution:
-    def minCostConnectPoints(self, points: List[List[int]]) -> int:
-        min_cost = 0
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        @lru_cache(maxsize=None)
+        def target_sum(curr_sum, idx):
+            if idx == len(nums):
+                return 1 if curr_sum == target else 0
 
-        visited = set()
+            return target_sum(curr_sum - nums[idx], idx + 1) + target_sum(curr_sum + nums[idx], idx + 1)
 
-        heap = []
-
-        heapq.heappush(heap, (0, points[0][0], points[0][1]))
-
-        while heap:
-            for _ in range(len(heap)):
-                cost, x, y = heapq.heappop(heap)
-
-                if (x, y) not in visited:
-                    visited.add((x, y))
-
-                    min_cost += cost
-
-                    for n_x, n_y in points:
-                        if (n_x, n_y) not in visited:
-                            heapq.heappush(heap, (abs(x - n_x) + abs(y - n_y), n_x, n_y))
-        
-        return min_cost
+        return target_sum(0, 0)

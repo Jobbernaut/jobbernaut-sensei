@@ -2,11 +2,11 @@
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 '''
 
-last_solved     = "2026-07-16"
-revisit_in_days = 50
+last_solved     = "2026-09-04"
+revisit_in_days = 45
 difficulty      = "medium"
 topic_tags      = ["trees", "bst"]
-times_reviewed  = 6
+times_reviewed  = 7
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
