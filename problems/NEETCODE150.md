@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **112 / 150**
+Total Completed: **113 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -156,7 +156,7 @@ Total Completed: **112 / 150**
 - [x] 55. Jump Game (Medium)
 - [x] 45. Jump Game II (Medium)
 - [x] 134. Gas Station (Medium)
-- [ ] 846. Hand of Straights (Medium)
+- [x] 846. Hand of Straights (Medium)
 - [ ] 1899. Merge Triplets to Form Target Triplet (Medium)
 - [ ] 763. Partition Labels (Medium)
 - [ ] 678. Valid Parenthesis String (Medium)
