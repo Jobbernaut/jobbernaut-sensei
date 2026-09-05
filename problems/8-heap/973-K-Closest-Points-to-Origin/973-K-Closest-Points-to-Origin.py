@@ -2,9 +2,9 @@
 https://leetcode.com/problems/k-closest-points-to-origin/description/
 '''
 
-last_solved     = "2026-07-22"
+last_solved     = "2026-09-05"
 revisit_in_days = 45
-times_reviewed  = 7
+times_reviewed  = 8
 difficulty      = "medium"
 topic_tags      = ["heap"]
 
