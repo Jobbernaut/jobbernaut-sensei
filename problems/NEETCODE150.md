@@ -106,7 +106,7 @@ Total Completed: **113 / 150**
 - [x] 133. Clone Graph (Medium)
 - [x] 695. Max Area of Island (Medium)
 - [x] 417. Pacific Atlantic Water Flow (Medium)
-- [ ] 130. Surrounded Regions (Medium)
+- [x] 130. Surrounded Regions (Medium)
 - [x] 994. Rotting Oranges (Medium)
 - [x] 286. Walls and Gates (Medium)
 - [x] 207. Course Schedule (Medium)
