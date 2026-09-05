@@ -303,7 +303,13 @@ Every session follows this lifecycle.
 
 ## Phase 1 — Boot Session
 
-Immediately run:
+The user works across multiple machines. Always sync before planning:
+
+```bash
+git pull
+```
+
+Then immediately run:
 
 ```bash
 sensei revisit --json
