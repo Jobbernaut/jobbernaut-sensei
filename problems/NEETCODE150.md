@@ -1,6 +1,6 @@
 # NeetCode 150 Progress Tracker
 
-Total Completed: **114 / 150**
+Total Completed: **115 / 150**
 
 ## 1. Arrays & Hashing
 - [x] 217. Contains Duplicate (Easy)
@@ -146,7 +146,7 @@ Total Completed: **114 / 150**
 - [x] 494. Target Sum (Medium)
 - [x] 97. Interleaving String (Medium)
 - [ ] 329. Longest Increasing Path in a Matrix (Hard)
-- [ ] 115. Distinct Subsequences (Hard)
+- [x] 115. Distinct Subsequences (Hard)
 - [ ] 72. Edit Distance (Hard)
 - [ ] 312. Burst Balloons (Hard)
 - [ ] 10. Regular Expression Matching (Hard)
