@@ -2,9 +2,9 @@
 https://leetcode.com/problems/surrounded-regions/
 '''
 
-last_solved     = "2026-09-05"
-revisit_in_days = 1
-times_reviewed  = 1
+last_solved     = "2026-09-06"
+revisit_in_days = 3
+times_reviewed  = 2
 difficulty      = "medium"
 topic_tags      = ["array", "depth-first-search", "breadth-first-search", "union-find", "matrix"]
 
